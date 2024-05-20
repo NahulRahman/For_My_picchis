@@ -1,0 +1,73 @@
+~cust-id VARCHAR(12) NOT NULL, 
+	cust_id cant be null, column tar  jonno 12 byte jaga dicchi
+~ cust_city VARCHAR(12) DEFAULT DHAKA,
+	jodi cast id kisu i/p na nei by default it'll be stored as dhaka
+
+
+
+
+Create Table Customer
+(
+cust_id VARCHAR2(12) NOT NULL,
+cust_name VARCHAR2(12),
+cust_dob DATE,
+cust_street VARCHAR2(12),
+cust_city VARCHAR2(12) DEFAULT 'DHAKA'
+);
+
+
+INSERT INTO Customer
+(cust_id, cust_name, cust_dob, cust_street, cust_city)
+VALUES
+('C0001', 'C_A', to_date('23-Dec-1952','DD-MON-YYYY'), 'c_street_006', 'c_city_001');
+
+
+//Another method
+INSERT INTO Customer
+VALUES
+('C0001', 'C_A', to_date('23-Dec-1952','DD-MON-YYYY'), 'c_street_006', 'c_city_001');
+
+
+select * from Customer // all data from table will show
+
+select cust_name, cust_city from Customer // to see specific data from table
+
+
+//give all the table information into another table
+INSERT INTO new_customer
+select * from Customer 
+
+
+
+//Update the value for table
+UPDATE Customer
+SET cust_city = 'c_city_003'
+WHERE cust_id= 'C0001';
+
+
+//column alais
+SELECT cust_id "Customer ID", cust_name "Customer Name", cust_dob "Customers Date of Birth" FROM Customer 
+
+
+//Unique values selection
+SELECT DISTINCT cust_city from Customers
+
+
+//Concatenate data
+//for example -> A is an employee with ID 001
+//concetanation operator ||
+SELECT cust_name || ' has an ID ' || cust_id 
+FROM Customer
+
+//showing in specific format
+SELECT to_char
+
+
+//Delete a specific row
+DELETE from Customers
+DELETE from Customer WHERE cust_id = 'C001' ;
+
+
+//Drop the whole table
+DROP TABLE Customer;
+
