@@ -1,0 +1,64 @@
+Turbo Assembler  Version 1.0        05/21/24 11:15:17         Page 1
+LEDROLL.ASM
+
+      1 0000                         CODE SEGMENT
+      2                              ASSUME CS:CODE,DS:CODE,SS:CODE,ES:CODE
+      3                              ORG 1000H
+      4
+      5       = 0018                 PA EQU 18H
+      6       = 001A                 PB EQU 1AH
+      7       = 001C                 PC EQU 1CH
+      8       = 001E                 CR EQU 1EH
+      9
+     10 1000  B0 80                  MOV AL,10000000B
+     11 1002  E6 1E                  OUT CR,AL
+     12
+     13 1004  B0 FF                  MOV AL,0FFH
+     14 1006  E6 18                  OUT PA,AL
+     15 1008  E6 1A                  OUT PB,AL
+     16 100A  E6 1C                  OUT PC,AL
+     17
+     18 100C                             L1:
+     19 100C  B0 7F                      MOV AL,01111111B
+     20 100E                             L2:
+     21 100E  E6 1A                      OUT PB,AL
+     22 1010  B9 5000                    MOV CX,5000H
+     23 1013  E2 FE                      D:LOOP D
+     24 1015  D0 C0                      ROL AL,1
+     25 1017  72 F5                      JC L2
+     26
+     27 1019  B9 FFFF                    MOV CX, 0FFFFH
+     28 101C                             LL:
+     29 101C  E2 FE                      LOOP LL
+     30
+     31 101E  EB EC                      JMP L1
+     32 1020  CC                         INT 3
+     33 1021                             CODE ENDS
+     34                                  END
+Turbo Assembler  Version 1.0        05/21/24 11:15:17         Page 2
+Symbol Table
+
+
+Symbol Name                       Type   Value
+
+??DATE                            Text   "05/21/24"
+??FILENAME                        Text   "LEDROLL "
+??TIME                            Text   "11:15:17"
+??VERSION                         Number 0100
+@CPU                              Text   0101H
+@CURSEG                           Text   CODE
+@FILENAME                         Text   LEDROLL
+@WORDSIZE                         Text   2
+CR                                Number 001E
+D                                 Near   CODE:1013
+L1                                Near   CODE:100C
+L2                                Near   CODE:100E
+LL                                Near   CODE:101C
+PA                                Number 0018
+PB                                Number 001A
+PC                                Number 001C
+
+Groups & Segments                 Bit Size Align  Combine Class
+
+CODE                              16  1021 Para   none
+
