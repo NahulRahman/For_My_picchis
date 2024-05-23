@@ -1,0 +1,76 @@
+Turbo Assembler  Version 1.0        05/21/24 11:30:35         Page 1
+NONAME1.ASM
+
+      1 0000                         Code Segment
+      2                              Assume CS:Code,DS:Code,SS:Code,ES:Code
+      3                              ORG 1000H
+      4
+      5       = 0018                 PA EQU 18H
+      6       = 001A                 PB EQU 1AH
+      7       = 001C                 PC EQU 1CH
+      8       = 001E                 CR EQU 1EH
+      9
+     10 1000  B0 80                  MOV AL,10000000b
+     11 1002  E6 1E                  OUT CR,AL
+     12 1004  B0 FF                  MOV AL,0FFH
+     13 1006  E6 18                  OUT PA,AL
+     14 1008  E6 1A                  OUT PB,AL
+     15 100A  E6 1C                  OUT PC,AL
+     16 100C                         AA:
+     17 100C  B9 5000                MOV CX,5000H
+     18 100F                         A1:
+     19 100F  BE 102Fr               MOV SI,OFFSET Patt
+     20 1012  8A 04                  MOV AL,[SI]
+     21 1014  E6 1A                  OUT PB,AL
+     22
+     23
+     24 1016  46                     INC SI
+     25 1017  8A 04                  MOV AL,[SI]
+     26 1019  E6 1A                  OUT PB,AL
+     27 101B  E6 1A                  OUT PB,AL
+     28
+     29 101D  46                     INC SI
+     30 101E  8A 04                  MOV AL,[SI]
+     31 1020  E6 1A                  OUT PB,AL
+     32 1022  E2 EB                  LOOP A1
+     33
+     34
+     35 1024  B0 FF                  MOV AL,0FFH
+     36 1026  E6 18                  OUT PA,AL
+     37 1028  E6 1A                  OUT PB,AL
+     38 102A  B9 5000                MOV CX,5000H
+     39
+     40 102D  EB DD                  JMP AA
+     41
+     42
+     43
+     44 102F  FE E7 7F               Patt DB 0FEH,11100111b,7FH
+     45
+     46 1032                         CODE ENDS
+     47                              END
+Turbo Assembler  Version 1.0        05/21/24 11:30:35         Page 2
+Symbol Table
+
+
+Symbol Name                       Type   Value
+
+??DATE                            Text   "05/21/24"
+??FILENAME                        Text   "NONAME1 "
+??TIME                            Text   "11:30:35"
+??VERSION                         Number 0100
+@CPU                              Text   0101H
+@CURSEG                           Text   CODE
+@FILENAME                         Text   NONAME1
+@WORDSIZE                         Text   2
+A1                                Near   CODE:100F
+AA                                Near   CODE:100C
+CR                                Number 001E
+PA                                Number 0018
+PATT                              Byte   CODE:102F
+PB                                Number 001A
+PC                                Number 001C
+
+Groups & Segments                 Bit Size Align  Combine Class
+
+CODE                              16  1032 Para   none
+
