@@ -1,0 +1,11 @@
+<Keyword, Lexeme=int,Length=3
+>
+<ID, Lexeme=if,Length=2
+>
+<ID, Lexeme=abd,Length=3
+>
+<NUM, Lexeme=99,Length=2
+>
+
+<NUM, Lexeme=45,Length=2
+>
