@@ -1,0 +1,121 @@
+Ma'am I did All the commands that were possible for me. Nahul-202214049
+
+nahul@nahul-virtual-machine:~$ cd Desktop
+nahul@nahul-virtual-machine:~/Desktop$ touch cmd.txt
+nahul@nahul-virtual-machine:~/Desktop$ touch 49_1.txt
+nahul@nahul-virtual-machine:~/Desktop$ mkdir "DBMS" "Compiler" "OS" "MMA" "Data" 
+nahul@nahul-virtual-machine:~/Desktop$ mkdir -p OS/A OS/B
+nahul@nahul-virtual-machine:~/Desktop$ cd Desktop/OS/A
+bash: cd: Desktop/OS/A: No such file or directory
+nahul@nahul-virtual-machine:~/Desktop$ cd ~/Desktop/OS
+nahul@nahul-virtual-machine:~/Desktop/OS$ touch A/a.txt
+nahul@nahul-virtual-machine:~/Desktop/OS$ touch A/a.sh
+nahul@nahul-virtual-machine:~/Desktop/OS$ touch B/b.txt
+nahul@nahul-virtual-machine:~/Desktop/OS$ touch B/b.sh
+nahul@nahul-virtual-machine:~/Desktop/OS$ chmod +x a.sh
+chmod: cannot access 'a.sh': No such file or directory
+nahul@nahul-virtual-machine:~/Desktop/OS$ cd ~/Desktop
+nahul@nahul-virtual-machine:~/Desktop$ chmod +x OS/A/a.sh
+nahul@nahul-virtual-machine:~/Desktop$ ls -l -a
+total 68
+drwxr-xr-x 12 nahul nahul 4096 জুন        9 22:44 .
+drwxr-x--- 16 nahul nahul 4096 মে       12 12:51 ..
+-rwxrwxr-x  1 nahul nahul  106 জুন        8 18:32 202214049_3.sh
+-rw-rw-r--  1 nahul nahul    0 জুন        9 22:32 49_1.txt
+-rwxrwxr-x  1 nahul nahul  281 জুন        8 18:11 49_2.sh
+-rwxrwxr-x  1 nahul nahul  187 জুন        8 18:28 49_4.sh
+drwxrwxr-x  2 nahul nahul 4096 এপ্রিল    21 15:07 a
+drwxrwxr-x  2 nahul nahul 4096 মে       12 13:55 a1
+drwxrwxr-x  2 nahul nahul 4096 মে       12 13:57 b1
+drwxrwxr-x  3 nahul nahul 4096 মে       12 14:00 b2
+drwxrwxr-x  2 nahul nahul 4096 জুন        9 22:44 Compiler
+drwxrwxr-x  2 nahul nahul 4096 জুন        9 22:44 Data
+drwxrwxr-x  2 nahul nahul 4096 জুন        9 22:44 DBMS
+-rw-rw-r--  1 nahul nahul  164 জুন        8 18:06 file.txt
+drwxrwxr-x  2 nahul nahul 4096 জুন        9 22:44 MMA
+drwxrwxr-x  2 nahul nahul 4096 এপ্রিল    21 23:11 new
+drwxrwxr-x  4 nahul nahul 4096 জুন        9 22:50 OS
+-rwxrwxr-x  1 nahul nahul  370 মে       23 11:20 week3.sh
+nahul@nahul-virtual-machine:~/Desktop$ chmod +x  OS/A/b.sh
+chmod: cannot access 'OS/A/b.sh': No such file or directory
+nahul@nahul-virtual-machine:~/Desktop$ cd ~/Desktop
+nahul@nahul-virtual-machine:~/Desktop$ chmod +x OS/B/b.sh
+nahul@nahul-virtual-machine:~/Desktop$ ls -l -a
+total 68
+drwxr-xr-x 12 nahul nahul 4096 জুন        9 22:44 .
+drwxr-x--- 16 nahul nahul 4096 মে       12 12:51 ..
+-rwxrwxr-x  1 nahul nahul  106 জুন        8 18:32 202214049_3.sh
+-rw-rw-r--  1 nahul nahul    0 জুন        9 22:32 49_1.txt
+-rwxrwxr-x  1 nahul nahul  281 জুন        8 18:11 49_2.sh
+-rwxrwxr-x  1 nahul nahul  187 জুন        8 18:28 49_4.sh
+drwxrwxr-x  2 nahul nahul 4096 এপ্রিল    21 15:07 a
+drwxrwxr-x  2 nahul nahul 4096 মে       12 13:55 a1
+drwxrwxr-x  2 nahul nahul 4096 মে       12 13:57 b1
+drwxrwxr-x  3 nahul nahul 4096 মে       12 14:00 b2
+drwxrwxr-x  2 nahul nahul 4096 জুন        9 22:44 Compiler
+drwxrwxr-x  2 nahul nahul 4096 জুন        9 22:44 Data
+drwxrwxr-x  2 nahul nahul 4096 জুন        9 22:44 DBMS
+-rw-rw-r--  1 nahul nahul  164 জুন        8 18:06 file.txt
+drwxrwxr-x  2 nahul nahul 4096 জুন        9 22:44 MMA
+drwxrwxr-x  2 nahul nahul 4096 এপ্রিল    21 23:11 new
+drwxrwxr-x  4 nahul nahul 4096 জুন        9 22:50 OS
+-rwxrwxr-x  1 nahul nahul  370 মে       23 11:20 week3.sh
+nahul@nahul-virtual-machine:~/Desktop$ cd ~/Desktop
+nahul@nahul-virtual-machine:~/Desktop$ mv OS CSE-305
+nahul@nahul-virtual-machine:~/Desktop$ ls -l
+total 60
+-rwxrwxr-x 1 nahul nahul  106 জুন        8 18:32 202214049_3.sh
+-rw-rw-r-- 1 nahul nahul    0 জুন        9 22:32 49_1.txt
+-rwxrwxr-x 1 nahul nahul  281 জুন        8 18:11 49_2.sh
+-rwxrwxr-x 1 nahul nahul  187 জুন        8 18:28 49_4.sh
+drwxrwxr-x 2 nahul nahul 4096 এপ্রিল    21 15:07 a
+drwxrwxr-x 2 nahul nahul 4096 মে       12 13:55 a1
+drwxrwxr-x 2 nahul nahul 4096 মে       12 13:57 b1
+drwxrwxr-x 3 nahul nahul 4096 মে       12 14:00 b2
+drwxrwxr-x 2 nahul nahul 4096 জুন        9 22:44 Compiler
+drwxrwxr-x 4 nahul nahul 4096 জুন        9 22:50 CSE-305
+drwxrwxr-x 2 nahul nahul 4096 জুন        9 22:44 Data
+drwxrwxr-x 2 nahul nahul 4096 জুন        9 22:44 DBMS
+-rw-rw-r-- 1 nahul nahul  164 জুন        8 18:06 file.txt
+drwxrwxr-x 2 nahul nahul 4096 জুন        9 22:44 MMA
+drwxrwxr-x 2 nahul nahul 4096 এপ্রিল    21 23:11 new
+-rwxrwxr-x 1 nahul nahul  370 মে       23 11:20 week3.sh
+nahul@nahul-virtual-machine:~/Desktop$ cd ~/Desktop
+nahul@nahul-virtual-machine:~/Desktop$ ls -R > x.txt
+nahul@nahul-virtual-machine:~/Desktop$ mv x.txt ~/Desktop/DBMS
+nahul@nahul-virtual-machine:~/Desktop$ 
+nahul@nahul-virtual-machine:~/Desktop$ 
+nahul@nahul-virtual-machine:~/Desktop$ 
+nahul@nahul-virtual-machine:~$ sudo mkdir /top
+[sudo] password for nahul: 
+nahul@nahul-virtual-machine:~$ sudo mkdir /top/backup
+nahul@nahul-virtual-machine:~$ cd ~/Desktop/DBMS
+nahul@nahul-virtual-machine:~/Desktop$ chmod +x x.txt
+nahul@nahul-virtual-machine:~/Desktop$ ls -l -a
+total 80
+drwxr-xr-x 12 nahul nahul 4096 জুন        9 23:19 .
+drwxr-x--- 16 nahul nahul 4096 মে       12 12:51 ..
+-rwxrwxr-x  1 nahul nahul  106 জুন        8 18:32 202214049_3.sh
+-rw-rw-r--  1 nahul nahul 5066 জুন        9 23:19 49_1.txt
+-rwxrwxr-x  1 nahul nahul  281 জুন        8 18:11 49_2.sh
+-rwxrwxr-x  1 nahul nahul  187 জুন        8 18:28 49_4.sh
+drwxrwxr-x  2 nahul nahul 4096 এপ্রিল    21 15:07 a
+drwxrwxr-x  2 nahul nahul 4096 মে       12 13:55 a1
+drwxrwxr-x  2 nahul nahul 4096 মে       12 13:57 b1
+drwxrwxr-x  3 nahul nahul 4096 মে       12 14:00 b2
+drwxrwxr-x  2 nahul nahul 4096 জুন        9 22:44 Compiler
+drwxrwxr-x  4 nahul nahul 4096 জুন        9 22:50 CSE-305
+drwxrwxr-x  2 nahul nahul 4096 জুন        9 22:44 Data
+drwxrwxr-x  2 nahul nahul 4096 জুন        9 23:06 DBMS
+-rw-rw-r--  1 nahul nahul  164 জুন        8 18:06 file.txt
+drwxrwxr-x  2 nahul nahul 4096 জুন        9 22:44 MMA
+drwxrwxr-x  2 nahul nahul 4096 এপ্রিল    21 23:11 new
+-rwxrwxr-x  1 nahul nahul  370 মে       23 11:20 week3.sh
+-rwxrwxr-x  1 nahul nahul  274 জুন        9 23:06 x.txt
+nahul@nahul-virtual-machine:~/Desktop$ cp ~/Desktop/DBMS/x.txt /top/backup
+cp: cannot create regular file '/top/backup/x.txt': Permission denied
+nahul@nahul-virtual-machine:~/Desktop$ ^C
+nahul@nahul-virtual-machine:~/Desktop$ find ~/Desktop -name "MMA" -type f -delete
+nahul@nahul-virtual-machine:~/Desktop$ 
+
+
