@@ -1,0 +1,13 @@
+main(){
+
+int a;
+int c;
+int d;
+
+a = 10;
+c = 5;
+
+c = c + 2;
+
+
+}
