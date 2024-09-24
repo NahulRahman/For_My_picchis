@@ -35,29 +35,23 @@ mul_stmt:
     | func_decl
 ;
 
-func_decl:
-    type_spec ID LPAREN param_list RPAREN LCURL stmt_list RCURL 
-    {
-        fprintf(yyout, "Line Number: %d\n func_decl: type_spec ID LPAREN param_list RPAREN LCURL stmt_list RCURL\n", line);
-    }
+func_decl: type_spec ID LPAREN param_list RPAREN LCURL stmt_list RCURL 
+	{fprintf(yyout, "Line Number: %d\n func_decl: type_spec ID LPAREN param_list RPAREN LCURL stmt_list RCURL\n", line);}
 ;
 
 stmt_list:
-    stmt_list stmt
-    | stmt
+    stmt_list unit
+    | unit
 ;
 
-stmt:
+unit:
     var_decl
-    | expr_stmt
+    | expr_decl 
     | error { yyerror("Syntax error"); }
 ;
 
 var_decl:
-    type_spec decl_list SEMICOLON 
-    {
-        fprintf(yyout, "Line Number: %d\n var_decl: type_spec decl_list SEMICOLON\n", line);
-    }
+    type_spec decl_list SEMICOLON {fprintf(yyout, "Line Number: %d\n var_decl: type_spec decl_list SEMICOLON\n", line);}
 ;
 
 type_spec:
@@ -66,31 +60,35 @@ type_spec:
     | DOUBLE { fprintf(yyout, "Line Number: %d\n type_spec: DOUBLE\n", line); }
 ;
 
-decl_list:
-    decl_list COMMA term
-    | term
+decl_list	: decl_list COMMA term
+ 		| decl_list COMMA term LTHIRD CONST_INT RTHIRD
+ 		| term
+ 		| term LTHIRD CONST_INT RTHIRD
+ 		| ass_list
 ;
 
-term:
-    ID
-    | ID LTHIRD CONST_INT RTHIRD
+ass_list	: term ASSOP expr;
+
+
+term	: ID
+    	| ID LTHIRD CONST_INT RTHIRD
 ;
 
-expr_stmt:
-    expr SEMICOLON 
-    {
-        fprintf(yyout, "Line Number: %d\n expr_stmt: expr SEMICOLON\n", line);
-    }
+expr_decl :	expr SEMICOLON 	{fprintf(yyout, "Line Number: %d\n expr_decl : expr SEMICOLON\n", line);}
 ;
 
-expr:
-    expr ADDOP expr { fprintf(yyout, "Line Number: %d\n expr: expr ADDOP expr\n", line); }
-    | expr MINUS expr { fprintf(yyout, "Line Number: %d\n expr: expr MINUS expr\n", line); }
-    | expr MULOP expr { fprintf(yyout, "Line Number: %d\n expr: expr MULOP expr\n", line); }
-    | expr DIVOP expr { fprintf(yyout, "Line Number: %d\n expr: expr DIVOP expr\n", line); }
-    | expr MODOP expr { fprintf(yyout, "Line Number: %d\n expr: expr MODOP expr\n", line); }
-    | expr RELOP expr { fprintf(yyout, "Line Number: %d\n expr: expr RELOP expr\n", line); }
-    | expr LOGICOP expr { fprintf(yyout, "Line Number: %d\n expr: expr LOGICOP expr\n", line); }
+expr: 
+    CONST_INT	{fprintf(yyout,"Line Number: %d\n expr:CONST_INT\n",line);}
+    | CONST_FLOAT	{fprintf(yyout,"Line Number: %d\n expr:CONST_FLOAT\n",line);}
+    | expr ADDOP expr	{ fprintf(yyout, "Line Number: %d\n expr: expr ADDOP expr\n", line);}
+    | expr MINUS expr 	{ fprintf(yyout, "Line Number: %d\n expr: expr MINUS expr\n", line); }
+    | expr MULOP expr {fprintf(yyout, "Line Number: %d\n expr: expr MULOP expr\n", line); }
+    | expr DIVOP expr {fprintf(yyout, "Line Number: %d\n expr: expr DIVOP expr\n", line); }
+    | expr MODOP expr {fprintf(yyout, "Line Number: %d\n expr: expr MODOP expr\n", line); }
+    | expr RELOP expr {fprintf(yyout, "Line Number: %d\n expr: expr RELOP expr\n", line); }
+    | expr LOGICOP expr {fprintf(yyout, "Line Number: %d\n expr: expr LOGICOP expr\n", line); }
+    | expr INCR expr    {fprintf(yyout,"Line Number: %d\n expr:expr INCR expr\n",line);}
+    | LPAREN expr RPAREN 	{fprintf(yyout,"Line Number: %d\n expr:LPAREN expr RPAREN\n",line);}
     | term { fprintf(yyout, "Line Number: %d\n expr: term\n", line); }
 ;
 

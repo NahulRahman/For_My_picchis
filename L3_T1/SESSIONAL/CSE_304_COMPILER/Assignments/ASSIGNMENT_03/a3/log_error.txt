@@ -1,10 +1,8 @@
 Line Number: 2
  type_spec: FLOAT
-Line Number: 4
- expr: term
-Error: syntax error at line 4
-Error: Syntax error at line 4
-Error: Syntax error at line 4
+Line Number: 2
+ type_spec: INT
+a is already declared
 Line Number: 4
  expr: term
 Line Number: 4
@@ -12,178 +10,139 @@ Line Number: 4
 Line Number: 4
  expr: expr ADDOP expr
 Line Number: 4
- expr_stmt: expr SEMICOLON
+ expr_decl: expr SEMICOLON
 Line Number: 5
- func_decl: type_spec ID LPAREN param_list RPAREN LCURL stmt_list RCURL
+ func_decl: type_spec ID LPAREN param_list RPAREN LCURL stmt RCURL
 Line Number: 8
  type_spec: INT
-Line Number: 8
+Line Number: 9
  type_spec: INT
 a is already declared
-Error: syntax error at line 8
-Error: Syntax error at line 8
-Error: Syntax error at line 8
-Error: Syntax error at line 8
-Error: Syntax error at line 8
-Line Number: 9
- type_spec: FLOAT
-Line Number: 9
- var_decl: type_spec decl_list SEMICOLON
+Error: syntax error at line 9
+Error: Syntax error at line 9
+Error: Syntax error at line 9
+Error: Syntax error at line 9
+Error: Syntax error at line 9
 Line Number: 10
- type_spec: DOUBLE
+ type_spec: FLOAT
 Line Number: 10
  var_decl: type_spec decl_list SEMICOLON
 Line Number: 11
+ type_spec: DOUBLE
+Line Number: 11
+ var_decl: type_spec decl_list SEMICOLON
+Line Number: 12
  type_spec: INT
 c is already declared
-Line Number: 11
+Line Number: 12
  var_decl: type_spec decl_list SEMICOLON
 a is already declared
-Line Number: 12
- expr: term
-Error: syntax error at line 12
-Error: Syntax error at line 12
-Error: Syntax error at line 12
-Error: Syntax error at line 12
-a is already declared
-Line Number: 12
- expr: term
-b is already declared
-Line Number: 12
- expr: term
-Line Number: 12
- expr: expr ADDOP expr
-Error: syntax error at line 12
-Error: Syntax error at line 12
-Error: Syntax error at line 12
-Error: Syntax error at line 12
-b is already declared
-Line Number: 12
- expr: term
-Line Number: 12
- expr_stmt: expr SEMICOLON
-a is already declared
-Line Number: 13
- expr: term
 Error: syntax error at line 13
 Error: Syntax error at line 13
 Error: Syntax error at line 13
 a is already declared
-Line Number: 13
+Error: Syntax error at line 13
+Error: Syntax error at line 13
+b is already declared
+Error: Syntax error at line 13
+Error: Syntax error at line 13
+Error: Syntax error at line 13
+b is already declared
+Error: Syntax error at line 13
+Error: Syntax error at line 13
+a is already declared
+a is already declared
+Line Number: 14
  expr: term
 b is already declared
-Line Number: 13
+Line Number: 14
  expr: term
 b is already declared
-Line Number: 13
+Line Number: 14
  expr: term
-Line Number: 13
+Line Number: 14
  expr: expr MULOP expr
-Line Number: 13
+Line Number: 14
  expr: expr ADDOP expr
-Line Number: 13
- expr_stmt: expr SEMICOLON
-a is already declared
 Line Number: 14
- expr: term
-Error: syntax error at line 14
-Error: Syntax error at line 14
-Error: Syntax error at line 14
+ expr_decl: expr SEMICOLON
 a is already declared
-Line Number: 14
+a is already declared
+Line Number: 15
  expr: term
 b is already declared
-Line Number: 14
- expr: term
-Line Number: 14
- expr: expr LOGICOP expr
-Line Number: 14
- expr_stmt: expr SEMICOLON
 Line Number: 15
+ expr: term
+Line Number: 15
+ expr: expr LOGICOP expr
+Line Number: 15
+ expr_decl: expr SEMICOLON
+Line Number: 16
  type_spec: INT
 x is already declared
-Line Number: 15
+Line Number: 16
  var_decl: type_spec decl_list SEMICOLON
 a is already declared
-Line Number: 16
- expr: term
-Error: syntax error at line 16
-Error: Syntax error at line 16
-Error: Syntax error at line 16
-Error: Syntax error at line 16
-Error: Syntax error at line 16
-Line Number: 17
- expr: term
-Error: Syntax error at line 17
-Error: Syntax error at line 17
-m is already declared
-Line Number: 17
- expr: term
-Line Number: 17
- expr: term
-Line Number: 17
- expr: expr MULOP expr
 Error: syntax error at line 17
 Error: Syntax error at line 17
 Error: Syntax error at line 17
 Error: Syntax error at line 17
-Error: Syntax error at line 17
-Error: Syntax error at line 17
-Line Number: 17
- expr: term
-Error: Syntax error at line 17
-Error: Syntax error at line 17
-Error: Syntax error at line 17
-Error: Syntax error at line 17
-Error: Syntax error at line 17
-c is already declared
+m is already declared
 Line Number: 18
  expr: term
-Error: Syntax error at line 18
-Error: Syntax error at line 18
-a is already declared
 Line Number: 18
  expr: term
-b is already declared
 Line Number: 18
- expr: term
+ expr: expr MULOP expr
 Error: syntax error at line 18
 Error: Syntax error at line 18
 Error: Syntax error at line 18
 Error: Syntax error at line 18
-d is already declared
+Error: Syntax error at line 18
+Error: Syntax error at line 18
+Error: Syntax error at line 18
+Error: Syntax error at line 18
+Error: Syntax error at line 18
+Error: Syntax error at line 18
+Error: Syntax error at line 18
+c is already declared
+a is already declared
 Line Number: 19
  expr: term
-Error: Syntax error at line 19
-Error: Syntax error at line 19
-Error: Syntax error at line 19
-Error: Syntax error at line 19
-Error: Syntax error at line 19
-Error: Syntax error at line 19
-Error: Syntax error at line 19
-Error: Syntax error at line 19
-Line Number: 20
- expr: term
-Error: Syntax error at line 20
-Error: Syntax error at line 20
-Error: Syntax error at line 20
-Error: Syntax error at line 20
-Error: Syntax error at line 20
-Error: Syntax error at line 20
-Line Number: 21
- type_spec: INT
 b is already declared
-Line Number: 21
- var_decl: type_spec decl_list SEMICOLON
+Line Number: 19
+ expr: term
+Error: syntax error at line 19
+Error: Syntax error at line 19
+Error: Syntax error at line 19
+Error: Syntax error at line 19
+d is already declared
+Error: Syntax error at line 20
+Error: Syntax error at line 20
+Error: Syntax error at line 20
+Error: Syntax error at line 20
+Error: Syntax error at line 20
+Error: Syntax error at line 20
+Error: Syntax error at line 20
+Error: Syntax error at line 21
+Error: Syntax error at line 21
+Error: Syntax error at line 21
+Error: Syntax error at line 21
+Error: Syntax error at line 21
 Line Number: 22
  type_spec: INT
-d is already declared
-Error: syntax error at line 23
-Error: Syntax error at line 23
+b is already declared
+Line Number: 22
+ var_decl: type_spec decl_list SEMICOLON
 Line Number: 23
  type_spec: INT
+d is already declared
+Error: syntax error at line 24
+Error: Syntax error at line 24
+Line Number: 24
+ type_spec: INT
 x is already declared
-Line Number: 23
+Line Number: 24
  var_decl: type_spec decl_list SEMICOLON
-Line Number: 25
- func_decl: type_spec ID LPAREN param_list RPAREN LCURL stmt_list RCURL
+Line Number: 26
+ func_decl: type_spec ID LPAREN param_list RPAREN LCURL stmt RCURL

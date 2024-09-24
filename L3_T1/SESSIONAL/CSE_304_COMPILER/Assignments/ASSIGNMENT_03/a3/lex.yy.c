@@ -413,7 +413,7 @@ char *yytext;
 #include <stdlib.h>
 #include "cls1.h"
 Symboltable uable;
-#include "d.tab.h"
+#include "p.tab.h"
 extern int line;
 
 #line 420 "lex.yy.c"

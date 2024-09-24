@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include "cls1.h"
 Symboltable uable;
-#include "d.tab.h"
+#include "p.tab.h"
 extern int line;
 
 %}
