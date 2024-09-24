@@ -1,0 +1,10 @@
+0-> <x, ID> <d, ID> <n, ID> 
+1-> <fun, ID> <c, ID> <m, ID> 
+2-> <b, ID> 
+3-> <a, ID> 
+4-> 
+5-> <i, ID> 
+6-> 
+7-> 
+8-> <p, ID> <f, ID> 
+9-> <main, ID> <y, ID> <e, ID> 
