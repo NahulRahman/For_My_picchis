@@ -1,0 +1,2783 @@
+;8.  Write a program to display a "?", read two capital letters, and display them on the next line In alphabetical order.  all for 8086
+
+.MODEL SMALL
+.STACK 100H
+
+.DATA
+    prompt_msg DB '?', '$'        ; Message to display "?" with DOS interrupt
+    newline DB 0Dh, 0Ah, '$'      ; New line characters
+    letter1 DB ?                  ; Variable to store the first letter
+    letter2 DB ?                  ; Variable to store the second letter
+
+.CODE
+START:
+    MOV AX, @DATA                 ; Initialize data segment
+    MOV DS, AX
+
+    ; Display the "?" prompt
+    MOV AH, 09H                   ; DOS interrupt to display string
+    LEA DX, prompt_msg            ; Load address of "?" message
+    INT 21H                       ; Call DOS interrupt
+
+    ; Read the first letter
+    MOV AH, 01H                   ; DOS interrupt to read a single char
+    INT 21H                       ; Call DOS interrupt
+    MOV letter1, AL               ; Store the first letter in letter1
+
+    ; Read the second letter
+    MOV AH, 01H                   ; DOS interrupt to read another char
+    INT 21H                       ; Call DOS interrupt
+    MOV letter2, AL               ; Store the second letter in letter2
+
+    ; Compare the two letters
+    MOV AL, letter1               ; Move first letter to AL
+    CMP AL, letter2               ; Compare first and second letter
+    JLE DisplayInOrder            ; If letter1 <= letter2, display as is
+
+    ; Swap the letters if letter1 > letter2
+    MOV AL, letter1               ; Load first letter in AL
+    MOV letter1, letter2          ; Move letter2 to letter1
+    MOV letter2, AL               ; Move letter1 (old) to letter2
+
+DisplayInOrder:
+    ; Move to the next line
+    MOV AH, 09H                   ; DOS interrupt to display string
+    LEA DX, newline               ; Load new line characters
+    INT 21H                       ; Call DOS interrupt
+
+    ; Display the first letter
+    MOV AH, 02H                   ; DOS interrupt to display a single character
+    MOV DL, letter1               ; Load first letter into DL
+    INT 21H                       ; Call DOS interrupt
+
+    ; Display the second letter
+    MOV AH, 02H                   ; DOS interrupt to display a single character
+    MOV DL, letter2               ; Load second letter into DL
+    INT 21H                       ; Call DOS interrupt
+
+    ; End program
+    MOV AH, 4CH                   ; DOS interrupt to terminate the program
+    INT 21H                       ; Call DOS interrupt
+
+END START
+
+or
+
+
+; find the longest increasing substring
+; input: fghdefgh
+; output: defgh
+.model small
+.stack 100h
+.data
+str db 100 dup(?)
+dp db 100 dup(1)
+sz db 0
+mx db 0
+ind db 0
+
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+    
+    lea si, str
+    lea di, dp
+    
+    inp:
+        mov ah, 1
+        int 21h
+        cmp al, 13
+        je endInp
+        mov [si], al
+        inc si
+        inc sz
+        jmp inp
+        
+    endInp:    
+    
+    mov ah, 2
+    mov dl, 10
+    int 21h
+    mov dl, 13
+    int 21h
+    
+    mov ch, 0
+    mov cl, sz
+    
+    lea si, str
+    
+    mov bl, 1
+    
+    solve:
+        lea si, str 
+        mov bh, 0
+        add si, bx
+        mov ah, [si]
+        dec si
+        mov al, [si]
+        sub ah, 1
+        cmp ah, al
+        jne notEq
+        lea di, dp
+        add di, bx
+        dec di
+        mov dl, [di]
+        add dl, 1
+        inc di
+        mov [di], dl
+        
+        notEq:
+        inc bl
+        cmp bl, sz
+        jne solve   
+        
+    lea di, dp
+    mov bl, 0
+    
+    find:
+        mov dl, [di]
+        cmp dl, mx
+        jle less
+        mov mx, dl
+        mov ind, bl
+        
+        less:
+        inc di
+        inc bl
+        cmp bl, sz
+        jne find
+        
+                   
+    mov bl, mx
+    sub ind, bl
+    inc ind      
+    mov bl, 0
+    
+    prnt:   
+        lea si, str
+        mov dx, 0
+        mov dl, bl
+        add dl, ind
+      
+        add si, dx
+        mov dl, [si]
+        mov ah, 2
+        int 21h
+        inc bl
+        cmp bl, mx
+        jl prnt
+        
+    main endp
+end main
+
+
+
+
+
+; 9. Write a program for 8086 to display the extended ASCII characters (ASCJI  codes 80h to FF_h). Display 10 characters per line, separated by  blanks. Stop after the extended characters have been displayed once. 
+.MODEL SMALL
+.STACK 100H
+
+.DATA
+    newline DB 0Dh, 0Ah, '$'  ; New line characters for DOS interrupt
+    space DB ' ', '$'         ; Space character to separate ASCII characters
+
+.CODE
+START:
+    MOV AX, @DATA             ; Initialize data segment
+    MOV DS, AX
+    MOV ES, AX
+
+    MOV AL, 80H               ; Start with ASCII code 80h
+    MOV CX, 128               ; Loop counter (80h to FFh = 128 characters)
+
+NextChar:
+    ; Display the character
+    MOV AH, 02H               ; DOS interrupt to display a single character
+    MOV DL, AL                ; Move the current ASCII character into DL
+    INT 21H                   ; Call DOS interrupt
+
+    ; Display a space after the character
+    MOV AH, 09H               ; DOS interrupt to display string
+    LEA DX, space             ; Load the space string
+    INT 21H                   ; Call DOS interrupt
+
+    ; Move to the next line after every 10 characters
+    MOV BX, CX                ; Copy loop counter to BX
+    SUB BX, 128               ; Calculate how many characters have been printed
+    NEG BX                    ; Convert to positive
+    CMP BX, 10                ; Check if 10 characters are printed
+    JNE SkipNewline           ; If not 10 characters, skip newline
+    MOV AH, 09H               ; DOS interrupt to display string
+    LEA DX, newline           ; Load new line characters
+    INT 21H                   ; Call DOS interrupt
+
+SkipNewline:
+    INC AL                    ; Move to the next ASCII character
+    LOOP NextChar             ; Repeat until CX = 0
+
+    ; End the program
+    MOV AH, 4CH               ; DOS interrupt to terminate program
+    INT 21H                   ; Call DOS interrupt
+
+END START
+
+
+
+
+
+
+10. Write a program in 8086 that will prompt the user to enter a hex digit 
+character ("0"· ... "9" or "A" ... "F"), display it on the next line 
+in decimal, and ask the user i.i he or she wants to do it again. If 
+the user types "y" or "Y", the ·program repeats; If the user types 
+anything else, the program terminates. If the user enters an illegal 
+character, prompt the user to try again.
+Sample:
+ENTER A HEX DIGIT: 9 
+IN DECIMAL IS IT 9 
+DO YOU WANT TO DO IT AGAIN? y 
+ENTER A HEX DIGIT: c 
+ILLEGAL CHARACTER - ENTER 0 .. 9 OR A .. F: C 
+IN DECIMAL IT IS 12 
+DO YOU WANT TO DO IT AGAIN? N 
+
+
+.MODEL SMALL
+.STACK 100H
+
+.DATA
+    prompt_msg DB 'ENTER A HEX DIGIT: $'
+    illegal_msg DB 'ILLEGAL CHARACTER - ENTER 0 .. 9 OR A .. F: $'
+    decimal_msg DB 'IN DECIMAL IT IS: $'
+    again_msg DB 'DO YOU WANT TO DO IT AGAIN? (Y/N): $'
+    newline DB 0Dh, 0Ah, '$'
+    hex_digit DB ?          ; Store the entered hex digit
+    response DB ?           ; Store the user response ('y'/'Y' for repeat)
+    digit_value DB ?        ; Store the decimal equivalent
+
+.CODE
+START:
+    MOV AX, @DATA           ; Initialize data segment
+    MOV DS, AX
+    MOV ES, AX
+
+MainLoop:
+    ; Display the prompt to enter a hex digit
+    MOV AH, 09H             ; DOS interrupt to display string
+    LEA DX, prompt_msg      ; Load address of the prompt message
+    INT 21H                 ; Call DOS interrupt
+
+    ; Read the hex digit from the user
+    MOV AH, 01H             ; DOS interrupt to read a single char
+    INT 21H                 ; Call DOS interrupt
+    MOV hex_digit, AL       ; Store the entered character
+
+    ; Validate and convert the hex digit to decimal
+    CALL ValidateHex        ; Check if it's a valid hex digit
+
+    ; If illegal, prompt again
+    CMP AL, 0FFH            ; Check if AL contains 0FFH (illegal flag)
+    JE IllegalHex
+
+    ; If valid, display its decimal value
+    MOV digit_value, AL     ; Save the converted decimal value
+    CALL DisplayDecimal     ; Display the decimal value
+
+    ; Ask the user if they want to do it again
+    MOV AH, 09H             ; DOS interrupt to display string
+    LEA DX, again_msg       ; Load address of "DO YOU WANT TO DO IT AGAIN?"
+    INT 21H                 ; Call DOS interrupt
+
+    ; Read the user response
+    MOV AH, 01H             ; DOS interrupt to read a single char
+    INT 21H                 ; Call DOS interrupt
+    MOV response, AL        ; Store the response
+
+    ; Check if response is 'y' or 'Y'
+    CMP AL, 'y'             ; Compare with 'y'
+    JE MainLoop             ; If 'y', repeat
+    CMP AL, 'Y'             ; Compare with 'Y'
+    JE MainLoop             ; If 'Y', repeat
+
+    ; End the program
+    MOV AH, 4CH             ; DOS interrupt to terminate the program
+    INT 21H                 ; Call DOS interrupt
+
+IllegalHex:
+    ; Display illegal character message and try again
+    MOV AH, 09H             ; DOS interrupt to display string
+    LEA DX, illegal_msg     ; Load address of illegal character message
+    INT 21H                 ; Call DOS interrupt
+    JMP MainLoop            ; Jump back to the main loop
+
+ValidateHex PROC
+    ; Check if the character is '0'-'9'
+    CMP hex_digit, '0'
+    JL NotValid             ; If less than '0', it's not valid
+    CMP hex_digit, '9'
+    JLE ConvertToDecimal    ; If <= '9', it's valid
+
+    ; Check if the character is 'A'-'F'
+    CMP hex_digit, 'A'
+    JL NotValid             ; If less than 'A', it's not valid
+    CMP hex_digit, 'F'
+    JLE ConvertToDecimal    ; If <= 'F', it's valid
+
+    ; Check if the character is 'a'-'f'
+    CMP hex_digit, 'a'
+    JL NotValid             ; If less than 'a', it's not valid
+    CMP hex_digit, 'f'
+    JLE ConvertToDecimal    ; If <= 'f', it's valid
+
+NotValid:
+    MOV AL, 0FFH            ; Illegal flag (0FFH)
+    RET
+
+ConvertToDecimal:
+    ; Convert the hex digit to its decimal equivalent
+    CMP hex_digit, '0'      ; Check if it's between '0' and '9'
+    JL NextCheck1
+    CMP hex_digit, '9'
+    JG NextCheck1
+    SUB hex_digit, '0'      ; Convert '0'-'9' to decimal
+    MOV AL, hex_digit
+    RET
+
+NextCheck1:
+    CMP hex_digit, 'A'      ; Check if it's between 'A' and 'F'
+    JL NextCheck2
+    CMP hex_digit, 'F'
+    JG NextCheck2
+    SUB hex_digit, 'A'      ; Convert 'A'-'F' to decimal (10-15)
+    ADD hex_digit, 10
+    MOV AL, hex_digit
+    RET
+
+NextCheck2:
+    CMP hex_digit, 'a'      ; Check if it's between 'a' and 'f'
+    JL NotValid
+    CMP hex_digit, 'f'
+    JG NotValid
+    SUB hex_digit, 'a'      ; Convert 'a'-'f' to decimal (10-15)
+    ADD hex_digit, 10
+    MOV AL, hex_digit
+    RET
+ValidateHex ENDP
+
+DisplayDecimal PROC
+    ; Display the newline first
+    MOV AH, 09H             ; DOS interrupt to display string
+    LEA DX, newline         ; Load address of newline
+    INT 21H                 ; Call DOS interrupt
+
+    ; Display "IN DECIMAL IT IS:"
+    MOV AH, 09H             ; DOS interrupt to display string
+    LEA DX, decimal_msg     ; Load address of decimal message
+    INT 21H                 ; Call DOS interrupt
+
+    ; Convert decimal value to ASCII and display it
+    ADD digit_value, '0'     ; Convert decimal value to ASCII
+    MOV DL, digit_value      ; Load the converted decimal value into DL
+    MOV AH, 02H              ; DOS interrupt to display a character
+    INT 21H                  ; Call DOS interrupt
+
+    ; Display the newline
+    MOV AH, 09H              ; DOS interrupt to display string
+    LEA DX, newline          ; Load address of newline
+    INT 21H                  ; Call DOS interrupt
+    RET
+DisplayDecimal ENDP
+
+END START
+
+
+
+
+
+
+
+
+
+
+11. Do programming exercise in 8086 assembly 10, except that if the user fails to enter 
+a hex-digit character In three tries, display a message and terminate the program. ·
+
+.MODEL SMALL
+.STACK 100H
+
+.DATA
+    prompt_msg DB 'ENTER A HEX DIGIT: $'
+    illegal_msg DB 'ILLEGAL CHARACTER - ENTER 0 .. 9 OR A .. F: $'
+    error_msg DB 'TOO MANY INVALID ATTEMPTS. PROGRAM TERMINATING.$'
+    decimal_msg DB 'IN DECIMAL IT IS: $'
+    again_msg DB 'DO YOU WANT TO DO IT AGAIN? (Y/N): $'
+    newline DB 0Dh, 0Ah, '$'
+    hex_digit DB ?          ; Store the entered hex digit
+    response DB ?           ; Store the user response ('y'/'Y' for repeat)
+    digit_value DB ?        ; Store the decimal equivalent
+    attempts DB 0           ; Counter for the number of invalid attempts
+
+.CODE
+START:
+    MOV AX, @DATA           ; Initialize data segment
+    MOV DS, AX
+    MOV ES, AX
+
+MainLoop:
+    ; Reset the number of attempts for each new hex digit entry
+    MOV attempts, 0         ; Reset invalid attempts counter
+
+AskHex:
+    ; Display the prompt to enter a hex digit
+    MOV AH, 09H             ; DOS interrupt to display string
+    LEA DX, prompt_msg      ; Load address of the prompt message
+    INT 21H                 ; Call DOS interrupt
+
+    ; Read the hex digit from the user
+    MOV AH, 01H             ; DOS interrupt to read a single char
+    INT 21H                 ; Call DOS interrupt
+    MOV hex_digit, AL       ; Store the entered character
+
+    ; Validate and convert the hex digit to decimal
+    CALL ValidateHex        ; Check if it's a valid hex digit
+
+    ; If illegal, increment the invalid attempts counter
+    CMP AL, 0FFH            ; Check if AL contains 0FFH (illegal flag)
+    JNE ValidInput          ; If valid, proceed with displaying decimal
+
+    INC attempts            ; Increment the invalid attempts counter
+    CMP attempts, 3         ; Check if 3 invalid attempts were made
+    JE TooManyAttempts      ; If 3, terminate the program with a message
+
+    ; Display illegal character message and try again
+    MOV AH, 09H             ; DOS interrupt to display string
+    LEA DX, illegal_msg     ; Load address of illegal character message
+    INT 21H                 ; Call DOS interrupt
+    JMP AskHex              ; Ask for hex digit again
+
+TooManyAttempts:
+    ; Display error message and terminate the program
+    MOV AH, 09H             ; DOS interrupt to display string
+    LEA DX, error_msg       ; Load address of the error message
+    INT 21H                 ; Call DOS interrupt
+    JMP Terminate           ; Terminate program after the message
+
+ValidInput:
+    ; If valid, display its decimal value
+    MOV digit_value, AL     ; Save the converted decimal value
+    CALL DisplayDecimal     ; Display the decimal value
+
+    ; Ask the user if they want to do it again
+    MOV AH, 09H             ; DOS interrupt to display string
+    LEA DX, again_msg       ; Load address of "DO YOU WANT TO DO IT AGAIN?"
+    INT 21H                 ; Call DOS interrupt
+
+    ; Read the user response
+    MOV AH, 01H             ; DOS interrupt to read a single char
+    INT 21H                 ; Call DOS interrupt
+    MOV response, AL        ; Store the response
+
+    ; Check if response is 'y' or 'Y'
+    CMP AL, 'y'             ; Compare with 'y'
+    JE MainLoop             ; If 'y', repeat
+    CMP AL, 'Y'             ; Compare with 'Y'
+    JE MainLoop             ; If 'Y', repeat
+
+Terminate:
+    ; End the program
+    MOV AH, 4CH             ; DOS interrupt to terminate the program
+    INT 21H                 ; Call DOS interrupt
+
+ValidateHex PROC
+    ; Check if the character is '0'-'9'
+    CMP hex_digit, '0'
+    JL NotValid             ; If less than '0', it's not valid
+    CMP hex_digit, '9'
+    JLE ConvertToDecimal    ; If <= '9', it's valid
+
+    ; Check if the character is 'A'-'F'
+    CMP hex_digit, 'A'
+    JL NotValid             ; If less than 'A', it's not valid
+    CMP hex_digit, 'F'
+    JLE ConvertToDecimal    ; If <= 'F', it's valid
+
+    ; Check if the character is 'a'-'f'
+    CMP hex_digit, 'a'
+    JL NotValid             ; If less than 'a', it's not valid
+    CMP hex_digit, 'f'
+    JLE ConvertToDecimal    ; If <= 'f', it's valid
+
+NotValid:
+    MOV AL, 0FFH            ; Illegal flag (0FFH)
+    RET
+
+ConvertToDecimal:
+    ; Convert the hex digit to its decimal equivalent
+    CMP hex_digit, '0'      ; Check if it's between '0' and '9'
+    JL NextCheck1
+    CMP hex_digit, '9'
+    JG NextCheck1
+    SUB hex_digit, '0'      ; Convert '0'-'9' to decimal
+    MOV AL, hex_digit
+    RET
+
+NextCheck1:
+    CMP hex_digit, 'A'      ; Check if it's between 'A' and 'F'
+    JL NextCheck2
+    CMP hex_digit, 'F'
+    JG NextCheck2
+    SUB hex_digit, 'A'      ; Convert 'A'-'F' to decimal (10-15)
+    ADD hex_digit, 10
+    MOV AL, hex_digit
+    RET
+
+NextCheck2:
+    CMP hex_digit, 'a'      ; Check if it's between 'a' and 'f'
+    JL NotValid
+    CMP hex_digit, 'f'
+    JG NotValid
+    SUB hex_digit, 'a'      ; Convert 'a'-'f' to decimal (10-15)
+    ADD hex_digit, 10
+    MOV AL, hex_digit
+    RET
+ValidateHex ENDP
+
+DisplayDecimal PROC
+    ; Display the newline first
+    MOV AH, 09H             ; DOS interrupt to display string
+    LEA DX, newline         ; Load address of newline
+    INT 21H                 ; Call DOS interrupt
+
+    ; Display "IN DECIMAL IT IS:"
+    MOV AH, 09H             ; DOS interrupt to display string
+    LEA DX, decimal_msg     ; Load address of decimal message
+    INT 21H                 ; Call DOS interrupt
+
+    ; Convert decimal value to ASCII and display it
+    ADD digit_value, '0'     ; Convert decimal value to ASCII
+    MOV DL, digit_value      ; Load the converted decimal value into DL
+    MOV AH, 02H              ; DOS interrupt to display a character
+    INT 21H                  ; Call DOS interrupt
+
+    ; Display the newline
+    MOV AH, 09H              ; DOS interrupt to display string
+    LEA DX, newline          ; Load address of newline
+    INT 21H                  ; Call DOS interrupt
+    RET
+DisplayDecimal ENDP
+
+END START
+
+
+
+
+
+
+12. (hard) Write a program in 8086 that reads a string of capital letters, ending with a carriage return, and displays the longest sequence of 
+consecutive alphabetically increasing capital letters read. 
+Sample exec11tio11: 
+ENTER A STKING OF CAPITAL LETTERS: 
+FGHADEFGHC 
+THE LONGEST CONSECUTIVELY INCREASING STRING IS: 
+DEFGH
+
+.MODEL SMALL
+.STACK 100H
+
+.DATA
+    input_msg DB 'ENTER A STRING OF CAPITAL LETTERS: $'
+    result_msg DB 'THE LONGEST CONSECUTIVELY INCREASING STRING IS: $'
+    newline DB 0Dh, 0Ah, '$'
+    input_buffer DB 50 DUP('$')      ; Buffer to store the input string
+    max_seq DB 50 DUP('$')           ; Buffer to store the longest sequence
+    current_seq DB 50 DUP('$')       ; Buffer to store the current sequence
+    max_len DB 0                     ; Variable to store the length of longest sequence
+    cur_len DB 0                     ; Variable to store the length of current sequence
+
+.CODE
+START:
+    MOV AX, @DATA
+    MOV DS, AX
+    MOV ES, AX
+
+    ; Display the prompt to enter the string
+    MOV AH, 09H
+    LEA DX, input_msg
+    INT 21H
+
+    ; Read the input string (max 50 characters)
+    MOV DI, 0              ; Input buffer index
+ReadLoop:
+    MOV AH, 01H            ; DOS interrupt to read a single char
+    INT 21H                ; Read character into AL
+    CMP AL, 0Dh            ; Check for carriage return
+    JE CheckLongest        ; If CR, break the loop
+
+    MOV input_buffer[DI], AL  ; Store the character in the input buffer
+    INC DI                  ; Move to next buffer position
+    CMP DI, 50              ; Limit input to 50 characters
+    JL ReadLoop
+
+CheckLongest:
+    MOV CX, DI              ; Store the length of the input string in CX
+    MOV SI, 0               ; SI will track input_buffer index
+    MOV DI, 0               ; DI will track current_seq index
+
+ProcessString:
+    CMP SI, CX              ; Check if we've processed all characters
+    JAE DisplayResult       ; If yes, jump to display the result
+
+    ; Get the current character and compare with the previous
+    MOV AL, input_buffer[SI]
+    CMP SI, 0
+    JE FirstChar            ; Skip the first char comparison
+
+    ; Compare if the current char is greater than the previous one
+    MOV BL, input_buffer[SI-1]
+    INC BL                  ; Check if current character is alphabetically next
+    CMP AL, BL
+    JE ContinueSequence     ; If current char is the next, continue sequence
+
+    ; If not, check if the current sequence is longer than the max sequence
+    CMP cur_len, max_len
+    JBE StartNewSequence    ; If current sequence is shorter, start new one
+
+    ; Update max sequence buffer
+    MOV max_len, cur_len
+    MOV CX, cur_len
+    LEA DI, current_seq     ; Load current sequence address
+    LEA SI, max_seq         ; Load max sequence address
+    REP MOVSB               ; Copy current sequence to max sequence buffer
+
+StartNewSequence:
+    ; Reset current sequence and length
+    MOV cur_len, 1          ; Start a new sequence with length 1
+    MOV DI, 0               ; Reset current_seq buffer index
+    MOV current_seq[DI], AL ; Store the first char of the new sequence
+    JMP NextChar
+
+ContinueSequence:
+    ; Add the current char to the current sequence
+    MOV current_seq[DI+1], AL
+    INC cur_len
+    INC DI
+
+NextChar:
+    INC SI                  ; Move to the next character
+    JMP ProcessString
+
+FirstChar:
+    ; Store the first character in the current sequence buffer
+    MOV cur_len, 1          ; First sequence has length 1
+    MOV current_seq[DI], AL ; Store the first char in the current sequence buffer
+    JMP NextChar
+
+DisplayResult:
+    ; Check if the last sequence is the longest
+    CMP cur_len, max_len
+    JBE ShowMaxSequence     ; If not, skip the update
+
+    ; Update max sequence buffer one last time
+    MOV max_len, cur_len
+    MOV CX, cur_len
+    LEA DI, current_seq
+    LEA SI, max_seq
+    REP MOVSB
+
+ShowMaxSequence:
+    ; Display the result message
+    MOV AH, 09H
+    LEA DX, newline
+    INT 21H
+
+    MOV AH, 09H
+    LEA DX, result_msg
+    INT 21H
+
+    ; Display the longest sequence
+    MOV AH, 09H
+    LEA DX, max_seq
+    INT 21H
+
+    ; Terminate program
+    MOV AH, 4CH
+    INT 21H
+
+END START
+
+
+
+
+
+
+
+ch 07
+
+8. Write a 8086 program thC!t prompts the user to enter a character, and 
+on subsequent lines prints its ASCII code in binary, and the number of 1 bits In Its ASCII code. 
+Sample execution: 
+TYPE A CHARACTER: A 
+THE ASCII CODE OF A IN BINARY IS 010'00001 
+THE NUMBER OF l BITS IS 2 
+
+
+.MODEL SMALL
+.STACK 100H
+
+.DATA
+    prompt_msg DB 'TYPE A CHARACTER: $'
+    binary_msg DB 'THE ASCII CODE OF ', 0
+    binary_is DB ' IN BINARY IS: $'
+    num_bits_msg DB 'THE NUMBER OF 1 BITS IS: $'
+    newline DB 0Dh, 0Ah, '$'
+    ascii_buffer DB 8 DUP('$')  ; Buffer to store the binary representation
+    num_buffer DB 4 DUP('$')    ; Buffer to store the number of 1 bits
+
+.CODE
+START:
+    MOV AX, @DATA
+    MOV DS, AX
+    MOV ES, AX
+
+    ; Display the prompt message
+    MOV AH, 09H
+    LEA DX, prompt_msg
+    INT 21H
+
+    ; Read a character from the user
+    MOV AH, 01H
+    INT 21H
+    MOV BL, AL               ; Store the character in BL for later use
+
+    ; Display the binary representation message
+    MOV AH, 09H
+    LEA DX, binary_msg
+    INT 21H
+
+    MOV AH, 02H
+    MOV DL, BL               ; Display the character
+    INT 21H
+
+    ; Display 'IN BINARY IS: '
+    MOV AH, 09H
+    LEA DX, binary_is
+    INT 21H
+
+    ; Convert the ASCII value in BL to binary and store it in ascii_buffer
+    CALL ASCII_TO_BINARY
+
+    ; Display the binary value
+    MOV AH, 09H
+    LEA DX, ascii_buffer
+    INT 21H
+
+    ; Count the number of 1 bits in the ASCII code
+    CALL COUNT_ONE_BITS
+
+    ; Display the result message
+    MOV AH, 09H
+    LEA DX, newline
+    INT 21H
+
+    MOV AH, 09H
+    LEA DX, num_bits_msg
+    INT 21H
+
+    ; Display the number of 1 bits
+    MOV AH, 09H
+    LEA DX, num_buffer
+    INT 21H
+
+    ; End the program
+    MOV AH, 4CH
+    INT 21H
+
+; Subroutine to convert the ASCII value in BL to binary string
+ASCII_TO_BINARY PROC
+    MOV CX, 8                 ; There are 8 bits in a byte
+    LEA DI, ascii_buffer      ; Load the address of ascii_buffer
+    MOV AL, BL                ; Move ASCII value into AL
+
+ConvertLoop:
+    SHL AL, 1                 ; Shift the leftmost bit into the carry flag
+    JC SetBit                 ; If carry is set, the bit is 1
+    MOV BYTE PTR [DI], '0'    ; Otherwise, set it as '0'
+    JMP Continue
+
+SetBit:
+    MOV BYTE PTR [DI], '1'    ; Set the bit as '1'
+
+Continue:
+    INC DI                    ; Move to the next position in the buffer
+    LOOP ConvertLoop          ; Repeat for all 8 bits
+
+    ; Terminate the string
+    MOV BYTE PTR [DI], '$'    ; Add a '$' to end the string
+    RET
+ASCII_TO_BINARY ENDP
+
+; Subroutine to count the number of 1 bits in BL and store in num_buffer
+COUNT_ONE_BITS PROC
+    MOV CX, 0                 ; Clear the counter
+    MOV AL, BL                ; Copy ASCII value to AL
+
+CountLoop:
+    SHR AL, 1                 ; Shift right to bring the least significant bit into carry
+    JNC NoIncrement           ; If carry is not set, it's a 0, so skip
+    INC CX                    ; If carry is set, increment the count
+
+NoIncrement:
+    TEST AL, AL               ; Check if we've processed all bits
+    JNZ CountLoop             ; If not, continue
+
+    ; Convert the count in CX to ASCII and store in num_buffer
+    CALL PRINT_NUM
+    RET
+COUNT_ONE_BITS ENDP
+
+; Subroutine to convert number in CX to ASCII and store in num_buffer
+PRINT_NUM PROC
+    MOV AX, CX                ; Copy the number to AX
+    ADD AX, '0'               ; Convert it to an ASCII character
+    MOV num_buffer, AL        ; Store the result in num_buffer
+    MOV BYTE PTR num_buffer+1, '$' ; Null-terminate the string
+    RET
+PRINT_NUM ENDP
+
+END START
+
+
+
+
+
+
+9. Write a 8086 program that prompts the user to enter a character and 
+prints the ASCII code of the character in hex on the next line. Repeat this process until the user types a carriage return. 
+Sample execution: 
+TYPE A CHARACTER: Z 
+THE ASCII CODE OF Z IN HEX IS SA 
+TYPE A CHARACTER: 
+
+
+.MODEL SMALL
+.STACK 100H
+
+.DATA
+    prompt_msg DB 'TYPE A CHARACTER: $'
+    hex_msg DB 'THE ASCII CODE OF ', 0
+    hex_is DB ' IN HEX IS: $'
+    newline DB 0Dh, 0Ah, '$'
+    hex_buffer DB 2 DUP('$')  ; Buffer to store the hex representation
+
+.CODE
+START:
+    MOV AX, @DATA
+    MOV DS, AX
+
+MAIN_LOOP:
+    ; Display the prompt message
+    MOV AH, 09H
+    LEA DX, prompt_msg
+    INT 21H
+
+    ; Read a character from the user
+    MOV AH, 01H
+    INT 21H
+    MOV BL, AL  ; Store the character in BL for later use
+
+    ; Check if the character is a carriage return (0Dh)
+    CMP AL, 0Dh
+    JE END_PROGRAM  ; If Enter key is pressed, exit the program
+
+    ; Display the ASCII code message
+    MOV AH, 09H
+    LEA DX, hex_msg
+    INT 21H
+
+    MOV AH, 02H
+    MOV DL, BL  ; Display the character itself
+    INT 21H
+
+    ; Display 'IN HEX IS: '
+    MOV AH, 09H
+    LEA DX, hex_is
+    INT 21H
+
+    ; Convert ASCII code in BL to hex and display it
+    CALL PRINT_HEX
+
+    ; Display a newline for the next input
+    MOV AH, 09H
+    LEA DX, newline
+    INT 21H
+
+    ; Repeat the loop
+    JMP MAIN_LOOP
+
+PRINT_HEX PROC
+    ; Convert ASCII code in BL to a hex string and store in hex_buffer
+    MOV AL, BL
+    MOV AH, 0        ; Clear AH for division
+    MOV CX, 16       ; We're working with base 16 (hexadecimal)
+
+    ; Convert the high nibble (4 bits)
+    SHR AL, 4        ; Shift the high nibble into the lower 4 bits
+    CALL NIBBLE_TO_HEX
+    MOV hex_buffer, AL  ; Store the first hex digit
+
+    ; Convert the low nibble
+    MOV AL, BL       ; Reload BL into AL
+    AND AL, 0FH      ; Mask the low nibble
+    CALL NIBBLE_TO_HEX
+    MOV hex_buffer+1, AL  ; Store the second hex digit
+
+    ; Display the result
+    MOV AH, 09H
+    LEA DX, hex_buffer
+    INT 21H
+
+    RET
+PRINT_HEX ENDP
+
+; Subroutine to convert a nibble (4 bits) to a hex character
+NIBBLE_TO_HEX PROC
+    CMP AL, 9
+    JBE NUMERIC     ; If AL <= 9, it's a number
+
+    ; Convert to ASCII A-F
+    ADD AL, 07H     ; Adjust to convert 10-15 to 'A'-'F'
+
+NUMERIC:
+    ADD AL, '0'     ; Convert the numeric part to ASCII
+    RET
+NIBBLE_TO_HEX ENDP
+
+END_PROGRAM:
+    ; End the program
+    MOV AH, 4CH
+    INT 21H
+
+END START
+
+
+
+
+
+
+
+
+· 10. Write a 8086 program that prompts the user to type a hex number of 
+four hex digits or less, and outputs it In binary on the next line. 
+If the user enters an illegal character, he or she should be · 
+prompted to begin again. Accept only uppercase letters. 
+Sample exenitio11: 
+TYPE A HEX NUMBER (0 TO FFFF): la 
+ILLEGAL HEX DIGIT, TRY AGAIN: lABC 
+IN BINAPY IT IS 0001101010111100 
+Your program may ignore any Input beyond four characters. 
+
+
+.MODEL SMALL
+.STACK 100H
+
+.DATA
+    prompt_msg DB 'TYPE A HEX NUMBER (0 TO FFFF): $'
+    illegal_msg DB 'ILLEGAL HEX DIGIT, TRY AGAIN: $'
+    binary_msg DB 'IN BINARY IT IS: $'
+    newline DB 0Dh, 0Ah, '$'
+    input_buffer DB 5 DUP('$')  ; Buffer to store user input (4 hex digits max)
+    bin_buffer DB 16 DUP('0')   ; Buffer to store binary output (16 bits)
+    hex_digits DB '0123456789ABCDEF$'
+
+.CODE
+START:
+    MOV AX, @DATA
+    MOV DS, AX
+
+MAIN_LOOP:
+    ; Display the prompt message
+    MOV AH, 09H
+    LEA DX, prompt_msg
+    INT 21H
+
+    ; Read up to 4 characters (hex digits)
+    CALL READ_HEX_INPUT
+
+    ; Check for illegal characters
+    CALL VALIDATE_HEX_INPUT
+    JZ MAIN_LOOP  ; If invalid hex digits were found, restart loop
+
+    ; Convert hex input to binary and display
+    CALL HEX_TO_BINARY
+
+    ; Display 'IN BINARY IT IS:'
+    MOV AH, 09H
+    LEA DX, binary_msg
+    INT 21H
+
+    ; Display the binary result
+    MOV AH, 09H
+    LEA DX, bin_buffer
+    INT 21H
+
+    ; Display a newline
+    MOV AH, 09H
+    LEA DX, newline
+    INT 21H
+
+    JMP MAIN_LOOP  ; Repeat the process
+
+; Subroutine to read up to 4 hex digits
+READ_HEX_INPUT PROC
+    XOR SI, SI   ; Reset input buffer index
+
+READ_CHAR:
+    MOV AH, 01H  ; Read a character from the keyboard
+    INT 21H
+    CMP AL, 0Dh  ; Check if Enter was pressed
+    JE DONE_INPUT
+    CMP SI, 4    ; Ensure no more than 4 characters are read
+    JAE DONE_INPUT
+
+    ; Store the character in the input buffer
+    MOV input_buffer[SI], AL
+    INC SI
+    JMP READ_CHAR
+
+DONE_INPUT:
+    RET
+READ_HEX_INPUT ENDP
+
+; Subroutine to validate the input and check for illegal characters
+VALIDATE_HEX_INPUT PROC
+    XOR SI, SI
+    MOV CX, 4
+    MOV AL, 1    ; Assume input is valid
+
+VALIDATE_LOOP:
+    MOV BL, input_buffer[SI]
+    CMP BL, '$'  ; End of input buffer
+    JE DONE_VALIDATION
+    CMP BL, '0'
+    JB INVALID_INPUT   ; If character is less than '0', it's invalid
+    CMP BL, '9'
+    JBE NEXT_CHAR      ; If character is between '0' and '9', it's valid
+    CMP BL, 'A'
+    JB INVALID_INPUT   ; If character is less than 'A', it's invalid
+    CMP BL, 'F'
+    JBE NEXT_CHAR      ; If character is between 'A' and 'F', it's valid
+    JMP INVALID_INPUT
+
+NEXT_CHAR:
+    INC SI
+    LOOP VALIDATE_LOOP
+    JMP DONE_VALIDATION
+
+INVALID_INPUT:
+    ; Display illegal digit message
+    MOV AH, 09H
+    LEA DX, illegal_msg
+    INT 21H
+    MOV AL, 0    ; Mark input as invalid
+
+DONE_VALIDATION:
+    RET
+VALIDATE_HEX_INPUT ENDP
+
+; Subroutine to convert hex input to binary
+HEX_TO_BINARY PROC
+    XOR SI, SI   ; Reset input buffer index
+    XOR DI, DI   ; Reset binary buffer index
+
+    ; Initialize binary buffer with zeros
+    MOV CX, 16
+    MOV AL, '0'
+FILL_BIN_BUFFER:
+    MOV bin_buffer[DI], AL
+    INC DI
+    LOOP FILL_BIN_BUFFER
+
+    ; Convert each hex digit to 4 binary bits
+    XOR DI, DI
+    MOV CX, 4  ; Maximum 4 hex digits
+
+CONVERT_LOOP:
+    MOV BL, input_buffer[SI]    ; Get hex digit
+    CMP BL, '$'
+    JE DONE_CONVERT  ; End if buffer is empty
+
+    ; Convert to upper nibble
+    CALL HEX_DIGIT_TO_BINARY
+
+    ; Store binary in the buffer (4 bits)
+    MOV bin_buffer[DI], AL
+    ADD DI, 4       ; Move to next 4 bits for next hex digit
+
+    INC SI
+    LOOP CONVERT_LOOP
+
+DONE_CONVERT:
+    RET
+HEX_TO_BINARY ENDP
+
+; Subroutine to convert a hex digit (0-9, A-F) to binary
+HEX_DIGIT_TO_BINARY PROC
+    CMP BL, '0'
+    JB INVALID_INPUT
+    CMP BL, '9'
+    JBE CONVERT_NUMERIC  ; If 0-9, convert as numeric
+    CMP BL, 'A'
+    JB INVALID_INPUT
+    CMP BL, 'F'
+    JA INVALID_INPUT     ; If beyond 'F', it's invalid
+
+    ; Convert 'A'-'F' to binary (10-15)
+    SUB BL, 'A'
+    ADD BL, 0AH
+    JMP DONE_HEX_CONVERT
+
+CONVERT_NUMERIC:
+    SUB BL, '0'  ; Convert '0'-'9' to binary
+
+DONE_HEX_CONVERT:
+    RET
+HEX_DIGIT_TO_BINARY ENDP
+
+END START
+
+
+
+
+
+
+
+
+11. Write a 8086 program that.prompts the user to type a binary number 
+of 16 digits or less, and outputs It In hex on the next line. If the 
+user enters an illegal character, he or she should be prompted to 
+begin again . ... . .. ·- -·- Sample e.1tecutio11: 
+TYPE A BINARY NUMBER, UP TO 16 DIGITS: 11100001 
+IN HEX IT IS El 
+Your program may ignore any input beyond !6 characters. 
+
+
+.MODEL SMALL
+.STACK 100H
+
+.DATA
+    prompt_msg DB 'TYPE A BINARY NUMBER, UP TO 16 DIGITS: $'
+    illegal_msg DB 'ILLEGAL CHARACTER, TRY AGAIN: $'
+    hex_msg DB 'IN HEX IT IS: $'
+    newline DB 0Dh, 0Ah, '$'
+    binary_input DB 17 DUP('$')   ; Buffer for binary input (16 digits + NULL terminator)
+    hex_output DB 5 DUP('$')      ; Buffer for hexadecimal output (4 hex digits max + NULL terminator)
+
+.CODE
+START:
+    MOV AX, @DATA
+    MOV DS, AX
+
+MAIN_LOOP:
+    ; Display the prompt message
+    MOV AH, 09H
+    LEA DX, prompt_msg
+    INT 21H
+
+    ; Read up to 16 binary digits
+    CALL READ_BINARY_INPUT
+
+    ; Validate the binary input
+    CALL VALIDATE_BINARY_INPUT
+    JZ MAIN_LOOP  ; If invalid input, prompt again
+
+    ; Convert binary input to hexadecimal
+    CALL BINARY_TO_HEX
+
+    ; Display 'IN HEX IT IS:'
+    MOV AH, 09H
+    LEA DX, hex_msg
+    INT 21H
+
+    ; Display the hexadecimal result
+    MOV AH, 09H
+    LEA DX, hex_output
+    INT 21H
+
+    ; Display a newline
+    MOV AH, 09H
+    LEA DX, newline
+    INT 21H
+
+    JMP MAIN_LOOP  ; Repeat the process
+
+; Subroutine to read up to 16 binary digits
+READ_BINARY_INPUT PROC
+    XOR SI, SI   ; Reset input buffer index
+
+READ_CHAR:
+    MOV AH, 01H  ; Read a character from the keyboard
+    INT 21H
+    CMP AL, 0Dh  ; Check if Enter was pressed
+    JE DONE_INPUT
+    CMP SI, 16   ; Ensure no more than 16 characters are read
+    JAE DONE_INPUT
+
+    ; Store the character in the input buffer
+    MOV binary_input[SI], AL
+    INC SI
+    JMP READ_CHAR
+
+DONE_INPUT:
+    MOV binary_input[SI], '$'  ; Null terminate the string
+    RET
+READ_BINARY_INPUT ENDP
+
+; Subroutine to validate the binary input and check for illegal characters
+VALIDATE_BINARY_INPUT PROC
+    XOR SI, SI
+    MOV CX, 16
+    MOV AL, 1    ; Assume input is valid
+
+VALIDATE_LOOP:
+    MOV BL, binary_input[SI]
+    CMP BL, '$'  ; End of input buffer
+    JE DONE_VALIDATION
+    CMP BL, '0'
+    JB INVALID_INPUT   ; If character is less than '0', it's invalid
+    CMP BL, '1'
+    JBE NEXT_CHAR      ; If character is '0' or '1', it's valid
+    JMP INVALID_INPUT
+
+NEXT_CHAR:
+    INC SI
+    LOOP VALIDATE_LOOP
+    JMP DONE_VALIDATION
+
+INVALID_INPUT:
+    ; Display illegal character message
+    MOV AH, 09H
+    LEA DX, illegal_msg
+    INT 21H
+    MOV AL, 0    ; Mark input as invalid
+
+DONE_VALIDATION:
+    RET
+VALIDATE_BINARY_INPUT ENDP
+
+; Subroutine to convert binary input to hexadecimal
+BINARY_TO_HEX PROC
+    XOR SI, SI   ; Reset input buffer index
+    XOR DI, DI   ; Reset hex output index
+    MOV CX, 16   ; Binary digits
+
+    ; Initialize hex output buffer
+    MOV BYTE PTR hex_output[0], '$'
+
+    ; Process binary input in 4-bit chunks
+    MOV BX, 0    ; BX will hold the binary value
+
+PROCESS_BINARY:
+    MOV BL, binary_input[SI]
+    SUB BL, '0'  ; Convert '0' or '1' to numeric value
+    SHL BX, 1    ; Shift left to make space for the new bit
+    OR  BX, BL   ; Add the new bit to BX
+
+    INC SI
+    LOOP PROCESS_BINARY
+
+    ; Convert the binary value in BX to hexadecimal
+    CALL BIN_TO_HEX
+
+    RET
+BINARY_TO_HEX ENDP
+
+; Subroutine to convert binary value in BX to hexadecimal
+BIN_TO_HEX PROC
+    MOV AL, BL    ; Copy binary value to AL
+    MOV CL, 4     ; We will convert 4 bits at a time
+
+    ; Convert to hexadecimal
+    MOV AH, 0
+    DIV CL        ; Divide AL by 16
+    ADD AH, '0'   ; Convert to ASCII
+    MOV hex_output[0], AH
+    ADD AL, '0'
+    MOV hex_output[1], AL
+
+    RET
+BIN_TO_HEX ENDP
+
+END START
+
+
+
+
+
+
+12. Write a 8086 program that prompts the user to enter two.binary numbers 
+of up to 8 digits each, and prints their sum on the next line in binary. If the user enters an illegal character, he or she should be 
+prompted to begin again. Each input ends with a carriage return. 
+Sample executiQn: , 
+TYPE 'A BINARY NUMBER, UP TO 8 DIGITS: 11001010 
+TYPE 'A BINARY NUMBER, UP TO 8 DIGITS: 10011100 
+THE BINARY SUM I~ 101100110 
+
+
+.MODEL SMALL
+.STACK 100H
+
+.DATA
+    prompt1 DB 'TYPE A BINARY NUMBER, UP TO 8 DIGITS: $'
+    prompt2 DB 'TYPE A SECOND BINARY NUMBER, UP TO 8 DIGITS: $'
+    invalid_msg DB 'ILLEGAL CHARACTER, TRY AGAIN: $'
+    sum_msg DB 'THE BINARY SUM IS: $'
+    newline DB 0Dh, 0Ah, '$'
+    binary1 DB 9 DUP('$')   ; Buffer for first binary input (8 digits + NULL terminator)
+    binary2 DB 9 DUP('$')   ; Buffer for second binary input (8 digits + NULL terminator)
+    sum_binary DB 17 DUP('$') ; Buffer for binary sum (16 bits max + NULL terminator)
+
+.CODE
+START:
+    MOV AX, @DATA
+    MOV DS, AX
+
+    ; Get first binary number
+    MOV AH, 09H
+    LEA DX, prompt1
+    INT 21H
+
+    CALL READ_BINARY_INPUT
+    CALL VALIDATE_BINARY_INPUT
+    JZ START
+
+    ; Get second binary number
+    MOV AH, 09H
+    LEA DX, prompt2
+    INT 21H
+
+    CALL READ_BINARY_INPUT
+    CALL VALIDATE_BINARY_INPUT
+    JZ START
+
+    ; Convert binary numbers to decimal and add them
+    CALL BINARY_TO_DECIMAL
+    MOV AL, 0    ; Clear AL for sum
+
+    ; Convert binary1 and binary2 to decimal and add them
+    MOV CL, 8    ; Number of bits
+    MOV BL, 0
+    CALL BIN_TO_DECIMAL
+
+    MOV CL, 8    ; Reset number of bits
+    MOV BH, 0
+    CALL BIN_TO_DECIMAL
+
+    ADD BL, BH    ; Add the two decimal numbers
+    CALL DECIMAL_TO_BINARY
+
+    ; Display 'THE BINARY SUM IS:'
+    MOV AH, 09H
+    LEA DX, sum_msg
+    INT 21H
+
+    ; Display the binary sum
+    MOV AH, 09H
+    LEA DX, sum_binary
+    INT 21H
+
+    ; Display a newline
+    MOV AH, 09H
+    LEA DX, newline
+    INT 21H
+
+    ; Terminate the program
+    MOV AH, 4CH
+    INT 21H
+
+; Subroutine to read a binary number from the user
+READ_BINARY_INPUT PROC
+    XOR SI, SI   ; Reset index
+    MOV AH, 01H  ; Read characters
+
+READ_CHAR:
+    INT 21H
+    CMP AL, 0Dh  ; Carriage return ends input
+    JE DONE_INPUT
+    CMP SI, 8    ; Ensure no more than 8 digits
+    JAE DONE_INPUT
+
+    ; Store character in buffer
+    MOV binary1[SI], AL
+    INC SI
+    JMP READ_CHAR
+
+DONE_INPUT:
+    MOV binary1[SI], '$'  ; Null-terminate the string
+    RET
+READ_BINARY_INPUT ENDP
+
+; Subroutine to validate binary input
+VALIDATE_BINARY_INPUT PROC
+    XOR SI, SI
+    MOV CX, 8
+    MOV AL, 1    ; Assume input is valid
+
+VALIDATE_LOOP:
+    MOV BL, binary1[SI]
+    CMP BL, '$'  ; End of input buffer
+    JE DONE_VALIDATION
+    CMP BL, '0'
+    JB INVALID_INPUT   ; If character is less than '0', it's invalid
+    CMP BL, '1'
+    JBE NEXT_CHAR      ; If character is '0' or '1', it's valid
+    JMP INVALID_INPUT
+
+NEXT_CHAR:
+    INC SI
+    LOOP VALIDATE_LOOP
+    JMP DONE_VALIDATION
+
+INVALID_INPUT:
+    ; Display illegal character message
+    MOV AH, 09H
+    LEA DX, invalid_msg
+    INT 21H
+    MOV AL, 0    ; Mark input as invalid
+
+DONE_VALIDATION:
+    RET
+VALIDATE_BINARY_INPUT ENDP
+
+; Subroutine to convert binary number in binary1 to decimal
+BINARY_TO_DECIMAL PROC
+    XOR SI, SI   ; Reset index
+    XOR BL, BL   ; Clear BL for decimal result
+    MOV CL, 8    ; Number of bits
+
+CONVERT_BINARY:
+    MOV AL, binary1[SI]
+    SUB AL, '0'  ; Convert '0' or '1' to numeric value
+    SHL BL, 1    ; Shift left to make space for new bit
+    OR  BL, AL   ; Add the new bit
+    INC SI
+    LOOP CONVERT_BINARY
+
+    RET
+BINARY_TO_DECIMAL ENDP
+
+; Subroutine to convert decimal to binary
+DECIMAL_TO_BINARY PROC
+    MOV AL, BL    ; Move decimal result to AL
+    MOV CL, 16    ; We need 16 bits
+
+    ; Initialize binary output buffer with zeros
+    MOV DI, OFFSET sum_binary
+    MOV BYTE PTR [DI], '$'
+
+    ; Convert to binary
+    MOV CX, 16
+    MOV BL, 0
+    MOV CH, 0
+
+CONVERT_TO_BINARY:
+    SHL AL, 1
+    RCL BL, 1
+    LOOP CONVERT_TO_BINARY
+
+    ; Store binary result in buffer
+    MOV [DI], BL
+    RET
+DECIMAL_TO_BINARY ENDP
+
+END START
+
+
+
+
+
+
+
+
+13. Write a. 8086 program that prompts the user to enter two unsigned hex 
+numbers, 0 to FFFFh, and prints their sum in hex on the next 
+line. If tti'e user enters an illegal character, he or she should be 
+prompted to begin again. Your program should·be able to handle 
+the possibility of ynsigned overflow. Each input ends with a carriage return. · 
+Sample execution: 
+TYPE 'A HEX NUMBER, 0 - FFEF: 21AB 
+TYPE 'A HEX NUMBER, 0 - FFFF: FE03 
+THE·SUM lS llFAE 
+
+
+.MODEL SMALL
+.STACK 100H
+
+.DATA
+    prompt1 DB 'TYPE A HEX NUMBER, 0 - FFFF: $'
+    prompt2 DB 'TYPE A HEX NUMBER, 0 - FFFF: $'
+    invalid_msg DB 'ILLEGAL CHARACTER, TRY AGAIN: $'
+    sum_msg DB 'THE SUM IS: $'
+    newline DB 0Dh, 0Ah, '$'
+    hex_input1 DB 5 DUP('$')   ; Buffer for first hex input (4 digits + NULL terminator)
+    hex_input2 DB 5 DUP('$')   ; Buffer for second hex input (4 digits + NULL terminator)
+    sum_hex DB 6 DUP('$')      ; Buffer for hex sum (4 digits + NULL terminator)
+
+.CODE
+START:
+    MOV AX, @DATA
+    MOV DS, AX
+
+    ; Get first hex number
+    MOV AH, 09H
+    LEA DX, prompt1
+    INT 21H
+
+    CALL READ_HEX_INPUT
+    CALL VALIDATE_HEX_INPUT
+    JZ START
+
+    ; Get second hex number
+    MOV AH, 09H
+    LEA DX, prompt2
+    INT 21H
+
+    CALL READ_HEX_INPUT
+    CALL VALIDATE_HEX_INPUT
+    JZ START
+
+    ; Convert hex inputs to decimal and add them
+    CALL HEX_TO_DECIMAL
+    MOV AX, BX      ; Store first number in AX
+    MOV CX, DX      ; Store second number in CX
+    ADD AX, CX      ; Add the two numbers
+
+    ; Convert the sum back to hex
+    CALL DECIMAL_TO_HEX
+
+    ; Display 'THE SUM IS:'
+    MOV AH, 09H
+    LEA DX, sum_msg
+    INT 21H
+
+    ; Display the hex sum
+    MOV AH, 09H
+    LEA DX, sum_hex
+    INT 21H
+
+    ; Display a newline
+    MOV AH, 09H
+    LEA DX, newline
+    INT 21H
+
+    ; Terminate the program
+    MOV AH, 4CH
+    INT 21H
+
+; Subroutine to read a hex number from the user
+READ_HEX_INPUT PROC
+    XOR SI, SI   ; Reset index
+    MOV AH, 01H  ; Read characters
+
+READ_CHAR:
+    INT 21H
+    CMP AL, 0Dh  ; Carriage return ends input
+    JE DONE_INPUT
+    CMP SI, 4    ; Ensure no more than 4 digits
+    JAE DONE_INPUT
+
+    ; Store character in buffer
+    MOV hex_input1[SI], AL
+    INC SI
+    JMP READ_CHAR
+
+DONE_INPUT:
+    MOV hex_input1[SI], '$'  ; Null-terminate the string
+    RET
+READ_HEX_INPUT ENDP
+
+; Subroutine to validate hex input
+VALIDATE_HEX_INPUT PROC
+    XOR SI, SI
+    MOV CX, 4
+    MOV AL, 1    ; Assume input is valid
+
+VALIDATE_LOOP:
+    MOV BL, hex_input1[SI]
+    CMP BL, '$'  ; End of input buffer
+    JE DONE_VALIDATION
+    CMP BL, '0'
+    JB INVALID_INPUT   ; If character is less than '0', it's invalid
+    CMP BL, '9'
+    JBE NEXT_CHAR      ; If character is '0' to '9', it's valid
+    CMP BL, 'A'
+    JB INVALID_INPUT   ; If character is less than 'A', it's invalid
+    CMP BL, 'F'
+    JBE NEXT_CHAR      ; If character is 'A' to 'F', it's valid
+    JMP INVALID_INPUT
+
+NEXT_CHAR:
+    INC SI
+    LOOP VALIDATE_LOOP
+    JMP DONE_VALIDATION
+
+INVALID_INPUT:
+    ; Display illegal character message
+    MOV AH, 09H
+    LEA DX, invalid_msg
+    INT 21H
+    MOV AL, 0    ; Mark input as invalid
+
+DONE_VALIDATION:
+    RET
+VALIDATE_HEX_INPUT ENDP
+
+; Subroutine to convert hex input to decimal
+HEX_TO_DECIMAL PROC
+    XOR SI, SI   ; Reset index
+    XOR BX, BX   ; Clear BX for first number
+    XOR DX, DX   ; Clear DX for second number
+    MOV CL, 4    ; Number of hex digits
+
+CONVERT_HEX:
+    MOV AL, hex_input1[SI]
+    CMP AL, '0'
+    JB INVALID_HEX
+    CMP AL, '9'
+    JBE CONVERT_TO_DEC
+    CMP AL, 'A'
+    JB INVALID_HEX
+    CMP AL, 'F'
+    JBE CONVERT_TO_DEC
+    JMP INVALID_HEX
+
+CONVERT_TO_DEC:
+    SUB AL, '0'  ; Convert '0' to '9' to numeric value
+    JBE UPDATE_BX
+    SUB AL, 7    ; Convert 'A' to 'F' to numeric value
+    ADD AL, 10
+
+UPDATE_BX:
+    SHL BX, 4    ; Shift left to make space for new digit
+    OR  BX, AL   ; Add new digit to BX
+
+    INC SI
+    LOOP CONVERT_HEX
+    RET
+
+INVALID_HEX:
+    ; Display illegal character message
+    MOV AH, 09H
+    LEA DX, invalid_msg
+    INT 21H
+    MOV AL, 0    ; Mark input as invalid
+    RET
+HEX_TO_DECIMAL ENDP
+
+; Subroutine to convert decimal to hex
+DECIMAL_TO_HEX PROC
+    MOV AL, AX    ; Move decimal result to AL
+    MOV CL, 4     ; Number of hex digits
+
+    ; Initialize hex output buffer with zeros
+    MOV DI, OFFSET sum_hex
+    MOV BYTE PTR [DI], '$'
+
+    ; Convert to hexadecimal
+    MOV CX, 4
+    MOV BX, 0
+    MOV CH, 0
+
+CONVERT_TO_HEX:
+    MOV DL, AL
+    AND DL, 0F0H  ; Mask lower 4 bits
+    SHR DL, 4     ; Shift right to get high nibble
+    ADD DL, '0'
+    CMP DL, '9'
+    JBE STORE_HEX
+    ADD DL, 7     ; Convert 'A' to 'F' to numeric value
+
+STORE_HEX:
+    MOV [DI], DL   ; Store the hex digit in the output buffer
+    INC DI
+    SHL AL, 4     ; Shift left to process next nibble
+    LOOP CONVERT_TO_HEX
+
+    MOV BYTE PTR [DI], '$'  ; Null-terminate the string
+    RET
+DECIMAL_TO_HEX ENDP
+
+END START
+
+
+
+
+
+
+14. Write a 8086 program that prompts .the user to enter a string of decimal digits, ending with a carriage return, and prints th.eir su~ in 
+hex on the next line. If the user enters· an illegal character, he or 
+she should be prompted to begin again. 
+Sample execution: 
+ENTER A DECIMAL DIGIT STRING: 1~99843 
+THE SUM OF THE DIGITS IN HEX f S 0024
+
+
+.MODEL SMALL
+.STACK 100H
+
+.DATA
+    prompt DB 'ENTER A DECIMAL DIGIT STRING: $'
+    invalid_msg DB 'ILLEGAL CHARACTER, TRY AGAIN: $'
+    sum_msg DB 'THE SUM OF THE DIGITS IN HEX IS: $'
+    newline DB 0Dh, 0Ah, '$'
+    decimal_input DB 20 DUP('$')   ; Buffer for input string (19 digits + NULL terminator)
+    sum_hex DB 6 DUP('$')          ; Buffer for hex sum (4 digits + NULL terminator)
+
+.CODE
+START:
+    MOV AX, @DATA
+    MOV DS, AX
+
+    ; Prompt for input
+    MOV AH, 09H
+    LEA DX, prompt
+    INT 21H
+
+    ; Read and validate input
+    CALL READ_DECIMAL_INPUT
+    CALL VALIDATE_DECIMAL_INPUT
+    JZ START   ; Retry if input is invalid
+
+    ; Calculate sum of digits
+    CALL CALCULATE_SUM
+
+    ; Convert sum to hex
+    CALL DECIMAL_TO_HEX
+
+    ; Display 'THE SUM OF THE DIGITS IN HEX IS:'
+    MOV AH, 09H
+    LEA DX, sum_msg
+    INT 21H
+
+    ; Display the hex sum
+    MOV AH, 09H
+    LEA DX, sum_hex
+    INT 21H
+
+    ; Display a newline
+    MOV AH, 09H
+    LEA DX, newline
+    INT 21H
+
+    ; Terminate the program
+    MOV AH, 4CH
+    INT 21H
+
+; Subroutine to read decimal digits from the user
+READ_DECIMAL_INPUT PROC
+    XOR SI, SI   ; Reset index
+    MOV AH, 01H  ; Read characters
+
+READ_CHAR:
+    INT 21H
+    CMP AL, 0Dh  ; Carriage return ends input
+    JE DONE_INPUT
+    CMP SI, 19   ; Ensure no more than 19 digits
+    JAE DONE_INPUT
+
+    ; Store character in buffer
+    MOV decimal_input[SI], AL
+    INC SI
+    JMP READ_CHAR
+
+DONE_INPUT:
+    MOV decimal_input[SI], '$'  ; Null-terminate the string
+    RET
+READ_DECIMAL_INPUT ENDP
+
+; Subroutine to validate decimal input
+VALIDATE_DECIMAL_INPUT PROC
+    XOR SI, SI
+    MOV CX, 19
+    MOV AL, 1    ; Assume input is valid
+
+VALIDATE_LOOP:
+    MOV BL, decimal_input[SI]
+    CMP BL, '$'  ; End of input buffer
+    JE DONE_VALIDATION
+    CMP BL, '0'
+    JB INVALID_INPUT   ; If character is less than '0', it's invalid
+    CMP BL, '9'
+    JBE NEXT_CHAR      ; If character is '0' to '9', it's valid
+    JMP INVALID_INPUT
+
+NEXT_CHAR:
+    INC SI
+    LOOP VALIDATE_LOOP
+    JMP DONE_VALIDATION
+
+INVALID_INPUT:
+    ; Display illegal character message
+    MOV AH, 09H
+    LEA DX, invalid_msg
+    INT 21H
+    MOV AL, 0    ; Mark input as invalid
+
+DONE_VALIDATION:
+    RET
+VALIDATE_DECIMAL_INPUT ENDP
+
+; Subroutine to calculate sum of decimal digits
+CALCULATE_SUM PROC
+    XOR SI, SI   ; Reset index
+    XOR BX, BX   ; Clear BX (used for sum)
+
+SUM_LOOP:
+    MOV AL, decimal_input[SI]
+    CMP AL, '$'
+    JE DONE_SUM
+
+    ; Convert ASCII to numeric value
+    SUB AL, '0'
+    ADD BL, AL    ; Add digit to sum
+
+    INC SI
+    JMP SUM_LOOP
+
+DONE_SUM:
+    MOV AL, BL    ; Store sum in AL
+    RET
+CALCULATE_SUM ENDP
+
+; Subroutine to convert decimal sum to hexadecimal
+DECIMAL_TO_HEX PROC
+    MOV AL, BL    ; Move decimal sum to AL
+    MOV CL, 4     ; Number of hex digits
+
+    ; Initialize hex output buffer with zeros
+    MOV DI, OFFSET sum_hex
+    MOV BYTE PTR [DI], '$'
+
+    ; Convert to hexadecimal
+    MOV CX, 2     ; Convert to 2 hex digits (0-F)
+    MOV AH, AL    ; Copy sum to AH
+
+CONVERT_TO_HEX:
+    MOV DL, AH
+    AND DL, 0F0H  ; Mask lower 4 bits
+    SHR DL, 4     ; Shift right to get high nibble
+    ADD DL, '0'
+    CMP DL, '9'
+    JBE STORE_HEX
+    ADD DL, 7     ; Convert 'A' to 'F' to numeric value
+
+STORE_HEX:
+    MOV [DI], DL   ; Store the hex digit in the output buffer
+    INC DI
+    SHL AH, 4     ; Shift left to process next nibble
+    LOOP CONVERT_TO_HEX
+
+    MOV BYTE PTR [DI], '$'  ; Null-terminate the string
+    RET
+DECIMAL_TO_HEX ENDP
+
+END START
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Note: Some of the following exercises ask you to use lNDEC 
+and/or OlJTDEC for I/O. These procedures arc on the student 
+disk and can be imerted into your program by using the INCLUDE pseudo-op (see section 9.5). Be sure not to use the same 
+labels as these procedures, or you'll get a duplicate label assembly 
+error (this should be easy, because all the labels in INDEC and 
+OUIDF.C begin with "Cw". 
+
+8. MOdify procedure INDEC so that it will check for overflow. 
+
+9. Write a program that lets the user enter time in seconds, up to 
+65535, and outputs the time as hours, minutes, and seconds. Use 
+INDEC and OUIDEC to do the I/O. 
+
+.MODEL SMALL
+.STACK 100H
+
+.DATA
+    prompt DB 'Enter time in seconds (0 - 65535): $'
+    msg_hours DB 'Hours: $'
+    msg_minutes DB 'Minutes: $'
+    msg_seconds DB 'Seconds: $'
+    newline DB 0Dh, 0Ah, '$'
+    seconds DW 0         ; Variable to store input seconds
+    hours DB 0           ; Variable to store hours
+    minutes DB 0         ; Variable to store minutes
+    remaining_seconds DB 0 ; Variable to store remaining seconds after hours and minutes
+
+.CODE
+MAIN:
+    MOV AX, @DATA
+    MOV DS, AX
+
+    ; Prompt user for input
+    MOV AH, 09H
+    LEA DX, prompt
+    INT 21H
+
+    ; Read seconds (0 to 65535)
+    CALL READ_SECONDS
+
+    ; Convert seconds to hours, minutes, and seconds
+    MOV AX, seconds          ; Load seconds into AX
+    MOV CX, 3600             ; 3600 seconds in an hour
+    XOR DX, DX               ; Clear DX for division
+    DIV CX                    ; AX = seconds / 3600
+    MOV hours, AL            ; Store the number of hours
+    MOV AL, AH               ; Remainder in AH is remaining seconds
+    MOV CX, 60               ; 60 seconds in a minute
+    XOR DX, DX               ; Clear DX for division
+    DIV CX                    ; AX = remaining seconds / 60
+    MOV minutes, AL          ; Store the number of minutes
+    MOV remaining_seconds, AH ; Store remaining seconds
+
+    ; Print hours
+    MOV AH, 09H
+    LEA DX, msg_hours
+    INT 21H
+    CALL PRINT_NUMBER, hours
+
+    ; Print minutes
+    MOV AH, 09H
+    LEA DX, msg_minutes
+    INT 21H
+    CALL PRINT_NUMBER, minutes
+
+    ; Print seconds
+    MOV AH, 09H
+    LEA DX, msg_seconds
+    INT 21H
+    CALL PRINT_NUMBER, remaining_seconds
+
+    ; Exit program
+    MOV AH, 4CH
+    INT 21H
+
+; Subroutine to read seconds (0 to 65535)
+READ_SECONDS PROC
+    MOV AX, 0               ; Clear AX
+    MOV CX, 0               ; Clear CX
+
+    ; Read first digit
+    CALL INDEC               ; Get input character
+    SUB AL, '0'             ; Convert ASCII to integer
+    MOV AH, AL              ; Store first digit in AH
+
+    ; Read second digit
+    CALL INDEC               ; Get input character
+    SUB AL, '0'             ; Convert ASCII to integer
+    ADD AH, AL              ; Add to the tens place in AH
+
+    ; Read third digit
+    CALL INDEC               ; Get input character
+    SUB AL, '0'             ; Convert ASCII to integer
+    ADD AH, AL              ; Add to the hundreds place in AH
+
+    ; Read fourth digit
+    CALL INDEC               ; Get input character
+    SUB AL, '0'             ; Convert ASCII to integer
+    ADD AH, AL              ; Add to the thousands place in AH
+
+    ; Move the complete number to seconds
+    MOV seconds, AX         ; Store the complete number in seconds
+    RET
+READ_SECONDS ENDP
+
+; Subroutine to print a number (0-99)
+PRINT_NUMBER PROC
+    ; Input: AL = number to print
+    MOV AH, 0               ; Clear AH for proper conversion
+    ; Check if the number is less than 10
+    CMP AL, 10
+    JB  PRINT_SINGLE        ; Jump to print single digit
+    ; Handle two-digit numbers
+    MOV DL, AL              ; Move number to DL
+    MOV AH, 02H             ; Function to print character
+    ADD DL, '0'             ; Convert to ASCII
+    INT 21H                 ; Print character
+    MOV DL, ' '             ; Space between numbers
+    INT 21H                 ; Print space
+    MOV AL, 0               ; Clear AL for single digit handling
+    RET
+
+PRINT_SINGLE:
+    ADD AL, '0'             ; Convert to ASCII
+    MOV DL, AL              ; Move to DL for printing
+    MOV AH, 02H             ; Function to print character
+    INT 21H                 ; Print character
+    MOV DL, 0Dh             ; Newline
+    INT 21H
+    RET
+PRINT_NUMBER ENDP
+
+; Procedures to handle input (INDEC)
+INDEC PROC
+    ; This is a simple input procedure
+    MOV AH, 01H            ; Function to read a character
+    INT 21H                ; Call DOS interrupt
+    RET
+INDEC ENDP
+
+END MAIN
+
+
+10. Write a program to take a number of cents C, 0 <= C <= 99, and 
+express C as half-dollars, quarters, dimes, nickels, and pennic:s. 
+Use INDEC to enter C. 
+
+.MODEL SMALL
+.STACK 100H
+
+.DATA
+    prompt DB 'Enter an amount in cents (0-99): $'
+    msg_half_dollars DB 'Half Dollars: $'
+    msg_quarters DB 'Quarters: $'
+    msg_dimes DB 'Dimes: $'
+    msg_nickels DB 'Nickels: $'
+    msg_pennies DB 'Pennies: $'
+    newline DB 0Dh, 0Ah, '$'
+    amount DB 0               ; Variable to store input amount
+    half_dollars DB 0         ; Variable to store number of half dollars
+    quarters DB 0             ; Variable to store number of quarters
+    dimes DB 0                ; Variable to store number of dimes
+    nickels DB 0              ; Variable to store number of nickels
+    pennies DB 0              ; Variable to store number of pennies
+
+.CODE
+MAIN:
+    MOV AX, @DATA
+    MOV DS, AX
+
+    ; Prompt user for input
+    MOV AH, 09H
+    LEA DX, prompt
+    INT 21H
+
+    ; Read amount in cents
+    CALL READ_CENTS
+
+    ; Calculate coin breakdown
+    MOV AL, amount              ; Load amount into AL
+
+    ; Calculate half dollars
+    MOV BL, 50                  ; Half dollar value (50 cents)
+    XOR AH, AH                  ; Clear AH
+    DIV BL                      ; Divide AL by 50
+    MOV half_dollars, AL        ; Store the number of half dollars
+    MOV AL, amount              ; Reload amount for further calculations
+    MOV BL, 50                  ; Half dollar value (50 cents)
+    MUL BL                      ; Calculate the total value of half dollars
+    SUB amount, AL              ; Calculate remaining amount
+    MOV amount, AL              ; Update amount with remaining value
+
+    ; Print half dollars
+    CALL PRINT_MESSAGE, msg_half_dollars
+    CALL PRINT_RESULT, half_dollars
+
+    ; Calculate quarters
+    MOV AL, amount              ; Reload amount
+    MOV BL, 25                  ; Quarter value (25 cents)
+    XOR AH, AH                  ; Clear AH
+    DIV BL                      ; Divide AL by 25
+    MOV quarters, AL            ; Store the number of quarters
+    MOV AL, amount              ; Reload amount
+    MOV BL, 25                  ; Quarter value (25 cents)
+    MUL BL                      ; Calculate total value of quarters
+    SUB amount, AL              ; Calculate remaining amount
+    MOV amount, AL              ; Update amount with remaining value
+
+    ; Print quarters
+    CALL PRINT_MESSAGE, msg_quarters
+    CALL PRINT_RESULT, quarters
+
+    ; Calculate dimes
+    MOV AL, amount              ; Reload amount
+    MOV BL, 10                  ; Dime value (10 cents)
+    XOR AH, AH                  ; Clear AH
+    DIV BL                      ; Divide AL by 10
+    MOV dimes, AL               ; Store the number of dimes
+    MOV AL, amount              ; Reload amount
+    MOV BL, 10                  ; Dime value (10 cents)
+    MUL BL                      ; Calculate total value of dimes
+    SUB amount, AL              ; Calculate remaining amount
+    MOV amount, AL              ; Update amount with remaining value
+
+    ; Print dimes
+    CALL PRINT_MESSAGE, msg_dimes
+    CALL PRINT_RESULT, dimes
+
+    ; Calculate nickels
+    MOV AL, amount              ; Reload amount
+    MOV BL, 5                   ; Nickel value (5 cents)
+    XOR AH, AH                  ; Clear AH
+    DIV BL                      ; Divide AL by 5
+    MOV nickels, AL             ; Store the number of nickels
+    MOV AL, amount              ; Reload amount
+    MOV BL, 5                   ; Nickel value (5 cents)
+    MUL BL                      ; Calculate total value of nickels
+    SUB amount, AL              ; Calculate remaining amount
+    MOV amount, AL              ; Update amount with remaining value
+
+    ; Print nickels
+    CALL PRINT_MESSAGE, msg_nickels
+    CALL PRINT_RESULT, nickels
+
+    ; Remaining amount is pennies
+    MOV pennies, amount         ; Remaining amount is pennies
+
+    ; Print pennies
+    CALL PRINT_MESSAGE, msg_pennies
+    CALL PRINT_RESULT, pennies
+
+    ; Exit program
+    MOV AH, 4CH
+    INT 21H
+
+; Subroutine to read cents (0 to 99)
+READ_CENTS PROC
+    ; Read a number into the amount variable
+    MOV AH, 01H                  ; Function to read a character
+    INT 21H                       ; Read a character
+    SUB AL, '0'                  ; Convert ASCII to integer
+    MOV amount, AL                ; Store value in amount
+    MOV AH, 01H                  ; Read the next character
+    INT 21H                       ; Read next character
+    SUB AL, '0'                  ; Convert ASCII to integer
+    ADD amount, AL                ; Add to amount
+    RET
+READ_CENTS ENDP
+
+; Subroutine to print results
+PRINT_RESULT PROC
+    MOV AL, 0                    ; Clear AL
+    ; Check for zero to avoid printing
+    MOV AL, [current_value]      ; Load current value to print
+    CMP AL, 0                    ; Check if the value is zero
+    JE PRINT_NEWLINE              ; If zero, skip printing
+
+    ADD AL, '0'                  ; Convert to ASCII
+    MOV DL, AL                   ; Store result to DL for printing
+    MOV AH, 02H                  ; Function to print character
+    INT 21H                      ; Print character
+
+PRINT_NEWLINE:
+    MOV AH, 09H
+    LEA DX, newline              ; Print newline
+    INT 21H                      ; Print newline
+    RET
+PRINT_RESULT ENDP
+
+; Subroutine to print messages
+PRINT_MESSAGE PROC
+    MOV AH, 09H
+    LEA DX, message              ; Load message
+    INT 21H                      ; Print message
+    RET
+PRINT_MESSAGE ENDP
+
+END MAIN
+
+
+
+
+
+
+
+11. Write a program to let the user enter a fraction of the form M/N 
+(M < N), and the program prints the expansion to N decimal 
+places, according to the following algorithm: 
+1. Priqt "." 
+Execute the following steps N times: 
+2. Divide 10 x M by N, getting quotient Q and  remainder R. 
+3. Print Q. 
+4. Replace M by R and go to step 2. 
+Use INDEC to read M and N.
+
+
+.MODEL SMALL
+.STACK 100H
+
+.DATA
+    prompt_m DB 'Enter M (numerator): $'
+    prompt_n DB 'Enter N (denominator): $'
+    output_msg DB 'The decimal expansion is: $'
+    newline DB 0Dh, 0Ah, '$'
+    buffer DB 10 DUP('$')  ; Buffer for decimal output
+    result DB 10 DUP('0')   ; Buffer to store the decimal expansion
+    length DB 0             ; Length of the result
+
+.CODE
+START:
+    MOV AX, @DATA
+    MOV DS, AX
+
+    ; Prompt for M
+    MOV AH, 09H
+    LEA DX, prompt_m
+    INT 21H
+
+    ; Read M
+    CALL READ_INTEGER
+    MOV BX, AX  ; Store M in BX
+
+    ; Prompt for N
+    MOV AH, 09H
+    LEA DX, prompt_n
+    INT 21H
+
+    ; Read N
+    CALL READ_INTEGER
+    MOV CX, AX  ; Store N in CX
+
+    ; Check if M < N
+    CMP BX, CX
+    JAE INVALID_INPUT
+
+    ; Prepare to print decimal expansion
+    MOV AH, 02H      ; Function to print characters
+    MOV DX, OFFSET newline
+    INT 21H          ; Print newline
+    MOV AH, 09H
+    LEA DX, output_msg
+    INT 21H          ; Print output message
+    MOV AH, 02H
+    MOV DL, '.'
+    INT 21H          ; Print decimal point
+
+    ; Initialize M for calculation
+    MOV AX, BX       ; Move M to AX for calculations
+    MOV DX, 0        ; Clear DX for division
+
+    ; Loop N times for decimal expansion
+    MOV SI, 0        ; Counter for decimal places
+    MOV CL, length   ; Set loop counter to N
+
+DECIMAL_LOOP:
+    ; Calculate 10 * M / N
+    SHL AX, 1        ; Multiply M by 10 (AX = 10 * M)
+    ADD AX, AX       ; AX = 10 * M
+    XOR DX, DX       ; Clear DX for division
+    DIV CX            ; Divide by N (CX = N)
+    
+    ; Print Q
+    ADD DL, '0'      ; Convert quotient to ASCII
+    INT 21H          ; Print character (Q)
+
+    ; Update M to remainder
+    MOV AX, DX       ; Remainder becomes new M (M = R)
+    
+    ; Increment counter
+    INC SI
+    CMP SI, N
+    JL DECIMAL_LOOP   ; Repeat until N decimals are printed
+
+    ; Exit the program
+    MOV AH, 4CH
+    INT 21H
+
+; Subroutine to read an integer from user input
+READ_INTEGER PROC
+    MOV DX, OFFSET buffer
+    MOV AH, 0AH          ; Function to read string input
+    INT 21H              ; Read string into buffer
+
+    ; Convert string to integer
+    XOR AX, AX           ; Clear AX
+    MOV SI, buffer + 1   ; SI points to the first digit (buffer[1])
+
+CONVERT_LOOP:
+    MOV CL, [SI]         ; Get length of input
+    CMP CL, 0
+    JE DONE_CONVERT      ; If length is 0, we're done
+    SUB BYTE PTR [SI], '0' ; Convert ASCII to integer
+    MOV BL, [SI]         ; Store digit in BL
+    MOV AH, 10           ; Set up for multiplication
+    MUL AX               ; Multiply AX by 10
+    ADD AX, BX           ; Add digit to AX
+    INC SI               ; Move to next character
+    DEC CL               ; Decrease length
+    JMP CONVERT_LOOP     ; Loop
+
+DONE_CONVERT:
+    RET
+READ_INTEGER ENDP
+
+INVALID_INPUT:
+    MOV AH, 09H
+    LEA DX, prompt_m
+    INT 21H
+    JMP START
+
+END START
+
+
+
+
+
+
+
+
+
+
+
+
+
+12. Write a program to find the greatest common divisor (GCD) of 
+two integers M anci N, according to the following algorithm: 
+1. Divide M by N, getting quotient O and remainder R. 
+2. If R ~ 0,. stop. N is the GCD of M and N. 
+3. If R <> O, · replace M by N, N by R, and repeat 
+step 1. 
+Use INDEC to enter M and N and OUTDEC to print the GCD.
+;GCD
+
+; TAKE DECIMAL INPUT FROM USER AND PRINT THE GCD, PRINT SUBSEQUENT LINES FOR BETTER UNDERSTANDING
+
+; 
+
+
+
+.MODEL SMALL
+.STACK 100H
+.DATA                                                              
+MSG1 DB 'ENTER M=$'       ; MESSAGE TO PROMPT M
+MSG2 DB 10,13,'ENTER N=$' ; MESSAGE TO PROMPT N    
+
+MSG4 DB 10,13, 'ENTER :$'
+MSG3 DB 10,13,'GCD IS=$'  ; MESSAGE TO DISPLAY GCD
+A DW ?                    ; VARIABLE TO TEMPORARILY STORE VALUE
+B DW ?                    ; VARIABLE TO STORE DIVISOR
+
+C DW ?
+D DW ?    
+
+
+F DW ?
+
+M DW ?
+N DW ?       
+           
+GCD_VAL DW ?
+LCM_VAL DW ?           
+        
+ARR DW 10 DUP(?)     
+SUM DW ?
+SUM2 DW ?
+
+    
+DEC_IN PROC
+    XOR BX,BX
+    
+    MOV AH,01H
+    INT 21H   
+    
+    WHILE:
+        CMP AL,0DH
+        JE BREAK1
+        PUSH AX
+        
+        MOV AX,10   ; AX = 10
+        MUL BX      ; AX = 10 x BX
+        MOV BX,AX   ; BX = BX x 10
+        
+        POP AX
+        AND AX,000FH; CONVERSION
+        ADD BX,AX   ; BX = DECIMAL INPUT
+        
+        MOV AH,01H
+        INT 21H
+        JMP WHILE
+        
+    BREAK1:    
+    RET
+
+DEC_IN ENDP             
+
+
+DEC_OUT PROC
+    MOV CX,0
+    MOV BX, 10
+    DIVISION:
+        
+        XOR DX, DX      ; CLEARING DX            
+        DIV BX          ; QUOTIENT => AX & REMAINDER => DX                  
+        PUSH DX         ; REMAINDER SAVED IN STACK
+        INC CX          ; NO. OF DIGITS IN THE NUMBER
+        CMP AX,0        
+        JE PRINT
+    JMP DIVISION 
+           
+    PRINT:
+        POP DX          ; EVERYTIME IT POPS THE VALUE OF STACK IN DX
+        ADD DX, 30H
+       
+        MOV AH, 02H     ; PRINT DX
+        INT 21H
+        LOOP PRINT      ; CONTINUE LOOP TILL COUNT
+       
+    RET
+                       
+                       
+                       
+DEC_OUT ENDP  
+               
+               
+
+DIGIT_SUM PROC
+    MOV CX,0
+    MOV BX, 10
+    DIVISION1:
+        
+        XOR DX, DX      ; CLEARING DX            
+        DIV BX          ; QUOTIENT => AX & REMAINDER => DX                  
+        PUSH DX         ; REMAINDER SAVED IN STACK
+        INC CX          ; NO. OF DIGITS IN THE NUMBER
+        CMP AX,0        
+        JE PRINT
+    JMP DIVISION1 
+           
+    PRINT1:
+        POP DX          ; EVERYTIME IT POPS THE VALUE OF STACK IN DX
+        ADD DX, 30H
+        
+        ADD SUM2, DX
+        
+        MOV AH, 02H     ; PRINT DX
+        INT 21H
+        LOOP PRINT1      ; CONTINUE LOOP TILL COUNT
+       
+    RET
+                       
+                       
+                       
+DIGIT_SUM ENDP  
+             
+               
+               
+
+
+PRINT_SUM PROC  
+    LEA DX,MSG4           ; LOAD ADDRESS OF MSG1 INTO DX
+    MOV AH,9              ; DOS FUNCTION TO DISPLAY STRING
+    INT 21H               ; CALL DOS INTERRUPT
+            
+    
+    MOV CX, 5
+    
+    LEA SI, ARR
+    
+    MOV AH, 01H
+    INT 21H
+    
+    INPUT_ARR:
+       
+        CALL DEC_IN  
+        
+        ADD SUM, BX
+        
+        MOV [SI], BX
+        INC SI
+        
+        LOOP INPUT_ARR   
+        
+        
+    LEA SI, ARR
+    
+    PRINT_ARR:
+        
+        MOV AX, [SI]
+        INC SI
+        
+        CALL DEC_OUT
+        
+        
+        
+    
+    PRINT_S:
+        MOV AX, SUM
+        CALL DEC_OUT
+        
+    
+    
+     RET
+
+PRINT_SUM ENDP   
+
+NEWLINE PROC
+   
+    MOV AH, 02H
+    MOV DX, 0DH
+    INT 21H
+    MOV DX, 0AH
+    INT 21H
+    RET 
+    
+    
+    
+NEWLINE ENDP    
+
+          
+          
+FRACTION PROC
+    
+    
+    LEA DX,MSG1           ; LOAD ADDRESS OF MSG1 INTO DX
+    MOV AH,9              ; DOS FUNCTION TO DISPLAY STRING
+    INT 21H               ; CALL DOS INTERRUPT
+             
+             
+             
+    CALL DEC_IN           ; INPUT M      
+    
+    MOV AX, BX                         
+    
+    MOV M, AX
+    
+    PUSH AX               ; SAVE M ON STACK   
+    
+    
+
+    LEA DX,MSG2           ; LOAD ADDRESS OF MSG2 INTO DX
+    MOV AH,9              ; DOS FUNCTION TO DISPLAY STRING
+    INT 21H               ; CALL DOS INTERRUPT
+                                            
+                                            
+                                            
+                                            
+    CALL DEC_IN           ; INPUT N
+    
+    MOV AX, BX                        
+    
+    MOV N, AX
+    
+    PUSH AX               ; SAVE N ON STACK
+                                            
+                                            
+                                            
+    XOR BX,BX             ; CLEAR BX     
+    
+    POP BX                ; POP N INTO BX    BX = N
+    
+    POP AX                ; POP M INTO AX    AX = M            
+    
+    
+    DIV BX
+    
+    MOV C, AX   ; QUOTIENT
+    MOV D, DX   ; REMAINDER
+                          
+    CALL NEWLINE                      
+                           
+    MOV AX, C
+    
+    CALL DEC_OUT     
+    
+    XOR DX, DX
+    
+    MOV DX,2EH 
+    
+    MOV AH, 02H
+    INT 21H
+    
+    MOV AX, D
+    
+    CALL DEC_OUT
+    
+    
+     RET
+    
+FRACTION ENDP    
+                   
+                   
+                   
+PRINT_GCD PROC  
+    
+      
+    LEA DX,MSG1           ; LOAD ADDRESS OF MSG1 INTO DX
+    MOV AH,9              ; DOS FUNCTION TO DISPLAY STRING
+    INT 21H               ; CALL DOS INTERRUPT
+             
+             
+             
+    CALL DEC_IN           ; INPUT M      
+    
+    MOV AX, BX
+    
+    PUSH AX               ; SAVE M ON STACK   
+    
+    
+
+    LEA DX,MSG2           ; LOAD ADDRESS OF MSG2 INTO DX
+    MOV AH,9              ; DOS FUNCTION TO DISPLAY STRING
+    INT 21H               ; CALL DOS INTERRUPT
+                                            
+                                            
+                                            
+                                            
+    CALL DEC_IN           ; INPUT N
+    
+    MOV AX, BX
+    
+    PUSH AX               ; SAVE N ON STACK
+                                            
+                                            
+                                            
+    XOR BX,BX             ; CLEAR BX     
+    
+    POP BX                ; POP N INTO BX    BX = N   
+    
+    POP AX                ; POP M INTO AX    AX = M
+         
+          
+    CMP AX,BX             ; COMPARE M AND N     
+    
+    JLE SWAP               ; IF M < N, SWAP THEM  
+    
+    JMP GCD               ; OTHERWISE, START GCD CALCULATION
+
+SWAP:       
+    ; SWAP BETWEEN M AND N
+
+    MOV A,AX              ; STORE AX IN A
+    MOV AX,BX             ; MOVE BX TO AX
+    MOV BX,A              ; MOVE A (ORIGINAL AX) TO BX
+
+GCD:
+    XOR DX,DX             ; CLEAR DX FOR REMAINDER
+    
+    MOV B,BX              ; STORE DIVISOR IN B
+    
+    DIV B                 ; DIVIDE AX BY BX  
+    
+    ; AX = AX / B , DX = REMAINDER
+    
+
+    CMP DX,0              ; CHECK IF REMAINDER IS ZERO 
+    
+    JE GO                 ; IF ZERO, GCD FOUND              
+    
+    MOV AX,BX             ; REPLACE DIVIDEND WITH DIVISOR  
+    
+    MOV BX,DX             ; REPLACE DIVISOR WITH REMAINDER 
+    
+    JMP GCD               ; REPEAT GCD CALCULATION
+
+
+GO: 
+
+    LEA DX,MSG3           ; LOAD ADDRESS OF MSG3 INTO DX
+    MOV AH,9              ; DOS FUNCTION TO DISPLAY STRING
+    INT 21H               ; CALL DOS INTERRUPT               
+    
+    
+    MOV AX, B             ; MOVE GCD INTO AX    
+    
+    MOV GCD_VAL, AX
+    
+    CALL DEC_OUT          ; PRINT GCD      
+    
+
+
+LCM:
+    
+    XOR DX, DX
+    
+    ; LCM = (M*N)/GCD
+    
+    MOV AX, M
+    MOV BX, N
+    MUL BX
+    
+    MOV AX, BX ; TEMPORARILY STORE AX IN CX, BX = M*N
+    
+    MOV DX, GCD_VAL
+    
+    DIV DX   ; AX = AX/ DX = (M*N)/GCD_VAL
+    
+    CALL DEC_OUT
+    
+    
+
+
+FINISH:
+    RET
+
+    
+PRINT_GCD ENDP                       
+
+
+    
+  
+
+
+MAIN PROC
+    MOV AX,@DATA          ; INITIALIZE DATA SEGMENT
+    MOV DS,AX  
+   
+    
+    
+
+MAIN ENDP   
+
+    CALL PRINT_GCD
+    
+    
+    
+    MOV AH,4CH            ; DOS FUNCTION TO TERMINATE PROGRAM
+    INT 21H               ; CALL DOS INTERRUPT   
+    
+
+
+END MAIN
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

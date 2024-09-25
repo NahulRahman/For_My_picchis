@@ -1,0 +1,1282 @@
+;Array reverse print
+.MODEL SMALL
+.DATA
+ARR1 DB 100 DUP(?)   
+ARR2 DB 1,2,3,4,5
+SUM DB 0
+.STACK 100H
+.CODE
+
+NEWLINE PROC
+    MOV AH,02H
+    MOV DL,0DH
+    INT 21H
+    MOV DL,0AH
+    INT 21H
+    RET
+    
+NEWLINE ENDP
+
+MAIN PROC
+    MOV AX,@DATA
+    MOV DS,AX
+    
+    
+    ;input
+    LEA SI,ARR1
+    MOV CX,0
+    
+    MOV AH,01H
+    INT 21H
+    START:
+        CMP AL,0DH
+        JE BREAK
+        
+        AND AL,0FH
+        MOV [SI],AL     ;A[i] = USER INPUT
+        INC SI 
+        
+        INC CX
+        
+        MOV AH,01H
+        INT 21H
+        JMP START
+         
+    BREAK:
+    CALL NEWLINE
+    ;output
+    DEC SI
+                            
+    
+    L1:
+        MOV AH,02H
+        MOV DL,[SI]
+        OR DL,30H
+        INT 21H
+        DEC SI
+        LOOP L1
+    
+    
+MAIN ENDP
+END MAIN
+
+
+
+
+
+
+
+
+
+
+
+
+;Binary ip op show
+INCLUDE 'emu8086.inc'
+.MODEL SMALL
+.DATA
+.STACK 100H
+.CODE
+
+BIN_INPUT PROC     ; BX WILL HOLD OUTPUT VALUE
+    
+    XOR BX,BX
+    
+    INPUT:
+        MOV AH, 01H
+        INT 21H
+        
+        CMP AL, 0DH
+        JE BREAK
+        
+        
+        SHL BX, 1  
+        SUB AL, 48
+        OR BL, AL
+        
+        
+        JMP INPUT
+    
+    BREAK:
+       RET
+    
+
+BIN_INPUT ENDP        
+
+
+BIN_OUTPUT PROC
+              
+
+    AND BX, 000FH
+    XOR CH, CH
+    MOV CL, 4
+    
+                     
+    L1:
+        RCL BX, 1
+        JC OUTPUT_ONE
+        
+        MOV DL, 0H
+        MOV AH,02H
+        INT 21H
+        JMP BREAK1
+        
+        OUTPUT_ONE:
+          
+        MOV DL, 1H
+        MOV AH,02H
+        INT 21H
+        
+        
+    BREAK1:     
+    
+        LOOP L1 
+    
+    
+    
+BIN_OUTPUT ENDP
+
+
+MAIN PROC
+    
+    CALL BIN_INPUT   
+    
+    MOV DL, 10
+    MOV AH, 02H
+    INT 21H
+    MOV DL, 13
+    MOV AH, 02H
+    INT 21H
+
+    CALL BIN_OUTPUT
+    
+    
+MAIN ENDP
+
+END MAIN
+
+
+
+
+
+
+
+
+
+;Decimal input output
+.MODEL SMALL
+.DATA
+.STACK 100H
+.CODE
+    
+DEC_IN PROC
+    XOR BX,BX
+    
+    MOV AH,01H
+    INT 21H
+    WHILE:
+        CMP AL,0DH
+        JE BREAK1
+        PUSH AX
+        
+        MOV AX,10   ; AX = 10
+        MUL BX      ; AX = 10 x BX
+        MOV BX,AX   ; BX = BX x 10
+        
+        POP AX
+        AND AX,000FH; CONVERSION
+        ADD BX,AX
+        
+        MOV AH,01H
+        INT 21H
+        JMP WHILE
+        
+    BREAK1:
+    RET
+
+DEC_IN ENDP
+
+DEC_OUT PROC
+    MOV CX,0
+    MOV BX, 10
+    DIVISION:
+        
+        XOR DX, DX      ; CLEARING DX            
+        DIV BX          ; QUOTIENT => AX & REMAINDER => DX                  
+        PUSH DX         ; REMAINDER SAVED IN STACK
+        INC CX          ; NO. OF DIGITS IN THE NUMBER
+        CMP AX,0        
+        JE PRINT
+    JMP DIVISION 
+           
+    PRINT:
+        POP DX
+        ADD DX, 30H
+        MOV AH, 02H
+        INT 21H
+        LOOP PRINT    
+       
+    RET
+    
+DEC_OUT ENDP
+    
+    
+MAIN PROC
+    CALL DEC_IN     ; INPUT FROM USER STORED IN BX
+    
+    MOV AH,02H
+    MOV DL,0DH
+    INT 21H
+    MOV DL,0AH
+    INT 21H
+    
+    MOV AX,BX       ;  OUTPUT TO CONSOLE MUST BE STORED IN AX
+    CALL DEC_OUT
+    
+       
+MAIN ENDP
+END MAIN
+
+
+
+
+
+
+
+
+
+
+;12 34 46
+include 'emu8086.inc'
+.stack 100
+.model small
+
+.data                  
+s1 db 'Enter 1st int: $'
+s2 db 'Enter 2nd int: $'
+s3 db 'The addition: $'
+.code
+
+    main proc  ;PROGRAM TO ADD 2digit numbers
+    
+    ;load vars
+       mov ax,@data
+       mov ds,ax
+       
+    ;print s1   
+       mov ah,9
+       lea dx,s1
+       int 21h
+    
+    ;take inp 1       
+       mov ah, 01h
+       int 21h
+       mov bh,ah
+       
+       mov ah, 01h
+       int 21h
+       mov bl,ah
+       
+    ;carriage & newline   
+        mov ah,2
+        mov dl,10    ;for new line
+        int 21h                 
+        mov dl,13    ;for carriage return
+        int 21h    
+    
+    ;print s2   
+       mov ah,9
+       lea dx,s2
+       int 21h
+    
+    ;take inp 2       
+       mov ah, 01h
+       int 21h
+       mov ch,ah
+       
+       mov ah, 01h
+       int 21h
+       mov cl,ah 
+       
+    ;carriage & newline   
+        mov ah,2
+        mov dl,10    ;for new line
+        int 21h                 
+        mov dl,13    ;for carriage return
+        int 21h
+          
+    ;print s3
+        mov ah,9
+        lea dx,s3 
+        int 21h
+        
+        add cl,bl
+        mov dl,cl
+        sub dl,48
+        mov ah,02h
+        int 21h
+        add ch,bh
+        mov dh,ch
+        sub dh,48
+        mov ah,02h
+        int 21h
+        
+    main endp
+        
+        
+    
+end main                                              
+
+
+
+
+
+
+
+
+
+; cmp two single integers
+include 'emu8086.inc'
+.stack 100
+.model small
+
+.data                  
+s1 db 'Enter 1st no: $'      
+s2 db 10,13,'Enter 2nd no: $'
+s3 db 10,13,'Result: $'
+
+.code
+
+    main proc  ;PROGRAM TO compare no 1 & no 2
+      
+      mov ax,@data
+      mov ds,ax
+    
+    ;1st number           
+      mov ah,9
+      lea dx,s1
+      int 21h
+      
+      mov ah,01h
+      int 21h
+      mov bl,al   ;no in BL
+    
+    ;2nd number  
+      mov ah,9
+      lea dx,s2
+      int 21h
+      
+      mov ah,01h
+      int 21h
+      mov bh,al   ;no in BH  
+      
+     ;result text    
+      mov ah,9
+      lea dx,s3
+      int 21h 
+     
+     ;compare function 
+      biggest:
+      cmp bh,bl
+      jg l1     ;if bh>bl  -> l1
+      jmp l2    ;else -> l2
+         
+              
+      l1:
+      mov ah,02h
+      mov dl,bh 
+      ;sub dl,48
+      int 21h      
+      jmp exit
+      
+      
+      l2:
+      mov ah,02h
+      mov dl,bl 
+      ;sub dl,48
+      int 21h
+      jmp exit
+             
+             
+      exit:
+      mov ah,4ch
+      int 21h
+    
+                
+        
+    main endp
+        
+        
+    
+end main
+
+
+
+
+
+
+
+
+
+
+
+
+
+; cmp 3 single integers
+include 'emu8086.inc'
+.stack 100
+.model small
+
+.data                  
+s1 db 'Enter 1st no: $'      
+s2 db 10,13,'Enter 2nd no: $'  
+s3 db 10,13,'Enter 3rd no: $'
+s4 db 10,13,'Result: $'
+
+.code
+
+    main proc  ;PROGRAM TO compare no 1 & no 2
+      
+      mov ax,@data
+      mov ds,ax
+    
+    ;1st number           
+      mov ah,9
+      lea dx,s1
+      int 21h
+      
+      mov ah,01h
+      int 21h
+      mov bl,al   ;no in BL
+    
+    ;2nd number  
+      mov ah,9
+      lea dx,s2
+      int 21h
+      
+      mov ah,01h
+      int 21h
+      mov bh,al   ;no in BH  
+      
+     
+     ;compare function 
+      biggest:
+      cmp bh,bl
+      jg l1     ;if bh>bl  -> l1
+      jmp l2    ;else -> l2
+         
+              
+      l1:
+      mov cl,bh   
+      jmp n3
+                     
+      l2: 
+      mov cl,bl   
+      jmp n3
+      
+      n3:
+      mov ah,9
+      lea dx,s3
+      int 21h
+      
+      mov ah,01h
+      int 21h
+      mov bl,al
+      
+      mov ah,9
+      lea dx,s4
+      int 21h
+      
+      jmp big
+           
+     ;compare function 
+      big:
+      cmp cl,bl
+      jg l11     ;if cl>bl  -> l11
+      jmp l12    ;else -> l2
+         
+              
+      l11:   
+      mov ah,02h
+      mov dl,cl
+      int 21h
+      jmp exit
+      
+      l12:      
+      mov ah,02h
+      mov dl,bl
+      int 21h
+      jmp exit
+      
+      
+             
+      exit:
+      mov ah,4ch
+      int 21h
+    
+                
+        
+    main endp
+        
+        
+    
+end main
+
+
+
+
+
+
+
+
+
+;infinite loop compare
+            include 'emu8086.inc'
+.stack 100
+.model small
+
+.data                  
+s1 db 'Enter 1st no: $'      
+s2 db 10,13,'Enter 2nd no: $'  
+s3 db 10,13,'Enter another no: $'
+s4 db 10,13,'Big so far: $'
+
+.code
+
+    main proc  ;PROGRAM TO compare no 1 & no 2
+      
+      mov ax,@data
+      mov ds,ax
+    
+    ;print s1           
+      mov ah,9
+      lea dx,s1
+      int 21h
+    
+    ;input 1st number  
+      mov ah,01h
+      int 21h
+      mov bl,al   ;no in BL
+    
+    ;print s2  
+      mov ah,9
+      lea dx,s2
+      int 21h
+      
+    ;input 2nd number 
+      mov ah,01h
+      int 21h
+      mov bh,al   ;no in BH  
+      
+     
+    ;compare & store the bigger val in BH, then print 
+      biggest:
+      cmp bh,bl
+      jg l1         ;if bh>bl  -> l1
+      jmp l2        ;else -> l2
+         
+     ;BH bigger         
+      l1:
+      ;print BH
+      mov ah,02h
+      mov dl,bh
+      int 21h      
+      jmp n3
+     
+     ;BL bigger (store it in BH)                
+      l2: 
+      mov bh,bl
+      ;print BH
+      mov ah,02h
+      mov dl,bh
+      int 21h   
+      jmp n3
+      
+      n3:
+      ;print s3
+      mov ah,9
+      lea dx,s3
+      int 21h
+      ;take 3rd input
+      mov ah,01h
+      int 21h
+      mov bl,al
+      ;print s4
+      mov ah,9
+      lea dx,s4
+      int 21h
+      
+      
+      jmp biggest
+           
+             
+      exit:
+      mov ah,4ch
+      int 21h
+    
+    main endp
+    
+end main
+
+
+
+
+
+
+
+;Loops from one character to another.
+
+include 'emu8086.inc'
+.stack 100
+.model small
+
+.data
+
+
+
+
+.code
+
+
+
+    main proc
+        
+        print 'Enter character to loop from: '  ;this uses the same steps as below for printing
+        
+        mov ah, 01h  ;Input saved to AL
+        int 21h      ;default interrupt
+        
+        mov bl, al   ;temporarily store AL data in BL
+
+        
+       ;carriage & newline   
+        mov ah,2
+        mov dl,10    ;for new line
+        int 21h                 
+        mov dl,13    ;for carriage return
+        int 21h 
+                
+                        
+        print 'Enter character to loop till (bigger than prev inp): '              
+        
+        mov dl,bl    ;we'll store the char from which we'll print in dl
+        
+        mov ah,01h    
+        int 21h
+        mov bl,al
+        sub bl,dl    ;bcoz we'll loop from char 1 to 2    
+        
+        ;loop func:
+        mov cx,bx
+        mov ah,2
+        
+        level1:
+        int 21h
+        inc dl
+        loop level1
+        
+        ;carriage & newline   
+        mov ah,2
+        mov dl,10    ;for new line
+        int 21h                 
+        mov dl,13    ;for carriage return
+        int 21h 
+                
+        
+    main endp
+        
+        
+    
+end main
+
+
+
+
+
+
+
+;1st character till last charcter print korbe
+include 'emu8086.inc'
+.stack 100
+.model small
+
+.data
+
+
+.code
+
+    main proc  ;PROGRAM TO PRINT from char 1 till char 2
+           
+           
+        print 'Enter 1st char: '  ;this uses the same steps as below for printing
+        
+        mov ah, 01h  ;Input saved to AL
+        int 21h      ;default interrupt
+        
+        mov bl, al   ;temporarily store 1st char in BL
+
+        
+    ;carriage & newline   
+        mov ah,2
+        mov dl,10    ;for new line
+        int 21h                 
+        mov dl,13    ;for carriage return
+        int 21h 
+                
+                        
+        print 'Enter 2nd: '              
+        mov ah,01h    
+        int 21h 
+        mov bh,al  ;store 2nd char in BH 
+        
+        sub bh,bl  ;2nd char - 1st char = loop amount
+        inc bh     ;increment, as we gotta to 2nd char
+       
+        
+    ;carriage & newline   
+        mov ah,2
+        mov dl,10    ;for new line
+        int 21h                 
+        mov dl,13    ;for carriage return
+        int 21h 
+        
+    ;loop func:
+        mov cl,bh  ;cl is count reg, store amount of looping in it
+        mov dl,bl  ;store 1st char in DL, as we'll display & increment it from there
+        mov ah,2   ;start output
+        
+        level1:
+        int 21h
+        inc dl      ;increment dl (the characters)
+        loop level1 ;loop cl times
+        
+        
+                
+        
+    main endp
+        
+        
+    
+end main
+
+
+
+
+
+
+
+
+
+
+
+
+
+;infinite loop pyramid left side
+include 'emu8086.inc'
+.stack 100
+.model small
+
+.data
+var dd ?  
+var1 dd 1
+inp db ?                
+s1 db 'Enter 1st int: $'
+s2 db '*$'
+s3 db 'The addition: $'
+.code
+
+    main proc  
+        
+    ;load vars
+       mov ax,@data
+       mov ds,ax
+    
+    ;print s1
+    
+    mov ah,09h
+    lea dx, s1
+    int 21h
+    
+    ;take input
+    mov ah, 01h
+    int 21h 
+    sub al, '0'   ; Convert ASCII to integer
+    mov inp, al
+    mov cl, inp
+    mov ch, 0   
+             
+               
+    ;carriage & newline 
+    CALL CN
+       
+  l1: 
+  
+  
+     
+     mov var, cx 
+     mov cx, var1
+     l2:         
+     
+     ;print star
+     mov ah,09h
+     lea dx, s2
+     int 21h
+     
+     loop l2 
+     
+     mov cx, var
+     inc var1
+     
+               
+    ;carriage & newline   
+     CALL CN  
+  
+  
+  loop l1
+               
+               
+               
+  CN: 
+   ;carriage & newline   
+        mov ah,2
+        mov dl,10    ;for new line
+        int 21h                 
+        mov dl,13    ;for carriage return
+        int 21h      
+        ret           
+       
+       
+       
+    main endp
+        
+        
+    
+end main                                              
+
+
+
+
+
+
+
+
+
+;GCD
+
+; TAKE DECIMAL INPUT FROM USER AND PRINT THE GCD, PRINT SUBSEQUENT LINES FOR BETTER UNDERSTANDING
+
+; 
+
+
+
+.MODEL SMALL
+.STACK 100H
+.DATA                                                              
+MSG1 DB 'ENTER M=$'       ; MESSAGE TO PROMPT M
+MSG2 DB 10,13,'ENTER N=$' ; MESSAGE TO PROMPT N    
+
+MSG4 DB 10,13, 'ENTER :$'
+MSG3 DB 10,13,'GCD IS=$'  ; MESSAGE TO DISPLAY GCD
+A DW ?                    ; VARIABLE TO TEMPORARILY STORE VALUE
+B DW ?                    ; VARIABLE TO STORE DIVISOR
+
+C DW ?
+D DW ?    
+
+
+F DW ?
+
+M DW ?
+N DW ?       
+           
+GCD_VAL DW ?
+LCM_VAL DW ?           
+        
+ARR DW 10 DUP(?)     
+SUM DW ?
+SUM2 DW ?
+
+    
+DEC_IN PROC
+    XOR BX,BX
+    
+    MOV AH,01H
+    INT 21H   
+    
+    WHILE:
+        CMP AL,0DH
+        JE BREAK1
+        PUSH AX
+        
+        MOV AX,10   ; AX = 10
+        MUL BX      ; AX = 10 x BX
+        MOV BX,AX   ; BX = BX x 10
+        
+        POP AX
+        AND AX,000FH; CONVERSION
+        ADD BX,AX   ; BX = DECIMAL INPUT
+        
+        MOV AH,01H
+        INT 21H
+        JMP WHILE
+        
+    BREAK1:    
+    RET
+
+DEC_IN ENDP             
+
+
+DEC_OUT PROC
+    MOV CX,0
+    MOV BX, 10
+    DIVISION:
+        
+        XOR DX, DX      ; CLEARING DX            
+        DIV BX          ; QUOTIENT => AX & REMAINDER => DX                  
+        PUSH DX         ; REMAINDER SAVED IN STACK
+        INC CX          ; NO. OF DIGITS IN THE NUMBER
+        CMP AX,0        
+        JE PRINT
+    JMP DIVISION 
+           
+    PRINT:
+        POP DX          ; EVERYTIME IT POPS THE VALUE OF STACK IN DX
+        ADD DX, 30H
+       
+        MOV AH, 02H     ; PRINT DX
+        INT 21H
+        LOOP PRINT      ; CONTINUE LOOP TILL COUNT
+       
+    RET
+                       
+                       
+                       
+DEC_OUT ENDP  
+               
+               
+
+DIGIT_SUM PROC
+    MOV CX,0
+    MOV BX, 10
+    DIVISION1:
+        
+        XOR DX, DX      ; CLEARING DX            
+        DIV BX          ; QUOTIENT => AX & REMAINDER => DX                  
+        PUSH DX         ; REMAINDER SAVED IN STACK
+        INC CX          ; NO. OF DIGITS IN THE NUMBER
+        CMP AX,0        
+        JE PRINT
+    JMP DIVISION1 
+           
+    PRINT1:
+        POP DX          ; EVERYTIME IT POPS THE VALUE OF STACK IN DX
+        ADD DX, 30H
+        
+        ADD SUM2, DX
+        
+        MOV AH, 02H     ; PRINT DX
+        INT 21H
+        LOOP PRINT1      ; CONTINUE LOOP TILL COUNT
+       
+    RET
+                       
+                       
+                       
+DIGIT_SUM ENDP  
+             
+               
+               
+
+
+PRINT_SUM PROC  
+    LEA DX,MSG4           ; LOAD ADDRESS OF MSG1 INTO DX
+    MOV AH,9              ; DOS FUNCTION TO DISPLAY STRING
+    INT 21H               ; CALL DOS INTERRUPT
+            
+    
+    MOV CX, 5
+    
+    LEA SI, ARR
+    
+    MOV AH, 01H
+    INT 21H
+    
+    INPUT_ARR:
+       
+        CALL DEC_IN  
+        
+        ADD SUM, BX
+        
+        MOV [SI], BX
+        INC SI
+        
+        LOOP INPUT_ARR   
+        
+        
+    LEA SI, ARR
+    
+    PRINT_ARR:
+        
+        MOV AX, [SI]
+        INC SI
+        
+        CALL DEC_OUT
+        
+        
+        
+    
+    PRINT_S:
+        MOV AX, SUM
+        CALL DEC_OUT
+        
+    
+    
+     RET
+
+PRINT_SUM ENDP   
+
+NEWLINE PROC
+   
+    MOV AH, 02H
+    MOV DX, 0DH
+    INT 21H
+    MOV DX, 0AH
+    INT 21H
+    RET 
+    
+    
+    
+NEWLINE ENDP    
+
+          
+          
+FRACTION PROC
+    
+    
+    LEA DX,MSG1           ; LOAD ADDRESS OF MSG1 INTO DX
+    MOV AH,9              ; DOS FUNCTION TO DISPLAY STRING
+    INT 21H               ; CALL DOS INTERRUPT
+             
+             
+             
+    CALL DEC_IN           ; INPUT M      
+    
+    MOV AX, BX                         
+    
+    MOV M, AX
+    
+    PUSH AX               ; SAVE M ON STACK   
+    
+    
+
+    LEA DX,MSG2           ; LOAD ADDRESS OF MSG2 INTO DX
+    MOV AH,9              ; DOS FUNCTION TO DISPLAY STRING
+    INT 21H               ; CALL DOS INTERRUPT
+                                            
+                                            
+                                            
+                                            
+    CALL DEC_IN           ; INPUT N
+    
+    MOV AX, BX                        
+    
+    MOV N, AX
+    
+    PUSH AX               ; SAVE N ON STACK
+                                            
+                                            
+                                            
+    XOR BX,BX             ; CLEAR BX     
+    
+    POP BX                ; POP N INTO BX    BX = N
+    
+    POP AX                ; POP M INTO AX    AX = M            
+    
+    
+    DIV BX
+    
+    MOV C, AX   ; QUOTIENT
+    MOV D, DX   ; REMAINDER
+                          
+    CALL NEWLINE                      
+                           
+    MOV AX, C
+    
+    CALL DEC_OUT     
+    
+    XOR DX, DX
+    
+    MOV DX,2EH 
+    
+    MOV AH, 02H
+    INT 21H
+    
+    MOV AX, D
+    
+    CALL DEC_OUT
+    
+    
+     RET
+    
+FRACTION ENDP    
+                   
+                   
+                   
+PRINT_GCD PROC  
+    
+      
+    LEA DX,MSG1           ; LOAD ADDRESS OF MSG1 INTO DX
+    MOV AH,9              ; DOS FUNCTION TO DISPLAY STRING
+    INT 21H               ; CALL DOS INTERRUPT
+             
+             
+             
+    CALL DEC_IN           ; INPUT M      
+    
+    MOV AX, BX
+    
+    PUSH AX               ; SAVE M ON STACK   
+    
+    
+
+    LEA DX,MSG2           ; LOAD ADDRESS OF MSG2 INTO DX
+    MOV AH,9              ; DOS FUNCTION TO DISPLAY STRING
+    INT 21H               ; CALL DOS INTERRUPT
+                                            
+                                            
+                                            
+                                            
+    CALL DEC_IN           ; INPUT N
+    
+    MOV AX, BX
+    
+    PUSH AX               ; SAVE N ON STACK
+                                            
+                                            
+                                            
+    XOR BX,BX             ; CLEAR BX     
+    
+    POP BX                ; POP N INTO BX    BX = N   
+    
+    POP AX                ; POP M INTO AX    AX = M
+         
+          
+    CMP AX,BX             ; COMPARE M AND N     
+    
+    JLE SWAP               ; IF M < N, SWAP THEM  
+    
+    JMP GCD               ; OTHERWISE, START GCD CALCULATION
+
+SWAP:       
+    ; SWAP BETWEEN M AND N
+
+    MOV A,AX              ; STORE AX IN A
+    MOV AX,BX             ; MOVE BX TO AX
+    MOV BX,A              ; MOVE A (ORIGINAL AX) TO BX
+
+GCD:
+    XOR DX,DX             ; CLEAR DX FOR REMAINDER
+    
+    MOV B,BX              ; STORE DIVISOR IN B
+    
+    DIV B                 ; DIVIDE AX BY BX  
+    
+    ; AX = AX / B , DX = REMAINDER
+    
+
+    CMP DX,0              ; CHECK IF REMAINDER IS ZERO 
+    
+    JE GO                 ; IF ZERO, GCD FOUND              
+    
+    MOV AX,BX             ; REPLACE DIVIDEND WITH DIVISOR  
+    
+    MOV BX,DX             ; REPLACE DIVISOR WITH REMAINDER 
+    
+    JMP GCD               ; REPEAT GCD CALCULATION
+
+
+GO: 
+
+    LEA DX,MSG3           ; LOAD ADDRESS OF MSG3 INTO DX
+    MOV AH,9              ; DOS FUNCTION TO DISPLAY STRING
+    INT 21H               ; CALL DOS INTERRUPT               
+    
+    
+    MOV AX, B             ; MOVE GCD INTO AX    
+    
+    MOV GCD_VAL, AX
+    
+    CALL DEC_OUT          ; PRINT GCD      
+    
+
+
+LCM:
+    
+    XOR DX, DX
+    
+    ; LCM = (M*N)/GCD
+    
+    MOV AX, M
+    MOV BX, N
+    MUL BX
+    
+    MOV AX, BX ; TEMPORARILY STORE AX IN CX, BX = M*N
+    
+    MOV DX, GCD_VAL
+    
+    DIV DX   ; AX = AX/ DX = (M*N)/GCD_VAL
+    
+    CALL DEC_OUT
+    
+    
+
+
+FINISH:
+    RET
+
+    
+PRINT_GCD ENDP                       
+
+
+    
+  
+
+
+MAIN PROC
+    MOV AX,@DATA          ; INITIALIZE DATA SEGMENT
+    MOV DS,AX  
+   
+    
+    
+
+MAIN ENDP   
+
+    CALL PRINT_GCD
+    
+    
+    
+    MOV AH,4CH            ; DOS FUNCTION TO TERMINATE PROGRAM
+    INT 21H               ; CALL DOS INTERRUPT   
+    
+
+
+END MAIN
+
+
+
+
+
+
+
+
+
+
+
+;
+
+
+
+
+
+
+
