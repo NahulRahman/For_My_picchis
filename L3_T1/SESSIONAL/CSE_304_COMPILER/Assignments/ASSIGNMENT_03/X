@@ -1,1 +1,1 @@
-
+There are 3 bison files, s.y, d.y, p.y. Among the three the last one p.y file runs successfully without any errors, rest the two files contain the shift/reduce error.
