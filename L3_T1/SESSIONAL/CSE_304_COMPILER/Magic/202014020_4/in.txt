@@ -1,0 +1,15 @@
+int a=100;
+int a,b;
+int d;
+int c[10];
+a=(a+b)*b;
+a=a+b*b;
+a=a&&b;
+int p, x[100];
+a=10;
+m=m*n+((2/i)%10)
+c=a+b/3;
+v=2+66-9;
+int b;
+int d,f
+int x[19.7];
