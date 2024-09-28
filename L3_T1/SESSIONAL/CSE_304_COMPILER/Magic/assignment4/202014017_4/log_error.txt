@@ -1,0 +1,204 @@
+Line Number: 1
+type_spec:INT
+ Line Number: 1
+term:ID
+Line Number: 1
+expr:NUM
+Line Number: 1
+ass_list:term ASSOP expr
+Line Number: 1
+decl_list:ass_list
+Line Number: 1 
+var_decl:type_spec decl_list SEMICOLON
+Line Number: 2
+type_spec:INT
+ Line Number: 2
+term:ID
+Line Number: 2
+decl_list:term
+Line Number: 2
+term:ID
+Line Number: 2
+decl_list:decl_list:decl_list COMMA term
+Line Number: 2 
+var_decl:type_spec decl_list SEMICOLON
+Line Number: 3
+type_spec:INT
+ Line Number: 3
+term:ID
+Line Number: 3
+decl_list:term
+Line Number: 3 
+var_decl:type_spec decl_list SEMICOLON
+Line Number: 4
+type_spec:INT
+ Line Number: 4
+term:ID
+Line Number: 4
+decl_list:term LTHIRD NUM RTHIRD
+Line Number: 4 
+var_decl:type_spec decl_list SEMICOLON
+Line Number: 5
+term:ID
+Line Number: 5
+term:ID
+Line Number: 5
+expr:term
+Line Number: 5
+term:ID
+Line Number: 5
+expr:term
+Line Number: 5
+expr:expr PLUS expr
+Line Number: 5
+expr:LPARAN expr RPARAN
+Line Number: 5
+term:ID
+Line Number: 5
+expr:term
+Line Number: 5
+expr:expr MULOP expr
+Line Number: 5
+expr_decl:term ASSOP expr SEMICOLON
+Line Number: 6
+term:ID
+Line Number: 6
+term:ID
+Line Number: 6
+expr:term
+Line Number: 6
+term:ID
+Line Number: 6
+expr:term
+Line Number: 6
+expr:expr PLUS expr
+Line Number: 6
+term:ID
+Line Number: 6
+expr:term
+Line Number: 6
+expr:expr MULOP expr
+Line Number: 6
+expr_decl:term ASSOP expr SEMICOLON
+Line Number: 7
+term:ID
+Line Number: 7
+term:ID
+Line Number: 7
+expr:term
+Line Number: 7
+term:ID
+Line Number: 7
+expr:term
+Line Number: 7
+expr:expr LAND expr
+Line Number: 7
+expr_decl:term ASSOP expr SEMICOLON
+Line Number: 8
+type_spec:INT
+ Line Number: 8
+term:ID
+Line Number: 8
+decl_list:term
+ Line Number: 8
+term:ID
+Line Number: 8
+decl_list:decl_list COMMA term LTHIRD NUM RTHIRD
+Line Number: 8 
+var_decl:type_spec decl_list SEMICOLON
+Line Number: 9
+term:ID
+Line Number: 9
+expr:NUM
+Line Number: 9
+expr_decl:term ASSOP expr SEMICOLON
+Line Number: 10
+term:ID
+Line Number: 10
+term:ID
+Line Number: 10
+expr:term
+Line Number: 10
+term:ID
+Line Number: 10
+expr:term
+Line Number: 10
+expr:NUM
+Line Number: 10
+term:ID
+Line Number: 10
+expr:term
+Line Number: 10
+expr:expr DIVOP expr
+Line Number: 10
+expr:LPARAN expr RPARAN
+Line Number: 10
+expr:NUM
+Line Number: 10
+expr:expr MODOP expr
+Line Number: 10
+expr:LPARAN expr RPARAN
+Line Number: 10
+expr:expr PLUS expr
+Line Number: 10
+expr:expr MULOP expr
+ERROR: syntax error
+Line Number: 11
+term:ID
+Line Number: 11
+term:ID
+Line Number: 11
+expr:term
+Line Number: 11
+term:ID
+Line Number: 11
+expr:term
+Line Number: 11
+expr:expr PLUS expr
+Line Number: 11
+expr:NUM
+Line Number: 11
+expr:expr DIVOP expr
+Line Number: 11
+expr_decl:term ASSOP expr SEMICOLON
+Line Number: 12
+term:ID
+Line Number: 12
+expr:NUM
+Line Number: 12
+expr:NUM
+Line Number: 12
+expr:expr PLUS expr
+Line Number: 12
+expr:NUM
+Line Number: 12
+expr:expr MINUS expr
+Line Number: 12
+expr_decl:term ASSOP expr SEMICOLON
+Line Number: 13
+type_spec:INT
+ Line Number: 13
+term:ID
+Line Number: 13
+decl_list:term
+Line Number: 13 
+var_decl:type_spec decl_list SEMICOLON
+Line Number: 14
+type_spec:INT
+ Line Number: 14
+term:ID
+Line Number: 14
+decl_list:term
+Line Number: 14
+term:ID
+Line Number: 14
+decl_list:decl_list:decl_list COMMA term
+ERROR: syntax error
+Line Number: 15
+type_spec:INT
+ Line Number: 15
+term:ID
+Line Number: 15
+decl_list:term LTHIRD NUM RTHIRD
+Line Number: 15 
+var_decl:type_spec decl_list SEMICOLON

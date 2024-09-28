@@ -1,0 +1,8 @@
+flex sample.l
+
+bison -d yacc.y
+
+g++ -std=gnu++11 lex.yy.c yacc.tab.c
+
+a.exe
+

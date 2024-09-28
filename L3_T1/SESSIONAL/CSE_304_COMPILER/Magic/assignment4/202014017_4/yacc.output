@@ -1,0 +1,890 @@
+State 44 conflicts: 9 shift/reduce
+State 45 conflicts: 9 shift/reduce
+State 46 conflicts: 9 shift/reduce
+State 47 conflicts: 9 shift/reduce
+State 48 conflicts: 9 shift/reduce
+State 49 conflicts: 9 shift/reduce
+State 50 conflicts: 9 shift/reduce
+State 51 conflicts: 9 shift/reduce
+State 52 conflicts: 9 shift/reduce
+
+
+Grammar
+
+    0 $accept: stmt $end
+
+    1 stmt: stmt unit
+    2     | unit
+
+    3 unit: var_decl NEWLINE
+    4     | expr_decl NEWLINE
+    5     | error NEWLINE
+
+    6 var_decl: type_spec decl_list SEMICOLON
+
+    7 type_spec: INT
+
+    8 decl_list: decl_list COMMA term
+    9          | decl_list COMMA term LTHIRD NUM RTHIRD
+   10          | term
+   11          | term LTHIRD NUM RTHIRD
+   12          | ass_list
+
+   13 ass_list: term ASSOP expr
+
+   14 expr: NUM
+   15     | expr PLUS expr
+   16     | expr MULOP expr
+   17     | expr DIVOP expr
+   18     | expr MODOP expr
+   19     | expr MINUS expr
+   20     | expr GRTTHAN expr
+   21     | expr LESSTHAN expr
+   22     | expr LAND expr
+   23     | expr LOR expr
+   24     | LPARAN expr RPARAN
+   25     | term
+
+   26 term: ID
+
+   27 expr_decl: term ASSOP expr SEMICOLON
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256) 5
+ID (258) 26
+INT (259) 7
+NUM (260) 9 11 14
+NEWLINE (261) 3 4 5
+SEMICOLON (262) 6 27
+COMMA (263) 8 9
+LTHIRD (264) 9 11
+RTHIRD (265) 9 11
+ASSOP (266) 13 27
+MULOP (267) 16
+DIVOP (268) 17
+MODOP (269) 18
+MINUS (270) 19
+PLUS (271) 15
+GRTTHAN (272) 20
+LESSTHAN (273) 21
+LAND (274) 22
+LOR (275) 23
+LPARAN (276) 24
+RPARAN (277) 24
+
+
+Nonterminals, with rules where they appear
+
+$accept (23)
+    on left: 0
+stmt (24)
+    on left: 1 2, on right: 0 1
+unit (25)
+    on left: 3 4 5, on right: 1 2
+var_decl (26)
+    on left: 6, on right: 3
+type_spec (27)
+    on left: 7, on right: 6
+decl_list (28)
+    on left: 8 9 10 11 12, on right: 6 8 9
+ass_list (29)
+    on left: 13, on right: 12
+expr (30)
+    on left: 14 15 16 17 18 19 20 21 22 23 24 25, on right: 13 15 16
+    17 18 19 20 21 22 23 24 27
+term (31)
+    on left: 26, on right: 8 9 10 11 13 25 27
+expr_decl (32)
+    on left: 27, on right: 4
+
+
+state 0
+
+    0 $accept: . stmt $end
+
+    error  shift, and go to state 1
+    ID     shift, and go to state 2
+    INT    shift, and go to state 3
+
+    stmt       go to state 4
+    unit       go to state 5
+    var_decl   go to state 6
+    type_spec  go to state 7
+    term       go to state 8
+    expr_decl  go to state 9
+
+
+state 1
+
+    5 unit: error . NEWLINE
+
+    NEWLINE  shift, and go to state 10
+
+
+state 2
+
+   26 term: ID .
+
+    $default  reduce using rule 26 (term)
+
+
+state 3
+
+    7 type_spec: INT .
+
+    $default  reduce using rule 7 (type_spec)
+
+
+state 4
+
+    0 $accept: stmt . $end
+    1 stmt: stmt . unit
+
+    $end   shift, and go to state 11
+    error  shift, and go to state 1
+    ID     shift, and go to state 2
+    INT    shift, and go to state 3
+
+    unit       go to state 12
+    var_decl   go to state 6
+    type_spec  go to state 7
+    term       go to state 8
+    expr_decl  go to state 9
+
+
+state 5
+
+    2 stmt: unit .
+
+    $default  reduce using rule 2 (stmt)
+
+
+state 6
+
+    3 unit: var_decl . NEWLINE
+
+    NEWLINE  shift, and go to state 13
+
+
+state 7
+
+    6 var_decl: type_spec . decl_list SEMICOLON
+
+    ID  shift, and go to state 2
+
+    decl_list  go to state 14
+    ass_list   go to state 15
+    term       go to state 16
+
+
+state 8
+
+   27 expr_decl: term . ASSOP expr SEMICOLON
+
+    ASSOP  shift, and go to state 17
+
+
+state 9
+
+    4 unit: expr_decl . NEWLINE
+
+    NEWLINE  shift, and go to state 18
+
+
+state 10
+
+    5 unit: error NEWLINE .
+
+    $default  reduce using rule 5 (unit)
+
+
+state 11
+
+    0 $accept: stmt $end .
+
+    $default  accept
+
+
+state 12
+
+    1 stmt: stmt unit .
+
+    $default  reduce using rule 1 (stmt)
+
+
+state 13
+
+    3 unit: var_decl NEWLINE .
+
+    $default  reduce using rule 3 (unit)
+
+
+state 14
+
+    6 var_decl: type_spec decl_list . SEMICOLON
+    8 decl_list: decl_list . COMMA term
+    9          | decl_list . COMMA term LTHIRD NUM RTHIRD
+
+    SEMICOLON  shift, and go to state 19
+    COMMA      shift, and go to state 20
+
+
+state 15
+
+   12 decl_list: ass_list .
+
+    $default  reduce using rule 12 (decl_list)
+
+
+state 16
+
+   10 decl_list: term .
+   11          | term . LTHIRD NUM RTHIRD
+   13 ass_list: term . ASSOP expr
+
+    LTHIRD  shift, and go to state 21
+    ASSOP   shift, and go to state 22
+
+    $default  reduce using rule 10 (decl_list)
+
+
+state 17
+
+   27 expr_decl: term ASSOP . expr SEMICOLON
+
+    ID      shift, and go to state 2
+    NUM     shift, and go to state 23
+    LPARAN  shift, and go to state 24
+
+    expr  go to state 25
+    term  go to state 26
+
+
+state 18
+
+    4 unit: expr_decl NEWLINE .
+
+    $default  reduce using rule 4 (unit)
+
+
+state 19
+
+    6 var_decl: type_spec decl_list SEMICOLON .
+
+    $default  reduce using rule 6 (var_decl)
+
+
+state 20
+
+    8 decl_list: decl_list COMMA . term
+    9          | decl_list COMMA . term LTHIRD NUM RTHIRD
+
+    ID  shift, and go to state 2
+
+    term  go to state 27
+
+
+state 21
+
+   11 decl_list: term LTHIRD . NUM RTHIRD
+
+    NUM  shift, and go to state 28
+
+
+state 22
+
+   13 ass_list: term ASSOP . expr
+
+    ID      shift, and go to state 2
+    NUM     shift, and go to state 23
+    LPARAN  shift, and go to state 24
+
+    expr  go to state 29
+    term  go to state 26
+
+
+state 23
+
+   14 expr: NUM .
+
+    $default  reduce using rule 14 (expr)
+
+
+state 24
+
+   24 expr: LPARAN . expr RPARAN
+
+    ID      shift, and go to state 2
+    NUM     shift, and go to state 23
+    LPARAN  shift, and go to state 24
+
+    expr  go to state 30
+    term  go to state 26
+
+
+state 25
+
+   15 expr: expr . PLUS expr
+   16     | expr . MULOP expr
+   17     | expr . DIVOP expr
+   18     | expr . MODOP expr
+   19     | expr . MINUS expr
+   20     | expr . GRTTHAN expr
+   21     | expr . LESSTHAN expr
+   22     | expr . LAND expr
+   23     | expr . LOR expr
+   27 expr_decl: term ASSOP expr . SEMICOLON
+
+    SEMICOLON  shift, and go to state 31
+    MULOP      shift, and go to state 32
+    DIVOP      shift, and go to state 33
+    MODOP      shift, and go to state 34
+    MINUS      shift, and go to state 35
+    PLUS       shift, and go to state 36
+    GRTTHAN    shift, and go to state 37
+    LESSTHAN   shift, and go to state 38
+    LAND       shift, and go to state 39
+    LOR        shift, and go to state 40
+
+
+state 26
+
+   25 expr: term .
+
+    $default  reduce using rule 25 (expr)
+
+
+state 27
+
+    8 decl_list: decl_list COMMA term .
+    9          | decl_list COMMA term . LTHIRD NUM RTHIRD
+
+    LTHIRD  shift, and go to state 41
+
+    $default  reduce using rule 8 (decl_list)
+
+
+state 28
+
+   11 decl_list: term LTHIRD NUM . RTHIRD
+
+    RTHIRD  shift, and go to state 42
+
+
+state 29
+
+   13 ass_list: term ASSOP expr .
+   15 expr: expr . PLUS expr
+   16     | expr . MULOP expr
+   17     | expr . DIVOP expr
+   18     | expr . MODOP expr
+   19     | expr . MINUS expr
+   20     | expr . GRTTHAN expr
+   21     | expr . LESSTHAN expr
+   22     | expr . LAND expr
+   23     | expr . LOR expr
+
+    MULOP     shift, and go to state 32
+    DIVOP     shift, and go to state 33
+    MODOP     shift, and go to state 34
+    MINUS     shift, and go to state 35
+    PLUS      shift, and go to state 36
+    GRTTHAN   shift, and go to state 37
+    LESSTHAN  shift, and go to state 38
+    LAND      shift, and go to state 39
+    LOR       shift, and go to state 40
+
+    $default  reduce using rule 13 (ass_list)
+
+
+state 30
+
+   15 expr: expr . PLUS expr
+   16     | expr . MULOP expr
+   17     | expr . DIVOP expr
+   18     | expr . MODOP expr
+   19     | expr . MINUS expr
+   20     | expr . GRTTHAN expr
+   21     | expr . LESSTHAN expr
+   22     | expr . LAND expr
+   23     | expr . LOR expr
+   24     | LPARAN expr . RPARAN
+
+    MULOP     shift, and go to state 32
+    DIVOP     shift, and go to state 33
+    MODOP     shift, and go to state 34
+    MINUS     shift, and go to state 35
+    PLUS      shift, and go to state 36
+    GRTTHAN   shift, and go to state 37
+    LESSTHAN  shift, and go to state 38
+    LAND      shift, and go to state 39
+    LOR       shift, and go to state 40
+    RPARAN    shift, and go to state 43
+
+
+state 31
+
+   27 expr_decl: term ASSOP expr SEMICOLON .
+
+    $default  reduce using rule 27 (expr_decl)
+
+
+state 32
+
+   16 expr: expr MULOP . expr
+
+    ID      shift, and go to state 2
+    NUM     shift, and go to state 23
+    LPARAN  shift, and go to state 24
+
+    expr  go to state 44
+    term  go to state 26
+
+
+state 33
+
+   17 expr: expr DIVOP . expr
+
+    ID      shift, and go to state 2
+    NUM     shift, and go to state 23
+    LPARAN  shift, and go to state 24
+
+    expr  go to state 45
+    term  go to state 26
+
+
+state 34
+
+   18 expr: expr MODOP . expr
+
+    ID      shift, and go to state 2
+    NUM     shift, and go to state 23
+    LPARAN  shift, and go to state 24
+
+    expr  go to state 46
+    term  go to state 26
+
+
+state 35
+
+   19 expr: expr MINUS . expr
+
+    ID      shift, and go to state 2
+    NUM     shift, and go to state 23
+    LPARAN  shift, and go to state 24
+
+    expr  go to state 47
+    term  go to state 26
+
+
+state 36
+
+   15 expr: expr PLUS . expr
+
+    ID      shift, and go to state 2
+    NUM     shift, and go to state 23
+    LPARAN  shift, and go to state 24
+
+    expr  go to state 48
+    term  go to state 26
+
+
+state 37
+
+   20 expr: expr GRTTHAN . expr
+
+    ID      shift, and go to state 2
+    NUM     shift, and go to state 23
+    LPARAN  shift, and go to state 24
+
+    expr  go to state 49
+    term  go to state 26
+
+
+state 38
+
+   21 expr: expr LESSTHAN . expr
+
+    ID      shift, and go to state 2
+    NUM     shift, and go to state 23
+    LPARAN  shift, and go to state 24
+
+    expr  go to state 50
+    term  go to state 26
+
+
+state 39
+
+   22 expr: expr LAND . expr
+
+    ID      shift, and go to state 2
+    NUM     shift, and go to state 23
+    LPARAN  shift, and go to state 24
+
+    expr  go to state 51
+    term  go to state 26
+
+
+state 40
+
+   23 expr: expr LOR . expr
+
+    ID      shift, and go to state 2
+    NUM     shift, and go to state 23
+    LPARAN  shift, and go to state 24
+
+    expr  go to state 52
+    term  go to state 26
+
+
+state 41
+
+    9 decl_list: decl_list COMMA term LTHIRD . NUM RTHIRD
+
+    NUM  shift, and go to state 53
+
+
+state 42
+
+   11 decl_list: term LTHIRD NUM RTHIRD .
+
+    $default  reduce using rule 11 (decl_list)
+
+
+state 43
+
+   24 expr: LPARAN expr RPARAN .
+
+    $default  reduce using rule 24 (expr)
+
+
+state 44
+
+   15 expr: expr . PLUS expr
+   16     | expr . MULOP expr
+   16     | expr MULOP expr .
+   17     | expr . DIVOP expr
+   18     | expr . MODOP expr
+   19     | expr . MINUS expr
+   20     | expr . GRTTHAN expr
+   21     | expr . LESSTHAN expr
+   22     | expr . LAND expr
+   23     | expr . LOR expr
+
+    MULOP     shift, and go to state 32
+    DIVOP     shift, and go to state 33
+    MODOP     shift, and go to state 34
+    MINUS     shift, and go to state 35
+    PLUS      shift, and go to state 36
+    GRTTHAN   shift, and go to state 37
+    LESSTHAN  shift, and go to state 38
+    LAND      shift, and go to state 39
+    LOR       shift, and go to state 40
+
+    MULOP     [reduce using rule 16 (expr)]
+    DIVOP     [reduce using rule 16 (expr)]
+    MODOP     [reduce using rule 16 (expr)]
+    MINUS     [reduce using rule 16 (expr)]
+    PLUS      [reduce using rule 16 (expr)]
+    GRTTHAN   [reduce using rule 16 (expr)]
+    LESSTHAN  [reduce using rule 16 (expr)]
+    LAND      [reduce using rule 16 (expr)]
+    LOR       [reduce using rule 16 (expr)]
+    $default  reduce using rule 16 (expr)
+
+
+state 45
+
+   15 expr: expr . PLUS expr
+   16     | expr . MULOP expr
+   17     | expr . DIVOP expr
+   17     | expr DIVOP expr .
+   18     | expr . MODOP expr
+   19     | expr . MINUS expr
+   20     | expr . GRTTHAN expr
+   21     | expr . LESSTHAN expr
+   22     | expr . LAND expr
+   23     | expr . LOR expr
+
+    MULOP     shift, and go to state 32
+    DIVOP     shift, and go to state 33
+    MODOP     shift, and go to state 34
+    MINUS     shift, and go to state 35
+    PLUS      shift, and go to state 36
+    GRTTHAN   shift, and go to state 37
+    LESSTHAN  shift, and go to state 38
+    LAND      shift, and go to state 39
+    LOR       shift, and go to state 40
+
+    MULOP     [reduce using rule 17 (expr)]
+    DIVOP     [reduce using rule 17 (expr)]
+    MODOP     [reduce using rule 17 (expr)]
+    MINUS     [reduce using rule 17 (expr)]
+    PLUS      [reduce using rule 17 (expr)]
+    GRTTHAN   [reduce using rule 17 (expr)]
+    LESSTHAN  [reduce using rule 17 (expr)]
+    LAND      [reduce using rule 17 (expr)]
+    LOR       [reduce using rule 17 (expr)]
+    $default  reduce using rule 17 (expr)
+
+
+state 46
+
+   15 expr: expr . PLUS expr
+   16     | expr . MULOP expr
+   17     | expr . DIVOP expr
+   18     | expr . MODOP expr
+   18     | expr MODOP expr .
+   19     | expr . MINUS expr
+   20     | expr . GRTTHAN expr
+   21     | expr . LESSTHAN expr
+   22     | expr . LAND expr
+   23     | expr . LOR expr
+
+    MULOP     shift, and go to state 32
+    DIVOP     shift, and go to state 33
+    MODOP     shift, and go to state 34
+    MINUS     shift, and go to state 35
+    PLUS      shift, and go to state 36
+    GRTTHAN   shift, and go to state 37
+    LESSTHAN  shift, and go to state 38
+    LAND      shift, and go to state 39
+    LOR       shift, and go to state 40
+
+    MULOP     [reduce using rule 18 (expr)]
+    DIVOP     [reduce using rule 18 (expr)]
+    MODOP     [reduce using rule 18 (expr)]
+    MINUS     [reduce using rule 18 (expr)]
+    PLUS      [reduce using rule 18 (expr)]
+    GRTTHAN   [reduce using rule 18 (expr)]
+    LESSTHAN  [reduce using rule 18 (expr)]
+    LAND      [reduce using rule 18 (expr)]
+    LOR       [reduce using rule 18 (expr)]
+    $default  reduce using rule 18 (expr)
+
+
+state 47
+
+   15 expr: expr . PLUS expr
+   16     | expr . MULOP expr
+   17     | expr . DIVOP expr
+   18     | expr . MODOP expr
+   19     | expr . MINUS expr
+   19     | expr MINUS expr .
+   20     | expr . GRTTHAN expr
+   21     | expr . LESSTHAN expr
+   22     | expr . LAND expr
+   23     | expr . LOR expr
+
+    MULOP     shift, and go to state 32
+    DIVOP     shift, and go to state 33
+    MODOP     shift, and go to state 34
+    MINUS     shift, and go to state 35
+    PLUS      shift, and go to state 36
+    GRTTHAN   shift, and go to state 37
+    LESSTHAN  shift, and go to state 38
+    LAND      shift, and go to state 39
+    LOR       shift, and go to state 40
+
+    MULOP     [reduce using rule 19 (expr)]
+    DIVOP     [reduce using rule 19 (expr)]
+    MODOP     [reduce using rule 19 (expr)]
+    MINUS     [reduce using rule 19 (expr)]
+    PLUS      [reduce using rule 19 (expr)]
+    GRTTHAN   [reduce using rule 19 (expr)]
+    LESSTHAN  [reduce using rule 19 (expr)]
+    LAND      [reduce using rule 19 (expr)]
+    LOR       [reduce using rule 19 (expr)]
+    $default  reduce using rule 19 (expr)
+
+
+state 48
+
+   15 expr: expr . PLUS expr
+   15     | expr PLUS expr .
+   16     | expr . MULOP expr
+   17     | expr . DIVOP expr
+   18     | expr . MODOP expr
+   19     | expr . MINUS expr
+   20     | expr . GRTTHAN expr
+   21     | expr . LESSTHAN expr
+   22     | expr . LAND expr
+   23     | expr . LOR expr
+
+    MULOP     shift, and go to state 32
+    DIVOP     shift, and go to state 33
+    MODOP     shift, and go to state 34
+    MINUS     shift, and go to state 35
+    PLUS      shift, and go to state 36
+    GRTTHAN   shift, and go to state 37
+    LESSTHAN  shift, and go to state 38
+    LAND      shift, and go to state 39
+    LOR       shift, and go to state 40
+
+    MULOP     [reduce using rule 15 (expr)]
+    DIVOP     [reduce using rule 15 (expr)]
+    MODOP     [reduce using rule 15 (expr)]
+    MINUS     [reduce using rule 15 (expr)]
+    PLUS      [reduce using rule 15 (expr)]
+    GRTTHAN   [reduce using rule 15 (expr)]
+    LESSTHAN  [reduce using rule 15 (expr)]
+    LAND      [reduce using rule 15 (expr)]
+    LOR       [reduce using rule 15 (expr)]
+    $default  reduce using rule 15 (expr)
+
+
+state 49
+
+   15 expr: expr . PLUS expr
+   16     | expr . MULOP expr
+   17     | expr . DIVOP expr
+   18     | expr . MODOP expr
+   19     | expr . MINUS expr
+   20     | expr . GRTTHAN expr
+   20     | expr GRTTHAN expr .
+   21     | expr . LESSTHAN expr
+   22     | expr . LAND expr
+   23     | expr . LOR expr
+
+    MULOP     shift, and go to state 32
+    DIVOP     shift, and go to state 33
+    MODOP     shift, and go to state 34
+    MINUS     shift, and go to state 35
+    PLUS      shift, and go to state 36
+    GRTTHAN   shift, and go to state 37
+    LESSTHAN  shift, and go to state 38
+    LAND      shift, and go to state 39
+    LOR       shift, and go to state 40
+
+    MULOP     [reduce using rule 20 (expr)]
+    DIVOP     [reduce using rule 20 (expr)]
+    MODOP     [reduce using rule 20 (expr)]
+    MINUS     [reduce using rule 20 (expr)]
+    PLUS      [reduce using rule 20 (expr)]
+    GRTTHAN   [reduce using rule 20 (expr)]
+    LESSTHAN  [reduce using rule 20 (expr)]
+    LAND      [reduce using rule 20 (expr)]
+    LOR       [reduce using rule 20 (expr)]
+    $default  reduce using rule 20 (expr)
+
+
+state 50
+
+   15 expr: expr . PLUS expr
+   16     | expr . MULOP expr
+   17     | expr . DIVOP expr
+   18     | expr . MODOP expr
+   19     | expr . MINUS expr
+   20     | expr . GRTTHAN expr
+   21     | expr . LESSTHAN expr
+   21     | expr LESSTHAN expr .
+   22     | expr . LAND expr
+   23     | expr . LOR expr
+
+    MULOP     shift, and go to state 32
+    DIVOP     shift, and go to state 33
+    MODOP     shift, and go to state 34
+    MINUS     shift, and go to state 35
+    PLUS      shift, and go to state 36
+    GRTTHAN   shift, and go to state 37
+    LESSTHAN  shift, and go to state 38
+    LAND      shift, and go to state 39
+    LOR       shift, and go to state 40
+
+    MULOP     [reduce using rule 21 (expr)]
+    DIVOP     [reduce using rule 21 (expr)]
+    MODOP     [reduce using rule 21 (expr)]
+    MINUS     [reduce using rule 21 (expr)]
+    PLUS      [reduce using rule 21 (expr)]
+    GRTTHAN   [reduce using rule 21 (expr)]
+    LESSTHAN  [reduce using rule 21 (expr)]
+    LAND      [reduce using rule 21 (expr)]
+    LOR       [reduce using rule 21 (expr)]
+    $default  reduce using rule 21 (expr)
+
+
+state 51
+
+   15 expr: expr . PLUS expr
+   16     | expr . MULOP expr
+   17     | expr . DIVOP expr
+   18     | expr . MODOP expr
+   19     | expr . MINUS expr
+   20     | expr . GRTTHAN expr
+   21     | expr . LESSTHAN expr
+   22     | expr . LAND expr
+   22     | expr LAND expr .
+   23     | expr . LOR expr
+
+    MULOP     shift, and go to state 32
+    DIVOP     shift, and go to state 33
+    MODOP     shift, and go to state 34
+    MINUS     shift, and go to state 35
+    PLUS      shift, and go to state 36
+    GRTTHAN   shift, and go to state 37
+    LESSTHAN  shift, and go to state 38
+    LAND      shift, and go to state 39
+    LOR       shift, and go to state 40
+
+    MULOP     [reduce using rule 22 (expr)]
+    DIVOP     [reduce using rule 22 (expr)]
+    MODOP     [reduce using rule 22 (expr)]
+    MINUS     [reduce using rule 22 (expr)]
+    PLUS      [reduce using rule 22 (expr)]
+    GRTTHAN   [reduce using rule 22 (expr)]
+    LESSTHAN  [reduce using rule 22 (expr)]
+    LAND      [reduce using rule 22 (expr)]
+    LOR       [reduce using rule 22 (expr)]
+    $default  reduce using rule 22 (expr)
+
+
+state 52
+
+   15 expr: expr . PLUS expr
+   16     | expr . MULOP expr
+   17     | expr . DIVOP expr
+   18     | expr . MODOP expr
+   19     | expr . MINUS expr
+   20     | expr . GRTTHAN expr
+   21     | expr . LESSTHAN expr
+   22     | expr . LAND expr
+   23     | expr . LOR expr
+   23     | expr LOR expr .
+
+    MULOP     shift, and go to state 32
+    DIVOP     shift, and go to state 33
+    MODOP     shift, and go to state 34
+    MINUS     shift, and go to state 35
+    PLUS      shift, and go to state 36
+    GRTTHAN   shift, and go to state 37
+    LESSTHAN  shift, and go to state 38
+    LAND      shift, and go to state 39
+    LOR       shift, and go to state 40
+
+    MULOP     [reduce using rule 23 (expr)]
+    DIVOP     [reduce using rule 23 (expr)]
+    MODOP     [reduce using rule 23 (expr)]
+    MINUS     [reduce using rule 23 (expr)]
+    PLUS      [reduce using rule 23 (expr)]
+    GRTTHAN   [reduce using rule 23 (expr)]
+    LESSTHAN  [reduce using rule 23 (expr)]
+    LAND      [reduce using rule 23 (expr)]
+    LOR       [reduce using rule 23 (expr)]
+    $default  reduce using rule 23 (expr)
+
+
+state 53
+
+    9 decl_list: decl_list COMMA term LTHIRD NUM . RTHIRD
+
+    RTHIRD  shift, and go to state 54
+
+
+state 54
+
+    9 decl_list: decl_list COMMA term LTHIRD NUM RTHIRD .
+
+    $default  reduce using rule 9 (decl_list)
