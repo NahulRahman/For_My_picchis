@@ -1,0 +1,12 @@
+int main(){
+	int a,b;
+	a=a+1;
+	char ch='a';
+
+
+
+// a comment
+/** another
+*** comment ***/
+	return 0;
+}	

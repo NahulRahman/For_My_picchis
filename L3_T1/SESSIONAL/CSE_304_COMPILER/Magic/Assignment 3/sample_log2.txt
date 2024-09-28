@@ -1,0 +1,41 @@
+Error at Line No: 1 Ill formed number 1.2.345
+Error at Line No: 2 Ill formed number 1E10.7
+Error at Line No: 3 Unfinished character 'a
+Error at Line No: 4 Unrecognized character '
+Error at Line No: 5 Unfinished character ''
+Error at Line No: 6 Unfinished string "abcd
+Error at Line No: 7 Unfinished string "abcd\
+Line No: 8 Token <ID> Lexeme efgh found 
+0 -->
+1 -->
+2 -->
+3 -->< efgh id >
+4 -->
+5 -->
+6 -->
+7 -->
+8 -->
+9 -->
+Line No: 9 Token <STRING> Lexeme "" found 
+Line No: 9 Token <ID> Lexeme str found 
+0 -->
+1 -->
+2 -->
+3 -->< efgh id >
+4 -->
+5 -->
+6 -->< str id >
+7 -->
+8 -->
+9 -->
+Line No: 10 Token <ID> Lexeme def found 
+0 -->
+1 -->< def id >
+2 -->
+3 -->< efgh id >
+4 -->
+5 -->
+6 -->< str id >
+7 -->
+8 -->
+9 -->

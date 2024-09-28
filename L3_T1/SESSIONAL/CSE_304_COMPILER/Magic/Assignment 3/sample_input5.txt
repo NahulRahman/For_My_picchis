@@ -1,0 +1,16 @@
+int main(){
+
+    char str1[100] = "I own a dog.";
+    char str2[100] = "I own a dog.\
+    His name is Jack.";
+    char str3[100] = "He said, \" I own a dog\"\
+    so I asked, \"What is his name?\""; 
+    char str4[100] = "But this line is valid."
+    char str5[100] = "This line is also valid.";
+    char str6[100] = "Really Tony?";
+
+
+    return 0;
+
+
+}

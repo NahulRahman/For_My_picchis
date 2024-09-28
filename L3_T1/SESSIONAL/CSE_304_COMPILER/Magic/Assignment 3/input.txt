@@ -1,0 +1,24 @@
+'m'
+"jjjh"
+"jhjh
+688.90.7890hjbh
+"nj\
+gcgcgc\
+jhgjhg"
+int main(){
+	int a,b,abdc1,_12abcd;
+	`
+	a = 5;
+	b = a * 3.5140;
+	b = 1.51.40;
+	b = 1E10.7;
+	a=a+1;
+	char ch ='a';
+	ch = 'a;
+	char ch = "hello;
+	printf("abc\
+	def\
+	ghi");
+
+	return 0;
+	}

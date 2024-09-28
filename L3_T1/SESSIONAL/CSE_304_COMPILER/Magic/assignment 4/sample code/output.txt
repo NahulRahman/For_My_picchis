@@ -1,0 +1,9 @@
+Rule Matched, 5.000000
+Rule Matched, var
+Rule Matched, abc
+Error: syntax error
+Rule Matched, -4.000000
+Rule Matched, 2.030612
+Error: DIV by 0.
+Rule Matched, 9.000000
+Rule Matched, -6.000000

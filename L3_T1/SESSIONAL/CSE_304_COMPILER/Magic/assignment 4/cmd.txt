@@ -1,0 +1,8 @@
+flex scanner.l
+
+bison -d parser.y
+
+g++ -std=gnu++11 lex.yy.c parser.tab.c
+
+a.exe
+

@@ -1,0 +1,211 @@
+Line Number: 1
+type_spec: INT
+Line Number: 1
+term: ID
+Line Number: 1
+expr: NUM
+Line Number: 1
+ass_list: term ASSIGNOP expr
+Line Number: 1
+decl_list: ass_list
+Line Number: 1
+var_decl: type_spec decl_list SEMICOLON	
+
+
+Line Number: 2
+type_spec: FLOAT
+Line Number: 2
+term: ID
+Line Number: 2
+decl_list: term
+Line Number: 2
+term: ID
+Line Number: 2
+decl_list: decl_list COMMA term
+Line Number: 2
+var_decl: type_spec decl_list SEMICOLON	
+
+
+Line Number: 3
+type_spec: DOUBLE
+Line Number: 3
+term: ID
+Line Number: 3
+decl_list: term
+Line Number: 3
+var_decl: type_spec decl_list SEMICOLON	
+
+
+Line Number: 4
+type_spec: INT
+Line Number: 4
+term: ID
+Line Number: 4
+decl_list: term LTHIRD CONST_INT RTHIRD
+Line Number: 4
+var_decl: type_spec decl_list SEMICOLON	
+
+
+a is already declared.
+a is already declared.
+Line Number: 5
+expr: term
+Line Number: 5
+term: ID
+Line Number: 5
+expr: term
+Line Number: 5
+expr: expr ADDOP expr
+Line Number: 5
+expr: LPAREN expr RPAREN	
+b is already declared.
+Line Number: 5
+expr: term
+Line Number: 5
+expr: expr MULOP expr	
+Line Number: 5
+expr_decl: term ASSIGNOP expr SEMICOLON	
+
+
+a is already declared.
+a is already declared.
+Line Number: 6
+expr: term
+b is already declared.
+Line Number: 6
+expr: term
+b is already declared.
+Line Number: 6
+expr: term
+Line Number: 6
+expr: expr MULOP expr	
+Line Number: 6
+expr: expr ADDOP expr
+Line Number: 6
+expr_decl: term ASSIGNOP expr SEMICOLON	
+
+
+a is already declared.
+a is already declared.
+Line Number: 7
+expr: term
+b is already declared.
+Line Number: 7
+expr: term
+Line Number: 7
+expr: expr LOGICOP expr	
+Line Number: 7
+expr_decl: term ASSIGNOP expr SEMICOLON	
+
+
+Line Number: 8
+type_spec: INT
+Line Number: 8
+term: ID
+Line Number: 8
+decl_list: term
+x is already declared.
+Line Number: 8
+decl_list: decl_list COMMA term LTHIRD CONST_INT RTHIRD
+Line Number: 8
+var_decl: type_spec decl_list SEMICOLON	
+
+
+a is already declared.
+Line Number: 9
+expr: NUM
+Line Number: 9
+expr_decl: term ASSIGNOP expr SEMICOLON	
+
+
+Line Number: 10
+term: ID
+m is already declared.
+Line Number: 10
+expr: term
+Line Number: 10
+term: ID
+Line Number: 10
+expr: term
+Line Number: 10
+expr: expr MULOP expr	
+Line Number: 10
+expr: NUM
+Line Number: 10
+term: ID
+Line Number: 10
+expr: term
+Line Number: 10
+expr: expr MULOP expr	
+Line Number: 10
+expr: LPAREN expr RPAREN	
+Line Number: 10
+expr: NUM
+Line Number: 10
+expr: expr MULOP expr	
+Line Number: 10
+expr: LPAREN expr RPAREN	
+Line Number: 10
+expr: expr ADDOP expr
+syntax error
+
+
+c is already declared.
+a is already declared.
+Line Number: 11
+expr: term
+b is already declared.
+Line Number: 11
+expr: term
+Line Number: 11
+expr: NUM
+Line Number: 11
+expr: expr MULOP expr	
+Line Number: 11
+expr: expr ADDOP expr
+Line Number: 11
+expr_decl: term ASSIGNOP expr SEMICOLON	
+
+
+d is already declared.
+Line Number: 12
+expr: NUM
+Line Number: 12
+expr: NUM
+Line Number: 12
+expr: expr ADDOP expr
+Line Number: 12
+expr: NUM
+Line Number: 12
+expr: expr ADDOP expr
+Line Number: 12
+expr_decl: term ASSIGNOP expr SEMICOLON	
+
+
+Line Number: 13
+type_spec: INT
+b is already declared.
+Line Number: 13
+decl_list: term
+Line Number: 13
+var_decl: type_spec decl_list SEMICOLON	
+
+
+Line Number: 14
+type_spec: INT
+d is already declared.
+Line Number: 14
+decl_list: term
+Line Number: 14
+term: ID
+Line Number: 14
+decl_list: decl_list COMMA term
+syntax error
+
+
+Line Number: 15
+type_spec: INT
+x is already declared.
+.syntax error
+
+

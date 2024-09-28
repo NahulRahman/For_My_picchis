@@ -1,0 +1,26 @@
+Error at Line No: 1 Too many decimal points 1.2.345
+Error at Line No: 2 Invalid prefix on ID or invalid suffix on Number 12abcd
+Error at Line No: 3 Multi character constant error 'ab'
+Error at Line No: 4 Multi character constant error 'ab cd'
+Line No: 5 Token <ID> Lexeme efgh found 
+0 -->
+1 -->
+2 -->
+3 -->< efgh id >
+4 -->
+5 -->
+6 -->
+7 -->
+8 -->
+9 -->
+Line No: 6 Token <ID> Lexeme ijk found 
+0 -->
+1 -->
+2 -->
+3 -->< efgh id >
+4 -->
+5 -->
+6 -->< ijk id >
+7 -->
+8 -->
+9 -->

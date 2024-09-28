@@ -1,0 +1,101 @@
+Line No: 1 Token <INT> Lexeme int found 
+Line No: 1 Token <ID> Lexeme main found 
+0 -->
+1 -->
+2 -->
+3 -->
+4 -->
+5 -->< main id >
+6 -->
+7 -->
+8 -->
+9 -->
+Line No: 1 Token <LPAREN> Lexeme ( found 
+Line No: 1 Token <RPAREN> Lexeme ) found 
+Line No: 1 Token <LCURL> Lexeme { found 
+Line No: 2 Token <INT> Lexeme int found 
+Line No: 2 Token <ID> Lexeme a found 
+0 -->
+1 -->
+2 -->
+3 -->
+4 -->
+5 -->< main id >
+6 -->
+7 -->< a id >
+8 -->
+9 -->
+Line No: 2 Token <COMMA> Lexeme , found 
+Line No: 2 Token <ID> Lexeme b found 
+0 -->
+1 -->
+2 -->
+3 -->
+4 -->
+5 -->< main id >
+6 -->
+7 -->< a id >
+8 -->< b id >
+9 -->
+Line No: 2 Token <SEMICOLON> Lexeme ; found 
+Line No: 3 Token <ID> Lexeme a found 
+a variable already exists in symbol table;
+Line No: 3 Token <ASSIGNOP> Lexeme = found 
+Line No: 3 Token <ID> Lexeme a found 
+a variable already exists in symbol table;
+Line No: 3 Token <ADDOP> Lexeme + found 
+Line No: 3 Token <CONST_INT> Lexeme 1 found 
+Line No: 3 Token <SEMICOLON> Lexeme ; found 
+Line No: 4 Token <CHAR> Lexeme char found 
+Line No: 4 Token <ID> Lexeme ch found 
+0 -->
+1 -->
+2 -->
+3 -->
+4 -->< ch id >
+5 -->< main id >
+6 -->
+7 -->< a id >
+8 -->< b id >
+9 -->
+Line No: 4 Token <ASSIGNOP> Lexeme = found 
+Line No: 4 Token <CONST_CHAR> Lexeme a found 
+Line No: 4 Token <SEMICOLON> Lexeme ; found 
+Line No: 5 Token <CHAR> Lexeme char found 
+Line No: 5 Token <ID> Lexeme c found 
+0 -->
+1 -->
+2 -->
+3 -->
+4 -->< ch id >
+5 -->< main id >
+6 -->
+7 -->< a id >
+8 -->< b id >
+9 -->< c id >
+Line No: 5 Token <LTHIRD> Lexeme [ found 
+Line No: 5 Token <RTHIRD> Lexeme ] found 
+Line No: 5 Token <ASSIGNOP> Lexeme = found 
+Line No: 5 Token <STRING> Lexeme "ab\d" found 
+Line No: 5 Token <SEMICOLON> Lexeme ; found 
+Line No: 6 Token <ID> Lexeme printf found 
+0 -->< printf id >
+1 -->
+2 -->
+3 -->
+4 -->< ch id >
+5 -->< main id >
+6 -->
+7 -->< a id >
+8 -->< b id >
+9 -->< c id >
+Line No: 6 Token <LPAREN> Lexeme ( found 
+Line No: 6 Token <STRING> Lexeme "abc\
+def\
+ghi" found 
+Line No: 6 Token <RPAREN> Lexeme ) found 
+Line No: 6 Token <SEMICOLON> Lexeme ; found 
+Line No: 7 Token <RETURN> Lexeme return found 
+Line No: 7 Token <CONST_INT> Lexeme 0 found 
+Line No: 7 Token <SEMICOLON> Lexeme ; found 
+Line No: 8 Token <RCURL> Lexeme } found 

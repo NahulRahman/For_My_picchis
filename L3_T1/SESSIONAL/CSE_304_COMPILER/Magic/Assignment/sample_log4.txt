@@ -1,0 +1,121 @@
+Line No: 1 Token <INT> Lexeme int found 
+Line No: 1 Token <ID> Lexeme main found 
+0 -->
+1 -->
+2 -->
+3 -->
+4 -->
+5 -->< main id >
+6 -->
+7 -->
+8 -->
+9 -->
+Line No: 1 Token <LPAREN> Lexeme ( found 
+Line No: 1 Token <RPAREN> Lexeme ) found 
+Line No: 1 Token <LCURL> Lexeme { found 
+Line No: 2 Token <INT> Lexeme int found 
+Line No: 2 Token <ID> Lexeme a found 
+0 -->
+1 -->
+2 -->
+3 -->
+4 -->
+5 -->< main id >
+6 -->
+7 -->< a id >
+8 -->
+9 -->
+Line No: 2 Token <COMMA> Lexeme , found 
+Line No: 2 Token <ID> Lexeme b found 
+0 -->
+1 -->
+2 -->
+3 -->
+4 -->
+5 -->< main id >
+6 -->
+7 -->< a id >
+8 -->< b id >
+9 -->
+Line No: 2 Token <COMMA> Lexeme , found 
+Error at Line No: 2 Invalid prefix on ID or invalid suffix on Number 12abcd
+Line No: 2 Token <COMMA> Lexeme , found 
+Line No: 2 Token <ID> Lexeme abdc1 found 
+0 -->< abdc1 id >
+1 -->
+2 -->
+3 -->
+4 -->
+5 -->< main id >
+6 -->
+7 -->< a id >
+8 -->< b id >
+9 -->
+Line No: 2 Token <COMMA> Lexeme , found 
+Line No: 2 Token <ID> Lexeme _12abcd found 
+0 -->< abdc1 id >
+1 -->
+2 -->
+3 -->
+4 -->
+5 -->< main id >
+6 -->
+7 -->< a id >< _12abcd id >
+8 -->< b id >
+9 -->
+Line No: 2 Token <SEMICOLON> Lexeme ; found 
+Line No: 3 Token <ID> Lexeme a found 
+a variable already exists in symbol table;
+Line No: 3 Token <ASSIGNOP> Lexeme = found 
+Line No: 3 Token <CONST_INT> Lexeme 5 found 
+Line No: 3 Token <SEMICOLON> Lexeme ; found 
+Line No: 4 Token <ID> Lexeme b found 
+b variable already exists in symbol table;
+Line No: 4 Token <ASSIGNOP> Lexeme = found 
+Line No: 4 Token <ID> Lexeme a found 
+a variable already exists in symbol table;
+Line No: 4 Token <MULOP> Lexeme * found 
+Line No: 4 Token <CONST_FLOAT> Lexeme 3.5140 found 
+Line No: 4 Token <SEMICOLON> Lexeme ; found 
+Line No: 5 Token <ID> Lexeme b found 
+b variable already exists in symbol table;
+Line No: 5 Token <ASSIGNOP> Lexeme = found 
+Error at Line No: 5 Too many decimal points 1.51.40
+Line No: 5 Token <SEMICOLON> Lexeme ; found 
+Line No: 6 Token <ID> Lexeme a found 
+a variable already exists in symbol table;
+Line No: 6 Token <ASSIGNOP> Lexeme = found 
+Line No: 6 Token <ID> Lexeme a found 
+a variable already exists in symbol table;
+Line No: 6 Token <ADDOP> Lexeme + found 
+Line No: 6 Token <CONST_INT> Lexeme 1 found 
+Line No: 6 Token <SEMICOLON> Lexeme ; found 
+Line No: 7 Token <CHAR> Lexeme char found 
+Line No: 7 Token <ID> Lexeme ch found 
+0 -->< abdc1 id >
+1 -->
+2 -->
+3 -->
+4 -->< ch id >
+5 -->< main id >
+6 -->
+7 -->< a id >< _12abcd id >
+8 -->< b id >
+9 -->
+Line No: 7 Token <ASSIGNOP> Lexeme = found 
+Line No: 7 Token <CONST_CHAR> Lexeme a found 
+Line No: 7 Token <SEMICOLON> Lexeme ; found 
+Line No: 8 Token <ID> Lexeme ch found 
+ch variable already exists in symbol table;
+Line No: 8 Token <ASSIGNOP> Lexeme = found 
+Error at Line No: 8 Multi character constant error 'ab'
+Line No: 8 Token <SEMICOLON> Lexeme ; found 
+Line No: 10 Token <COMMENT> Lexeme // a comment found 
+Line No: 13 Token <COMMENT> Lexeme /** another
+	*** multi line 
+	//inserted
+	comment ***/ found 
+Line No: 16 Token <RETURN> Lexeme return found 
+Line No: 16 Token <CONST_INT> Lexeme 0 found 
+Line No: 16 Token <SEMICOLON> Lexeme ; found 
+Line No: 17 Token <RCURL> Lexeme } found 

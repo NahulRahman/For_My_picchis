@@ -1,0 +1,10 @@
+1.2.345
+1E10.7
+'a
+'
+''
+"abcd
+"abcd\
+efgh
+""str
+def

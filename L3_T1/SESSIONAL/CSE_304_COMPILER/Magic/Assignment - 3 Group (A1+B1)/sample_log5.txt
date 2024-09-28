@@ -1,0 +1,128 @@
+Line No: 1 Token <INT> Lexeme int found 
+Line No: 1 Token <ID> Lexeme main found 
+0 -->
+1 -->
+2 -->
+3 -->
+4 -->
+5 -->< main id >
+6 -->
+7 -->
+8 -->
+9 -->
+Line No: 1 Token <LPAREN> Lexeme ( found 
+Line No: 1 Token <RPAREN> Lexeme ) found 
+Line No: 1 Token <LCURL> Lexeme { found 
+Line No: 3 Token <CHAR> Lexeme char found 
+Line No: 3 Token <ID> Lexeme str1 found 
+0 -->
+1 -->
+2 -->
+3 -->
+4 -->< str1 id >
+5 -->< main id >
+6 -->
+7 -->
+8 -->
+9 -->
+Line No: 3 Token <LTHIRD> Lexeme [ found 
+Line No: 3 Token <CONST_INT> Lexeme 100 found 
+Line No: 3 Token <RTHIRD> Lexeme ] found 
+Line No: 3 Token <ASSIGNOP> Lexeme = found 
+Line No: 3 Token <STRING> Lexeme "I own a dog." found 
+Line No: 3 Token <SEMICOLON> Lexeme ; found 
+Line No: 4 Token <CHAR> Lexeme char found 
+Line No: 4 Token <ID> Lexeme str2 found 
+0 -->
+1 -->
+2 -->
+3 -->
+4 -->< str1 id >< str2 id >
+5 -->< main id >
+6 -->
+7 -->
+8 -->
+9 -->
+Line No: 4 Token <LTHIRD> Lexeme [ found 
+Line No: 4 Token <CONST_INT> Lexeme 100 found 
+Line No: 4 Token <RTHIRD> Lexeme ] found 
+Line No: 4 Token <ASSIGNOP> Lexeme = found 
+Line No: 4 Token <STRING> Lexeme "I own a dog.\
+    His name is Jack." found 
+Line No: 4 Token <SEMICOLON> Lexeme ; found 
+Line No: 5 Token <CHAR> Lexeme char found 
+Line No: 5 Token <ID> Lexeme str3 found 
+0 -->
+1 -->
+2 -->
+3 -->
+4 -->< str1 id >< str2 id >< str3 id >
+5 -->< main id >
+6 -->
+7 -->
+8 -->
+9 -->
+Line No: 5 Token <LTHIRD> Lexeme [ found 
+Line No: 5 Token <CONST_INT> Lexeme 100 found 
+Line No: 5 Token <RTHIRD> Lexeme ] found 
+Line No: 5 Token <ASSIGNOP> Lexeme = found 
+Line No: 5 Token <STRING> Lexeme "He said, \" I own a dog\"\
+    so I asked, \"What is his name?\"" found 
+Line No: 5 Token <SEMICOLON> Lexeme ; found 
+Line No: 6 Token <CHAR> Lexeme char found 
+Line No: 6 Token <ID> Lexeme str4 found 
+0 -->
+1 -->
+2 -->
+3 -->
+4 -->< str1 id >< str2 id >< str3 id >< str4 id >
+5 -->< main id >
+6 -->
+7 -->
+8 -->
+9 -->
+Line No: 6 Token <LTHIRD> Lexeme [ found 
+Line No: 6 Token <CONST_INT> Lexeme 100 found 
+Line No: 6 Token <RTHIRD> Lexeme ] found 
+Line No: 6 Token <ASSIGNOP> Lexeme = found 
+Line No: 6 Token <STRING> Lexeme "But this line is valid." found 
+Line No: 7 Token <CHAR> Lexeme char found 
+Line No: 7 Token <ID> Lexeme str5 found 
+0 -->
+1 -->
+2 -->
+3 -->
+4 -->< str1 id >< str2 id >< str3 id >< str4 id >< str5 id >
+5 -->< main id >
+6 -->
+7 -->
+8 -->
+9 -->
+Line No: 7 Token <LTHIRD> Lexeme [ found 
+Line No: 7 Token <CONST_INT> Lexeme 100 found 
+Line No: 7 Token <RTHIRD> Lexeme ] found 
+Line No: 7 Token <ASSIGNOP> Lexeme = found 
+Line No: 7 Token <STRING> Lexeme "This line is also valid." found 
+Line No: 7 Token <SEMICOLON> Lexeme ; found 
+Line No: 8 Token <CHAR> Lexeme char found 
+Line No: 8 Token <ID> Lexeme str6 found 
+0 -->
+1 -->
+2 -->
+3 -->
+4 -->< str1 id >< str2 id >< str3 id >< str4 id >< str5 id >< str6 id >
+5 -->< main id >
+6 -->
+7 -->
+8 -->
+9 -->
+Line No: 8 Token <LTHIRD> Lexeme [ found 
+Line No: 8 Token <CONST_INT> Lexeme 100 found 
+Line No: 8 Token <RTHIRD> Lexeme ] found 
+Line No: 8 Token <ASSIGNOP> Lexeme = found 
+Line No: 8 Token <STRING> Lexeme "Really Tony?" found 
+Line No: 8 Token <SEMICOLON> Lexeme ; found 
+Line No: 11 Token <RETURN> Lexeme return found 
+Line No: 11 Token <CONST_INT> Lexeme 0 found 
+Line No: 11 Token <SEMICOLON> Lexeme ; found 
+Line No: 14 Token <RCURL> Lexeme } found 
