@@ -1,0 +1,8 @@
+flex sample.l
+
+bison -d assignment4.y
+
+g++ -std=gnu++11 lex.yy.c assignment4.tab.c
+
+a.exe
+
