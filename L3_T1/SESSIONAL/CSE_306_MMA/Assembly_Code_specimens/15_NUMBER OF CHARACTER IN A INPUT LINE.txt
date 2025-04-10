@@ -1,0 +1,39 @@
+.MODEL SMALL
+.STACK 100H
+.CODE
+
+MAIN PROC 
+    MOV BL,0  
+    MOV AH,1
+    INT 21H
+    
+   L1:
+    CMP AL,0DH
+    JE END
+    INC BL
+    INT 21H
+    JMP L1
+   
+   
+   
+   END:
+    MOV AH,2
+    MOV DL,10
+    INT 21H
+    MOV DL,13
+    INT 21H
+    
+    
+    MOV AH,2
+    
+    ADD BL,48 
+    MOV DL,BL
+    INT 21H 
+    
+    
+    
+    EXIT:
+    MOV AH,4CH
+    INT 21H
+    MAIN ENDP
+END MAIN

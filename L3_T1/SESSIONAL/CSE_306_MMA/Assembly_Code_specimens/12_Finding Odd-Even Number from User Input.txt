@@ -1,0 +1,47 @@
+.MODEL SMALL
+.STACK 100H
+.DATA
+MSG1 DB 'EVEN$'
+MSG2 DB 'ODD$'
+.CODE
+MAIN PROC
+    MOV AX,@DATA
+    MOV DS,AX
+    
+    
+    MOV AH,1
+    INT 21H
+    
+    
+    
+    CMP AL,'1'
+    JE ODD  ;AL=1
+    
+    
+    CMP AL,'3'
+    JE ODD      ;AL=3
+    
+    
+    CMP AL,'2'
+    JE EVEN  ;AL=2
+                  
+    CMP AL,'4'
+    JE EVEN  ;AL=4             
+                  
+   EVEN:
+    LEA DX,MSG1
+    MOV AH,9
+    INT 21H
+    JMP EXIT
+    
+   ODD:
+    LEA DX,MSG2
+    MOV AH,9
+    INT 21H
+                             
+    
+    EXIT:
+    MOV AH,4CH
+    INT 21H
+    MAIN ENDP 
+END MAIN

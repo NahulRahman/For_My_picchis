@@ -1,0 +1,930 @@
+; 01. Printing Something with ASCII Table
+.MODEL SMALL
+.STACK 100H
+.CODE
+
+MAIN PROC
+    
+    MOV AH,2
+    MOV DL,49
+    INT 21H
+   
+    EXIT:
+    MOV AH,4CH
+    INT 21H 
+    MAIN ENDP
+END MAIN
+
+--------------------------------------------------------------------------- 
+
+; 02. Taking Input from User and Print
+.MODEL SMALL
+.STACK 100H
+.CODE
+
+MAIN PROC
+    
+    MOV AH,1
+    INT 21H
+    MOV BL,AL
+    
+    
+    MOV AH,2
+    MOV DL,BL
+    INT 21H
+    
+    
+    
+    
+    EXIT:
+    MOV AH,4CH
+    INT 21H 
+    MAIN ENDP
+END MAIN
+--------------------------------------------------------------------------- 
+
+; 03. Printing String
+.MODEL SMALL
+.STACK 100H 
+.DATA
+STRING DB 'ASSEMBLY',1,'$'
+STRING2 DB 10,13,'JAVA',1,'$' 
+
+
+.CODE
+MAIN PROC
+    MOV AX,@DATA
+    MOV DS,AX
+    
+    
+    LEA DX,STRING 
+    MOV AH,9
+    INT 21H     
+  
+    LEA DX,STRING2 
+    MOV AH,9
+    INT 21H  
+       
+       
+        
+    EXIT:
+    MOV AH,4CH
+    INT 21H
+    MAIN ENDP
+END MAIN
+--------------------------------------------------------------------------- 
+
+; 04. Addition of Two Number
+.MODEL SMALL
+.STACK 100H 
+.CODE
+MAIN PROC
+    
+   MOV AH,1
+   INT 21H        ;1ST NUMBER
+   MOV BL,AL
+   
+   MOV AH,1
+   INT 21H        ;2ND NUMBER
+   MOV BH,AL
+   
+   
+   ADD BL,BH 
+   SUB BL,48
+   
+   
+   MOV AH,2
+   MOV DL,BL
+   INT 21H 
+    
+   
+        
+    EXIT:
+    MOV AH,4CH
+    INT 21H
+    MAIN ENDP
+END MAIN
+--------------------------------------------------------------------------- 
+
+; 05. Subtraction of Two Number
+--------------------------------------------------------------------------- 
+
+; 06. CASE CONVERTION- Upper case to Lower case vice versa
+.MODEL SMALL
+.STACK 100H 
+.CODE
+MAIN PROC      
+    
+    MOV AH,1     ;INPUT
+    INT 21H      ;LOWERTO UPPER CASE
+    MOV BL,AL
+    
+    SUB BL,20H
+    
+    MOV AH,2
+    MOV DL,BL
+    INT 21H
+    
+    EXIT:
+    MOV AH,4CH
+    INT 21H
+    MAIN ENDP
+END MAIN
+--------------------------------------------------------------------------- 
+
+; 07. Variable Declaration
+.MODEL SMALL
+.STACK 100H
+.DATA
+ VAR1 DB 7
+ VAR2 DB ?
+.CODE
+ MAIN PROc
+    MOV AX, @DATA
+    MOV DS, AX
+    
+    MOV AH, 1
+    INT 21H
+    MOV VAR2,AL
+    
+    MOV AH, 2
+    ADD VAR1,48
+    MOV DL,VAR1
+    INT 21H
+     
+    MOV DL,VAR2
+    INT 21H
+    
+    EXIT:
+    MOV AH,4CH
+    INT 21H
+    MAIN ENDP
+END MAIN
+--------------------------------------------------------------------------- 
+
+; 08. MULTIPLICATION
+.MODEL SMALL
+.STACK 100H
+.DATA
+.CODE
+MAIN PROC
+    MOV AH,1
+    
+    INT 21H
+    MOV BL,AL
+    SUB BL,48
+    
+    INT 21H
+    SUB AL,48
+    
+    MUL BL 
+    AAM 
+ 
+    MOV CX,AX 
+    ADD CH,48
+    ADD CL,48
+    
+    MOV AH,2
+    MOV DL,CH
+    INT 21H
+    
+    MOV DL,CL
+    INT 21H
+    
+    EXIT:
+    MOV AH,4CH
+    INT 21H
+    MAIN ENDP
+END MAIN
+--------------------------------------------------------------------------- 
+
+; 09. DIVISION
+.MODEL SMALL
+.STACK 100H
+.CODE
+MAIN PROC
+    
+;AX=DIVIDEND
+;DIVIOR =ANY RESITOR
+;RESULT =AL
+;REMAINDER =AH 
+                                
+                                
+     MOV AH,1
+     INT 21H            ;DIVIDEND
+     MOV BH,AL
+     SUB BH,48
+     
+     
+     MOV AH,1
+     INT 21H    ;DIVISOR
+     MOV BL,AL
+     SUB BL,48
+     
+                                
+     MOV CL,BH
+     MOV CH,00
+     MOV AX,CX
+     
+     
+     DIV BL
+     AAD
+     
+     
+     ADD AL,48
+     
+     MOV AH,2
+     MOV DL,AL
+     INT 21H
+        
+    EXIT:
+    MOV AH,4CH
+    INT 21H
+    MAIN ENDP
+END MAIN
+--------------------------------------------------------------------------- 
+
+; 10. GREATER NUMBER BETWEEN TWO
+.MODEL SMALL
+.STACK 100H
+.CODE
+MAIN PROC
+    
+    MOV BL,'6'
+    
+    MOV AL,'8'
+    
+    CMP AL,BL
+    JG LEVEL
+    
+    MOV AH,2
+    MOV DL,BL
+    
+    INT 21H
+    JMP EXIT            ;JUMP IF GRATER
+   
+   
+    LEVEL:
+    MOV AH,2
+    MOV DL,AL
+    
+    INT 21H
+    
+       
+       
+        
+    EXIT:
+    MOV AH,4CH
+    INT 21H
+    MAIN ENDP
+END MAIN
+--------------------------------------------------------------------------- 
+
+; 11. Print the Character that comes First in the Sequence
+.MODEL SMALL
+.STACK 100H
+.CODE
+MAIN PROC
+                             
+    MOV AL,'2'
+    MOV BL,'9'
+    
+    CMP AL,BL
+    JL L1      
+    
+    MOV AH,2
+    MOV DL,BL
+    INT 21H
+    
+    
+   L1: 
+    MOV AH,2
+    MOV DL,AL
+    INT 21H
+    
+    EXIT:
+    MOV AH,4CH
+    INT 21H
+    MAIN ENDP 
+END MAIN
+    
+    
+    EXIT:
+    MOV AH,4CH
+    INT 21H
+    MAIN ENDP
+END MAIN
+--------------------------------------------------------------------------- 
+
+; 12. Finding Odd-Even Number from User Input 
+.MODEL SMALL
+.STACK 100H
+.DATA
+MSG1 DB 'EVEN$'
+MSG2 DB 'ODD$'
+.CODE
+MAIN PROC
+    MOV AX,@DATA
+    MOV DS,AX
+    
+    
+    MOV AH,1
+    INT 21H
+    
+    CMP AL,'1'
+    JE ODD  ;AL=1
+    
+    CMP AL,'3'
+    JE ODD      ;AL=3
+    
+    CMP AL,'2'
+    JE EVEN  ;AL=2
+                  
+    CMP AL,'4'
+    JE EVEN  ;AL=4             
+                  
+   EVEN:
+    LEA DX,MSG1
+    MOV AH,9
+    INT 21H
+    JMP EXIT
+    
+   ODD:
+    LEA DX,MSG2
+    MOV AH,9
+    INT 21H
+                             
+    
+    EXIT:
+    MOV AH,4CH
+    INT 21H
+    MAIN ENDP 
+END MAIN
+
+--------------------------------------------------------------------------- 
+
+; 13. COMPARING A SPECIFIC CHARACTER WITH INPUT
+.MODEL SMALL
+.STACK 100H
+.CODE
+
+MAIN PROC
+    MOV AH,1
+    INT 21H
+    MOV BL,AL
+    
+    CMP BL,'Y'
+    JE L1
+    
+    CMP BL,'y'
+    JE L1
+    
+    JMP EXIT
+    
+    L1:
+    
+    MOV AH,2
+    MOV DL,BL
+    INT 21H
+    
+    
+    EXIT:
+    MOV AH,4CH
+    INT 21H
+    MAIN ENDP
+END MAIN
+--------------------------------------------------------------------------- 
+
+; 14. LOOP || Printing Stars With Loop
+.MODEL SMALL
+.STACK 100H
+.CODE
+
+MAIN PROC 
+    MOV AH,2
+    
+    MOV CX,15
+    MOV DL,'&'
+    
+   TOP1:
+     INT 21H
+     LOOP TOP1
+        
+    EXIT:
+    MOV AH,4CH
+    INT 21H
+    MAIN ENDP
+END MAIN
+
+--------------------------------------------------------------------------- 
+
+; 15. NUMBER OF CHARACTER IN A INPUT LINE 
+.MODEL SMALL
+.STACK 100H
+.CODE
+
+MAIN PROC 
+    MOV BL,0  
+    MOV AH,1
+    INT 21H
+    
+   L1:
+    CMP AL,0DH
+    JE END
+    INC BL
+    INT 21H
+    JMP L1
+   
+   
+   
+   END:
+    MOV AH,2
+    MOV DL,10
+    INT 21H
+    MOV DL,13
+    INT 21H
+    
+    
+    MOV AH,2
+    
+    ADD BL,48 
+    MOV DL,BL
+    INT 21H 
+    
+    
+    
+    EXIT:
+    MOV AH,4CH
+    INT 21H
+    MAIN ENDP
+END MAIN
+--------------------------------------------------------------------------- 
+
+; 16. READ CHAR UNTIL A BLANK IS READ
+.MODEL SMALL
+.STACK 100H
+.CODE
+
+MAIN PROC 
+    MOV AH,1
+    MOV BL,0
+  L1:
+   INT 21H
+   INC BL
+   CMP AL,' '
+   JNE L1 
+   
+   MOV AH,2
+   ADD BL,48
+   MOV DL,BL
+   INT 21H
+    
+    
+    
+    EXIT:
+    MOV AH,4CH
+    INT 21H
+    MAIN ENDP
+END MAIN
+
+--------------------------------------------------------------------------- 
+
+; 17. NUMBER OF 1 IN A BINARY NUMBER 
+;FIND NUMBER OF 1 BIT IN A BINARY NUMBER OF 16 BITS 
+  
+
+.MODEL SMALL
+.STACK 100H
+.CODE
+
+MAIN PROC 
+    MOV BX,1111000011101000B 
+    MOV CX,16
+    MOV AX,0
+    
+  TOP:
+    ROL BX,1
+    JNC NEXT
+    INC AX
+    
+  NEXT: 
+    LOOP TOP
+    
+    
+    MOV AH,2
+    ADD AX,48
+    MOV DX,AX
+    INT 21H
+    
+    EXIT:
+    MOV AH,4CH
+    INT 21H
+    MAIN ENDP
+END MAIN
+--------------------------------------------------------------------------- 
+
+; 18. STRING REVERSE Process 1
+.MODEL SMALL
+.STACK 100H
+.DATA
+MSG DB ' UNIVERSITY'
+.CODE
+
+MAIN PROC 
+    MOV AX,@DATA
+    MOV DS,AX
+    
+    
+    MOV SI,OFFSET MSG
+    MOV CX,11 
+    ADD SI,11 
+    
+   TOP:
+    MOV AH,2
+    MOV DX,[SI] 
+    INT 21H
+    DEC SI
+    
+    CMP SI,0
+    JE EXIT
+    LOOP TOP
+    
+    
+    
+    
+    EXIT:
+    MOV AH,4CH
+    INT 21H
+    MAIN ENDP
+END MAIN
+--------------------------------------------------------------------------- 
+
+; 19. REVERSING INPUT STRING (Proces-2)
+;REVERSING A STRING (PROCESS 2)
+
+.MODEL SMALL
+.STACK 100H
+.CODE
+
+MAIN PROC
+    MOV CX,0  
+    MOV AH,1
+    INT 21H 
+    
+    
+  L1:
+   CMP AL,0DH
+   JE L2
+   PUSH AX
+   INC CX
+   INT 21H
+   JMP L1
+   
+   s
+    
+  L2: 
+   MOV AH,2
+   MOV DL,10
+   INT 21H
+   MOV DL,13
+   INT 21H
+   
+   JCXZ EXIT
+   
+ TOP:
+   POP DX
+   INT 21H
+   LOOP TOP
+  
+    
+    
+    EXIT:
+    MOV AH,4CH
+    INT 21H
+    MAIN ENDP
+END MAIN
+--------------------------------------------------------------------------- 
+
+; 20. RECTANGLE OF STAR
+.MODEL SMALL
+.STACK 100H
+.CODE
+
+MAIN PROC 
+    MOV CX,5
+    MOV BX,5
+    
+    
+    L1:
+    PUSH CX
+    MOV CX,5
+       
+    L2:
+     MOV AH,2
+     MOV DL,'*'
+     INT 21H
+       
+     LOOP L2
+     
+     MOV AH,2
+     MOV DL,10
+     INT 21H
+     MOV DL,13
+     INT 21H
+     
+     
+    POP CX     
+       
+       
+       LOOP L1
+       
+       
+    
+    EXIT:
+    MOV AH,4CH
+    INT 21H
+    MAIN ENDP
+END MAIN
+
+--------------------------------------------------------------------------- 
+; 21. TRIANGLE AND RIGHT SIDED PYRAMID
+
+.MODEL SMALL
+.STACK 100H
+.CODE
+
+MAIN PROC 
+    MOV BX,1
+    MOV CX,5
+    
+   L1:
+    PUSH CX
+    MOV AH,2
+    MOV DL,32
+   L2:
+    INT 21H
+    LOOP L2   
+   
+   
+   MOV CX,BX        
+   MOV DL,'*' 
+  L3:
+   INT 21H
+   LOOP L3
+   
+   MOV AH,2
+   MOV DL,10
+   INT 21H
+   MOV DL,13
+   INT 21H
+   
+   INC BX ;FOR REVERSE PYRAMID
+   
+   ;INC BX 
+   ;INC BX ;FOR TRIANGLE
+   
+   
+   POP CX
+   
+   LOOP L1      
+                               
+       
+    
+    EXIT:
+    MOV AH,4CH
+    INT 21H
+    MAIN ENDP
+END MAIN       
+--------------------------------------------------------------------------- 
+; 22. LEFT SIDED PYRAMID & REVERSE LEFT SIDED PYRAMID 
+.MODEL SMALL
+.STACK 100H
+.CODE 
+MAIN PROC
+    MOV BX,1
+    MOV CX,5
+    
+    L1:
+    PUSH CX
+    
+    
+    MOV CX,BX ;REMOVE THIOS LINE FOR RIGHT SIDED REVERSE PYRAMID 
+    MOV AH,2
+    MOV DL,'*'
+    
+   L2:
+    INT 21H      
+    
+    LOOP L2
+    MOV AH,2
+    MOV DL,10
+    INT 21H
+    MOV DL,13
+    INT 21H
+    
+    INC BX
+    
+    POP CX
+    
+    LOOP L1
+    
+    
+    
+    EXIT:
+    MOV AH,4CH
+    INT 21H
+    MAIN ENDP
+END MAIN
+
+--------------------------------------------------------------------------- 
+
+; 23. REVERSE TRIANGLE & RIGHT PYRAMID OF STAR 
+.MODEL SMALL
+.STACK 100H
+.DATA
+STAR DB ?
+BLANK DB ?
+.CODE 
+MAIN PROC
+    MOV AX,@DATA
+    MOV DS,AX
+     
+    MOV CX,5
+    MOV BH,9
+    MOV BL,0
+    
+    MOV STAR,BH
+    MOV BLANK,BL
+    
+    
+   L1:
+    CMP BLANK,0
+    JE L2
+    
+    MOV AH,2
+    MOV DL,32
+    INT 21H
+    DEC BLANK
+   
+    JMP L1
+    
+   L2:
+    MOV AH,2
+    MOV DL,'*'
+    INT 21H
+    DEC STAR
+    CMP STAR,0
+    JNE L2
+   
+   
+  
+    MOV AH,2
+    MOV DL,0AH
+    INT 21H
+    MOV DL,0DH
+    INT 21H
+    
+    
+    
+    DEC BH   ;USE JUST ONE INCREMENT FOR PYRAMID
+    DEC BH
+    MOV STAR,BH
+    
+    INC BL
+    MOV BLANK,BL
+    LOOP L1
+    
+    
+    
+    EXIT:
+    MOV AH,4CH
+    INT 21H
+    MAIN ENDP
+END MAIN
+--------------------------------------------------------------------------- 
+
+; 24. DIAMOND OF STAR 
+.MODEL SMALL
+.STACK 100H
+.DATA
+STAR DB ?
+BLANK DB ?
+.CODE 
+MAIN PROC
+    MOV CX,5
+   MOV BX,1
+    
+   L1:
+    PUSH CX
+    
+    
+   L2:
+    MOV AH,2
+    MOV DL,32
+    INT 21H
+    LOOP L2
+    
+    
+    MOV CX,BX
+   L3:
+    MOV AH,2
+    MOV DL,'*'
+    INT 21H
+    LOOP L3
+    
+    MOV AH,2
+    MOV DL,10
+    INT 21H
+    MOV DL,13
+    INT 21H
+    
+    INC BX
+    INC BX
+    
+    POP CX
+    LOOP L1
+    
+    
+    
+    MOV CX,4
+    MOV BH,7
+    MOV BL,2
+    
+    MOV STAR,BH
+    MOV BLANK,BL
+    
+   L4:
+    CMP BLANK,0
+    JE L5
+    MOV AH,2
+    MOV DL,32
+    INT 21H
+    DEC BLANK
+    ;CMP BLANK,0
+    JMP L4
+    
+   L5:
+    MOV AH,2
+    MOV DL,'*'
+    INT 21H
+    DEC STAR
+    CMP STAR,0
+    JNE L5
+  L6:  
+    MOV AH,2
+    MOV DL,10
+    INT 21H
+    MOV DL,13
+    INT 21H
+    
+    DEC BH
+    DEC BH
+    MOV STAR,BH
+    
+    INC BL
+    MOV BLANK,BL
+    
+    LOOP L4
+    
+    EXIT:
+    MOV AH,4CH
+    INT 21H
+    MAIN ENDP
+END MAIN
+--------------------------------------------------------------------------- 
+
+; 25. Simple Calculator
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

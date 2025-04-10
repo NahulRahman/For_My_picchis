@@ -1,0 +1,271 @@
+#!/bin/bash
+
+# Create directories and files
+mkdir -p ~/Desktop/3-1/CSE-301/SecA
+mkdir -p ~/Desktop/3-1/CSE-301/SecB
+mkdir -p ~/Desktop/3-1/CSE-302/SecA
+mkdir -p ~/Desktop/3-1/CSE-302/SecB
+
+touch ~/Desktop/3-1/CSE-301/SecA/file1.txt
+echo "This is file1 in SecA of CSE-301" > ~/Desktop/3-1/CSE-301/SecA/file1.txt
+
+touch ~/Desktop/3-1/CSE-301/SecB/file2.txt
+echo "This is file2 in SecB of CSE-301" > ~/Desktop/3-1/CSE-301/SecB/file2.txt
+
+touch ~/Desktop/3-1/CSE-302/SecA/file3.txt
+echo "This is file3 in SecA of CSE-302" > ~/Desktop/3-1/CSE-302/SecA/file3.txt
+
+touch ~/Desktop/3-1/CSE-302/SecB/file4.txt
+echo "This is file4 in SecB of CSE-302" > ~/Desktop/3-1/CSE-302/SecB/file4.txt
+
+# Change permissions
+chmod 700 ~/Desktop/3-1/CSE-301/SecA/file1.txt
+chmod 750 ~/Desktop/3-1/CSE-302/SecB/file4.txt
+
+# Rename folder
+mv ~/Desktop/3-1/OS ~/Desktop/3-1/CSE-308
+
+# List all folders and files
+ls -R ~/Desktop/3-1 > ~/Desktop/3-1/fileinfo.txt
+
+# Copy file to Backup
+sudo mkdir -p /Backup
+sudo cp ~/Desktop/3-1/fileinfo.txt /Backup/
+
+# Sort file contents and count lines and words
+sort ~/Desktop/3-1/fileinfo.txt > ~/Desktop/3-1/sorted_fileinfo.txt
+wc ~/Desktop/3-1/sorted_fileinfo.txt >> ~/Desktop/3-1/sorted_fileinfo.txt
+
+# Delete files
+rm ~/Desktop/3-1/CSE-301/SecA/file1.txt
+rm ~/Desktop/3-1/CSE-301/SecB/file2.txt
+rm ~/Desktop/3-1/CSE-302/SecA/file3.txt
+rm ~/Desktop/3-1/CSE-302/SecB/file4.txt
+
+# Update file with system name, full name, ID, Section, and commands used
+echo "System Name: $(hostname)" >> ~/Desktop/3-1/fileinfo.txt
+echo "Full Name: Your Full Name" >> ~/Desktop/3-1/fileinfo.txt
+echo "ID: Your ID" >> ~/Desktop/3-1/fileinfo.txt
+echo "Section: Your Section" >> ~/Desktop/3-1/fileinfo.txt
+echo "Commands used in this assignment:" >> ~/Desktop/3-1/fileinfo.txt
+cat << 'EOF' >> ~/Desktop/3-1/fileinfo.txt
+mkdir -p ~/Desktop/3-1/CSE-301/SecA
+mkdir -p ~/Desktop/3-1/CSE-301/SecB
+mkdir -p ~/Desktop/3-1/CSE-302/SecA
+mkdir -p ~/Desktop/3-1/CSE-302/SecB
+touch ~/Desktop/3-1/CSE-301/SecA/file1.txt
+echo "This is file1 in SecA of CSE-301" > ~/Desktop/3-1/CSE-301/SecA/file1.txt
+touch ~/Desktop/3-1/CSE-301/SecB/file2.txt
+echo "This is file2 in SecB of CSE-301" > ~/Desktop/3-1/CSE-301/SecB/file2.txt
+touch ~/Desktop/3-1/CSE-302/SecA/file3.txt
+echo "This is file3 in SecA of CSE-302" > ~/Desktop/3-1/CSE-302/SecA/file3.txt
+touch ~/Desktop/3-1/CSE-302/SecB/file4.txt
+echo "This is file4 in SecB of CSE-302" > ~/Desktop/3-1/CSE-302/SecB/file4.txt
+chmod 700 ~/Desktop/3-1/CSE-301/SecA/file1.txt
+chmod 750 ~/Desktop/3-1/CSE-302/SecB/file4.txt
+mv ~/Desktop/3-1/OS ~/Desktop/3-1/CSE-308
+ls -R ~/Desktop/3-1 > ~/Desktop/3-1/fileinfo.txt
+sudo mkdir -p /Backup
+sudo cp ~/Desktop/3-1/fileinfo.txt /Backup/
+sort ~/Desktop/3-1/fileinfo.txt > ~/Desktop/3-1/sorted_fileinfo.txt
+wc ~/Desktop/3-1/sorted_fileinfo.txt >> ~/Desktop/3-1/sorted_fileinfo.txt
+rm ~/Desktop/3-1/CSE-301/SecA/file1.txt
+rm ~/Desktop/3-1/CSE-301/SecB/file2.txt
+rm ~/Desktop/3-1/CSE-302/SecA/file3.txt
+rm ~/Desktop/3-1/CSE-302/SecB/file4.txt
+EOF
+
+# Rename the text file
+mv ~/Desktop/3-1/fileinfo.txt ~/Desktop/3-1/your_student_id_1.txt
+
++++++++++++++++++++++++++++++++++++++++++++++++++++
+#!/bin/bash
+
+# Prompt the user to enter a number
+echo "Enter a number:"
+read number
+
+# Initialize a flag variable
+is_prime=1
+
+# Check if the number is less than 2
+if [ "$number" -lt 2 ]; then
+    is_prime=0
+else
+    # Loop from 2 to the square root of the number
+    for (( i=2; i*i<=$number; i++ )); do
+        if [ $((number % i)) -eq 0 ]; then
+            is_prime=0
+            break
+        fi
+    done
+fi
+
+# Display the result
+if [ "$is_prime" -eq 1 ]; then
+    echo "$number is a prime number."
+else
+    echo "$number is not a prime number."
+fi
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++
+
+#!/bin/bash
+
+# Function to check if a number is prime
+is_prime() {
+    local num=$1
+    if [ "$num" -lt 2 ]; then
+        return 1
+    fi
+    for (( i=2; i*i<=num; i++ )); do
+        if [ $((num % i)) -eq 0 ]; then
+            return 1
+        fi
+    done
+    return 0
+}
+
+# Main part of the script
+echo "Prime numbers from 1 to 50 are:"
+
+for (( number=1; number<=50; number++ )); do
+    is_prime $number
+    if [ $? -eq 0 ]; then
+        echo $number
+    fi
+done
+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+read a
+read b
+print(){
+num=$((a+b))
+echo $num
+}
+
+res=$(print $a $b)
+echo $res
+
++++++++++++++++++++++++++++++++++++++++++++++++++
+
+#factorial code
+
+echo "Enter number"
+read n
+f=1
+for ((i=2;i<=n;i++))
+ 
+do
+	f=$((f * i))
+done
+
+echo $((f))
+
+++++++++++++++++++++++++++++++++++++++++++++++++++
+
+echo "Wanna have fruits?"
+read fol
+case "$fol" in
+	aam) echo "Lengra is the best";;
+	kathal) echo "Best from Tangail";;
+	kola) echo "Best from Burma";;
+	jaam) echo "Best from somewhere";;
+	lichu) echo "Best from north-Bengal";;
+	*) echo "please type more";;
+esac
+
+#202214049 Nahul
+++++++++++++++++++++++++++++++++++++++++++++++++++
+
+read a;
+read b;
+read c;
+if [$a -gt $b] && [$a -gt $c] then
+	echo "$a" 
+fi
+++++++++++++++++++++++++++++++++++++++++++++++++++
+echo "Number "
+read x
+read y
+
+read z
+
+case "$z" in 
+	add) echo $((x+y));;
+	sub) echo $((x-y));;
+	mul) echo $((x*y));;
+	div) echo $((x/y));;
+	*) echo "Invalid";;
+esac
+
+
+# 202214049 Nahul
+
++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+a=(1 2 3 4)
+echo ${a[0]}
+a[2]=5
+echo ${a[2]}
+a+=(7)
+echo ${a[@]}
+unset a[3]
+echo ${a[@]}
+
+for i in "${a[@]}"; do
+echo  $i
+done
+
+a=(1 2 3 4)
+a+=(5)
+echo ${a[@]}
+unset a[3]
+echo ${a[@]}
+a[2]=5
+echo ${a[@]}
+
+++++++++++++++++++++++++++++++++
+
+#!/bin/bash
+
+# Initialize variables
+first_capital=""
+last_capital=""
+
+# Prompt the user for input
+echo "Enter characters (enter '0' to finish):"
+
+# Using a for loop with a fixed number of iterations
+for (( i=0; i<100; i++ )); do
+    read -n 1 char
+    echo ""
+    if [ "$char" = "0" ]; then
+        break
+    elif [[ "$char" =~ [A-Z] ]]; then
+        if [ -z "$first_capital" ] || [[ "$char" < "$first_capital" ]]; then
+            first_capital="$char"
+        fi
+        if [ -z "$last_capital" ] || [[ "$char" > "$last_capital" ]]; then
+            last_capital="$char"
+        fi
+    fi
+done
+
+# Display the result
+if [ -n "$first_capital" ]; then
+    echo "First capital = $first_capital Last capital = $last_capital"
+else
+    echo "No capital letters"
+fi
+
+
+
+
+
+
+
+
+

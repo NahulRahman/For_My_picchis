@@ -1,0 +1,28 @@
+.MODEL SMALL
+.STACK 100H 
+.DATA
+STRING DB 'ASSEMBLY',1,'$'
+STRING2 DB 10,13,'JAVA',1,'$' 
+
+
+.CODE
+MAIN PROC
+    MOV AX,@DATA
+    MOV DS,AX
+    
+    
+    LEA DX,STRING 
+    MOV AH,9
+    INT 21H     
+  
+    LEA DX,STRING2 
+    MOV AH,9
+    INT 21H  
+       
+       
+        
+    EXIT:
+    MOV AH,4CH
+    INT 21H
+    MAIN ENDP
+END MAIN

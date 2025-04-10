@@ -1,0 +1,33 @@
+.MODEL SMALL
+.STACK 100H
+.CODE
+MAIN PROC
+    
+    MOV BL,'6'
+    
+    MOV AL,'8'
+    
+    CMP AL,BL
+    JG LEVEL
+    
+    MOV AH,2
+    MOV DL,BL
+    
+    INT 21H
+    JMP EXIT            ;JUMP IF GRATER
+   
+   
+    LEVEL:
+    MOV AH,2
+    MOV DL,AL
+    
+    INT 21H
+    
+       
+       
+        
+    EXIT:
+    MOV AH,4CH
+    INT 21H
+    MAIN ENDP
+END MAIN
