@@ -1,0 +1,20 @@
+# depslib dependency file v1.0
+1584205426 source:c:\users\mist lab\desktop\202114093\lab_2\main.cpp
+	<GLUT/glut.h>
+	<GL/glut.h>
+	<stdlib.h>
+
+1733811925 c:\program files\codeblocks\mingw\include\gl\glut.h
+	"freeglut_std.h"
+
+1733811925 c:\program files\codeblocks\mingw\include\gl\freeglut_std.h
+	<windows.h>
+	<EGL/egl.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+
